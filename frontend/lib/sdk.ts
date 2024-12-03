@@ -11,9 +11,12 @@
 import { OCAuthSandbox } from "@opencampus/ocid-connect-js";
 
 let sdk: any = undefined;
-// load uri from .env file
-// let redirectUri = import.meta.env.VITE_AUTH_REDIRECT_URI
+
 export const getSdk = () => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   if (typeof sdk === "undefined") {
     sdk = new OCAuthSandbox({
       redirectUri: process.env.NEXT_PUBLIC_IS_LOCAL
