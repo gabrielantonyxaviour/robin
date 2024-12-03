@@ -2,8 +2,80 @@
 
 import { X } from "lucide-react";
 import { Separator } from "../ui/separator";
+import { IDKitWidget, ISuccessResult, useIDKit } from "@worldcoin/idkit";
+import {
+  useAccount,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  type BaseError,
+} from "wagmi";
+import { decodeAbiParameters, parseAbiParameters } from "viem";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import Image from "next/image";
 
 export default function World({ close }: { close: () => void }) {
+  const { address } = useAccount();
+  const { setOpen } = useIDKit();
+  const [done, setDone] = useState(false);
+  const {
+    data: hash,
+    isPending,
+    error,
+    writeContractAsync,
+  } = useWriteContract();
+
+  const submitTx = async (proof: ISuccessResult) => {
+    try {
+      // await writeContractAsync({
+      //   address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
+      //   account: address,
+      //   abi: [
+      //     {
+      //       inputs: [
+      //         {
+      //           internalType: "address",
+      //           name: "signal",
+      //           type: "address",
+      //         },
+      //         {
+      //           internalType: "uint256",
+      //           name: "root",
+      //           type: "uint256",
+      //         },
+      //         {
+      //           internalType: "uint256",
+      //           name: "nullifierHash",
+      //           type: "uint256",
+      //         },
+      //         {
+      //           internalType: "uint256[8]",
+      //           name: "proof",
+      //           type: "uint256[8]",
+      //         },
+      //       ],
+      //       name: "verifyAndExecute",
+      //       outputs: [],
+      //       stateMutability: "payable",
+      //       type: "function",
+      //     },
+      //   ],
+      //   functionName: "verifyAndExecute",
+      //   args: [
+      //     address as `0x${string}`,
+      //     BigInt(proof.merkle_root),
+      //     BigInt(proof.nullifier_hash),
+      //     decodeAbiParameters(
+      //       parseAbiParameters("uint256[8]"),
+      //       proof.proof as `0x${string}`
+      //     )[0],
+      //   ],
+      // });
+      setDone(true);
+    } catch (error) {
+      throw new Error((error as BaseError).shortMessage);
+    }
+  };
   return (
     <div className="w-[400px] h-[240px] absolute top-[32%] left-[38%] bg-black h-full rounded-sm">
       <div
@@ -15,8 +87,31 @@ export default function World({ close }: { close: () => void }) {
           <X className="cursor-pointer" onClick={close} />
         </div>
         <Separator className="bg-black" />
-        <div className="flex w-full justify-center">
-          <Separator className="bg-black px-4" orientation="vertical" />
+        <div className="flex flex-col h-full w-full justify-center items-center">
+          <div className="relative bg-black w-[220px] h-[40px] rounded-sm p-5">
+            <Button
+              className="absolute -top-[4px] -left-[4px] flex p-5 space-x-2 bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[1px] border-black mr-[2px]"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <Image
+                src="/world.png"
+                width={30}
+                height={30}
+                alt="world"
+                className="rounded-full"
+              />
+              <p>Sign in with Worldcoin</p>
+            </Button>
+          </div>
+          <IDKitWidget
+            app_id={process.env.NEXT_PUBLIC_WORLDCOIN_APP_ID as `app_${string}`}
+            action={process.env.NEXT_PUBLIC_WORLDCOIN_ACTION as string}
+            signal={address}
+            onSuccess={submitTx}
+            autoClose
+          />
         </div>
       </div>
     </div>
