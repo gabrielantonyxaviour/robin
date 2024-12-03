@@ -1,0 +1,38 @@
+sepolia:
+  blockExplorers:
+    - apiKey: anything
+      apiUrl: https://eth-sepolia.blockscout.com/api
+      family: blockscout
+      name: Eth Sepolia Explorer
+      url: https://eth-sepolia.blockscout.com
+  chainId: 11155111
+  displayName: Ethereum Sepolia
+  domainId: 11155111
+  isTestnet: true
+  name: sepolia
+  nativeToken:
+    decimals: 18
+    name: Ether
+    symbol: ETH
+  protocol: ethereum
+  rpcUrls:
+    - http: https://sepolia.drpc.org
+educhaintestnet:
+  blockExplorers:
+    - apiKey: anything
+      apiUrl: https://opencampus-codex.blockscout.com/api
+      family: blockscout
+      name: Educhain Testnet Blockscout Explorer
+      url: https://opencampus-codex.blockscout.com/
+  chainId: 656476
+  displayName: Edu Chain Testnet
+  domainId: 656476
+  isTestnet: true
+  name: educhaintestnet
+  nativeToken:
+    decimals: 18
+    name: Test Edu Chain
+    symbol: tEDU
+  protocol: ethereum
+  rpcUrls:
+    - http: https://rpc.open-campus-codex.gelato.digital
