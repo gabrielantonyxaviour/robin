@@ -5,6 +5,7 @@ import { useState } from "react";
 import Quests from "./quests";
 import Completed from "./completed";
 import World from "./world";
+import Leaderboard from "./leaderboard";
 
 export default function Home() {
   const nav = [
@@ -74,20 +75,21 @@ export default function Home() {
             }}
           />
         )}
+
+        {showWindows[3] && (
+          <Leaderboard
+            close={() => {
+              setShowWindows((prev) =>
+                prev.map((val, index) => (index === 3 ? !val : val))
+              );
+            }}
+          />
+        )}
         {showWindows[2] && (
           <World
             close={() => {
               setShowWindows((prev) =>
                 prev.map((val, index) => (index === 2 ? !val : val))
-              );
-            }}
-          />
-        )}
-        {showWindows[3] && (
-          <World
-            close={() => {
-              setShowWindows((prev) =>
-                prev.map((val, index) => (index === 3 ? !val : val))
               );
             }}
           />
