@@ -1,13 +1,14 @@
 "use client";
 import Image from "next/image";
-import Hero from "./hero";
 import { Button, buttonVariants } from "../ui/button";
 import Link from "next/link";
 import { FrameMetadata } from "@coinbase/onchainkit/frame";
-// @ts-expect-error tsx not supported
-import { useOCAuth } from "@opencampus/ocid-connect-js";
+import { IDKitWidget, ISuccessResult, useIDKit } from "@worldcoin/idkit";
+import { getSdk } from "@/lib/sdk";
+
 export default function Home() {
-  const { authState } = useOCAuth();
+  const authSdk = getSdk();
+
   return (
     <div className="w-screen h-screen flex flex-col justify-center pt-2">
       {/* <FrameMetadata
@@ -50,9 +51,9 @@ export default function Home() {
             An autonomous AI agent that teaches web3 to users in the form of
             gamified quests.
           </p>
-          <div className="flex justify-center py-2 ">
+          <div className="flex justify-center py-2 space-x-2 ">
             <Button
-              disabled={!authState?.isAuthenticated}
+              disabled={!authSdk.isAuthenticated()}
               variant={"outline"}
               className="rounded-sm bg-transparent border-0 hover:bg-transparent hover:border-2 hover:border-black hover:font-bold"
             >
