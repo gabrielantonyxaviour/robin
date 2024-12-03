@@ -38,7 +38,7 @@ export default function Layout({
               }}
             >
               <Image
-                src="/educhain.png"
+                src="/chains/educhain.png"
                 width={30}
                 height={30}
                 alt="educhain"
