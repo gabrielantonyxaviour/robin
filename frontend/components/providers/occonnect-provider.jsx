@@ -1,6 +1,6 @@
 "use client";
 
-// @ts-ignore
+// @ts-expect-error tsx not supported
 import { OCConnect } from "@opencampus/ocid-connect-js";
 export default function OCConnectProvider({ children }) {
   return (

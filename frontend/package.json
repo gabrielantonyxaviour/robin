@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.10",
+    "@coinbase/onchainkit": "^0.35.8",
     "@opencampus/ocid-connect-js": "^1.2.3",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-context-menu": "^2.2.2",

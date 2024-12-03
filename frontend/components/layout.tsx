@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
-// @ts-ignore
+// @ts-expect-error tsx not supported
 import { LoginButton, useOCAuth } from "@opencampus/ocid-connect-js";
-// @ts-ignore
+// @ts-expect-error tsx not supported
 import { OCAuthSandbox } from "@opencampus/ocid-connect-js";
 import { useCallback, useEffect } from "react";
 import { Button } from "./ui/button";

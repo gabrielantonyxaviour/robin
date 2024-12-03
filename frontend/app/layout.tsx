@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { EnvironmentStoreProvider } from "@/components/context";
 import Layout from "@/components/layout";
-import { WalletProvider } from "@/components/providers/wallet-provider";
 import OCConnectProvider from "@/components/providers/occonnect-provider";
 
 export default function RootLayout({
@@ -24,10 +23,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <OCConnectProvider>
-              <WalletProvider>
-                <Toaster />
-                <Layout>{children}</Layout>
-              </WalletProvider>
+              <Toaster />
+              <Layout>{children}</Layout>
             </OCConnectProvider>
           </ThemeProvider>
         </body>

@@ -1,5 +1,5 @@
 "use client";
-// @ts-ignore
+// @ts-expect-error tsx not supported
 import { LoginCallBack } from "@opencampus/ocid-connect-js";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
