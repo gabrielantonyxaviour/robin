@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Landing from "@/components/landing";
+import Home from "@/components/home";
 
 export const metadata: Metadata = {
-  title: "RobinX | Landing",
+  title: "RobinX | Home",
   description:
     "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
 };
 
-export default function LandingPage() {
-  return <Landing />;
+export default function HomePage() {
+  return <Home />;
 }

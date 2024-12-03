@@ -20,12 +20,12 @@ export default function Layout({
   }, []);
 
   useEffect(() => {
-    if (!authSdk.isAuthenticated()) router.push("/");
+    if (!authSdk || !authSdk.isAuthenticated()) router.push("/");
   }, [authSdk]);
   return (
     <div className="h-screen w-screen">
       <div className="fixed w-screen flex justify-end p-4">
-        {!authSdk.isAuthenticated() ? (
+        {!authSdk || !authSdk.isAuthenticated() ? (
           <div className="relative bg-black w-[160px] h-[40px] rounded-sm">
             <Button
               className="absolute -top-[4px] -left-[4px] flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
@@ -54,7 +54,7 @@ export default function Layout({
               }}
             >
               <Image
-                src="/educhain.png"
+                src="/chains/educhain.png"
                 width={30}
                 height={30}
                 alt="educhain"
