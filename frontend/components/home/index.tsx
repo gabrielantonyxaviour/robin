@@ -8,6 +8,7 @@ import { getSdk } from "@/lib/sdk";
 
 export default function Home() {
   const authSdk = getSdk();
+  const { open, setOpen } = useIDKit();
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center pt-2">
@@ -59,6 +60,34 @@ export default function Home() {
             >
               Get Started
             </Button>
+            <IDKitWidget
+              app_id={
+                process.env.NEXT_PUBLIC_WORLDCOIN_APP_ID as `app_${string}`
+              }
+              action={process.env.NEXT_PUBLIC_WORLDCOIN_ACTION as string}
+              signal={"0x0429A2Da7884CA14E53142988D5845952fE4DF6a"}
+              onSuccess={async (proof: ISuccessResult) => {
+                // try {
+                //   await writeContractAsync({
+                //     address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
+                //     account: account.address!,
+                //     abi,
+                //     functionName: 'verifyAndExecute',
+                //     args: [
+                //       account.address!,
+                //       BigInt(proof!.merkle_root),
+                //       BigInt(proof!.nullifier_hash),
+                //       decodeAbiParameters(
+                //         parseAbiParameters('uint256[8]'),
+                //         proof!.proof as `0x${string}`
+                //       )[0],
+                //     ],
+                //   })
+                //   setDone(true)
+                // } catch (error) {throw new Error((error as BaseError).shortMessage)}
+              }}
+              autoClose
+            />
           </div>
         </div>
       </div>
