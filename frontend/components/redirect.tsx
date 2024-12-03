@@ -1,23 +1,21 @@
 "use client";
-// @ts-expect-error tsx not supported
-import { LoginCallBack } from "@opencampus/ocid-connect-js";
+import { getSdk } from "@/lib/sdk";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Redirect() {
-  const [isError, setIsError] = useState(false);
+  const authSdk = getSdk();
   const router = useRouter();
-  const onLoginSuccess = () => {
-    router.push("/");
-  };
+  useEffect(() => {
+    authSdk.handleLoginRedirect().then(() => {
+      if (authSdk.OCId) router.push("/");
+    });
+  }, []);
 
-  const onLoginError = () => {
-    console.log("Error");
-  };
   return (
-    <LoginCallBack
-      errorCallback={onLoginError}
-      successCallback={onLoginSuccess}
-    />
+    <div className="w-screen h-screen bg-[#ffd75f] w-[700px] mx-auto flex flex-col justify-center items-center">
+      <Image src={"/loading.gif"} alt="loading" width={200} height={200} />
+    </div>
   );
 }
