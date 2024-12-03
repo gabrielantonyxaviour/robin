@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { EnvironmentStoreProvider } from "@/components/context";
 import Layout from "@/components/layout";
 import OCConnectProvider from "@/components/providers/occonnect-provider";
+import WalletProvider from "@/components/providers/wallet-provider";
 
 export default function RootLayout({
   children,
@@ -22,10 +23,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <OCConnectProvider>
-              <Toaster />
-              <Layout>{children}</Layout>
-            </OCConnectProvider>
+            <WalletProvider>
+              <OCConnectProvider>
+                <Toaster />
+                <Layout>{children}</Layout>
+              </OCConnectProvider>
+            </WalletProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -1,11 +1,17 @@
 import { StateCreator } from "zustand";
-interface GlobalState {}
+interface GlobalState {
+  robinXBalance: number;
+}
 
-interface GlobalActions {}
+interface GlobalActions {
+  setRobinXBalance: (robinXBalance: number) => void;
+}
 
 export type GlobalSlice = GlobalState & GlobalActions;
 
-export const initialGlobalState: GlobalState = {};
+export const initialGlobalState: GlobalState = {
+  robinXBalance: 0,
+};
 
 export const createGlobalSlice: StateCreator<
   GlobalSlice,
@@ -14,4 +20,7 @@ export const createGlobalSlice: StateCreator<
   GlobalSlice
 > = (set) => ({
   ...initialGlobalState,
+  setRobinXBalance: (robinXBalance) => {
+    set(() => ({ robinXBalance }));
+  },
 });

@@ -56,7 +56,7 @@ export default function Landing() {
           </p>
           <div className="flex justify-center py-2 space-x-2 ">
             <Button
-              disabled={!authSdk.isAuthenticated()}
+              disabled={!authSdk || !authSdk.isAuthenticated()}
               variant={"outline"}
               className="rounded-sm bg-transparent border-0 hover:bg-transparent hover:border-2 hover:border-black hover:font-bold"
               onClick={() => {

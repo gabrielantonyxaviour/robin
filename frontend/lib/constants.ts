@@ -6,3 +6,5 @@ export const graphClient = new ApolloClient({
   uri: GRAPH_CLIENT_URL,
   cache: new InMemoryCache(),
 });
+
+export const ROBINX_ADDRESS = "0x0429A2Da7884CA14E53142988D5845952fE4DF6a";
