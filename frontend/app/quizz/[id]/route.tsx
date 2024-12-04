@@ -3,23 +3,15 @@ import { NextRequest } from "next/server";
 import { Button, createFrames } from "frames.js/next";
 import { frames } from "../frames";
 
-// export const runtime = "edge";
-
-// const senVariableFont = fetch(
-//   new URL("/public/fonts/Sen-VariableFont_wght.ttf", import.meta.url)
-// ).then((res) => res.arrayBuffer());
-
 const handler = async (
   req: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) => {
   const response = await frames(async (ctx) => {
-    // const [senVariableFontData] = await Promise.all([senVariableFont]);
     return {
       title: "RobinX | Quizz",
       description:
         "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
-
       image: ctx.pressedButton ? (
         <div
           style={{
@@ -55,7 +47,7 @@ const handler = async (
           }}
         >
           <img
-            src="https://robinx-ai.vercel.app/frames/base.png"
+            src="http://localhost:3000/frames/base.png"
             style={{
               width: "100%",
               height: "100%",
@@ -136,14 +128,16 @@ const handler = async (
         // ],
       },
       buttons: [
-        <Button action="post" target={{ query: { value: "Yes" } }}>
+        <Button
+          action="post"
+          target={{ query: { value: "Yes" }, pathname: id }}
+        >
           {ctx.pressedButton ? "Start Game" : "Play"}
         </Button>,
       ],
     };
   })(req);
 
-  console.log(response);
   return response;
 };
 
