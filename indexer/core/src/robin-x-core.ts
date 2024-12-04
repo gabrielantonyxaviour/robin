@@ -22,12 +22,8 @@ export function handleVerifiedNullifier(event: VerifiedNullifierEvent): void {
     user.totalResponses = BigInt.fromI32(0);
     user.totalRewards = BigInt.fromI32(0);
     user.averageScore = BigInt.fromI32(0);
-    user.addresses = [event.params.caller];
-  } else {
-    let addresses = user.addresses;
-    addresses.push(event.params.caller);
-    user.addresses = addresses;
   }
+  user.address = event.params.caller;
 
   user.save();
 }

@@ -12,7 +12,7 @@ type quiz @entity {
 type user @entity {
   "nullifier hash"
   id: ID!
-  addresses: [Bytes!]!
+  address: Bytes!
   responses: [response!]! @derivedFrom(field: "user")
   totalResponses: BigInt!
   totalRewards: BigInt!
