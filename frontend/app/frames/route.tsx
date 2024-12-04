@@ -3,7 +3,7 @@ import { Button, createFrames } from "frames.js/next";
 import fs from "fs/promises";
 import path from "path";
 
-export const frames = createFrames({
+const frames = createFrames({
   basePath: "/frames",
   initialState: {
     currentState: 0,
