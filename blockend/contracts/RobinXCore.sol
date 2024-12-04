@@ -212,9 +212,9 @@ contract RobinXCore {
         onlyMailbox
         onlyRobinXWorldIdVerifier(bytes32ToAddress(_sender), _origin)
     {
-        (uint256 nullifierHash, address caller) = abi.decode(
+        (address caller, uint256 nullifierHash) = abi.decode(
             _data,
-            (uint256, address)
+            (address, uint256)
         );
         verifiedNullifiers[caller] = nullifierHash;
 

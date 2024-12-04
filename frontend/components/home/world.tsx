@@ -66,7 +66,7 @@ export default function World({ close }: { close: () => void }) {
         description: "Your WorldId has been verified on Sepolia.",
         action: (
           <ToastAction
-            className="bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[2px] border-black mr-[2px] rounded-sm "
+            className="bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[2px] border-black mr-[2px] rounded-sm"
             altText="view tx"
             onClick={() => {
               window.open(
@@ -104,25 +104,7 @@ export default function World({ close }: { close: () => void }) {
             <Button
               className="absolute -top-[4px] -left-[4px] flex p-5 space-x-2 bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[1px] border-black mr-[2px]"
               onClick={() => {
-                // setOpen(true);
-                toast({
-                  title: "Transcaction Success",
-                  description: "Your WorldId has been verified on Sepolia.",
-                  action: (
-                    <ToastAction
-                      className="bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[2px] border-black mr-[2px] rounded-sm"
-                      altText="view tx"
-                      onClick={() => {
-                        window.open(
-                          "hhttps://eth-sepolia.blockscout.com/tx/" + hash,
-                          "_blank"
-                        );
-                      }}
-                    >
-                      View Tx
-                    </ToastAction>
-                  ),
-                });
+                setOpen(true);
               }}
             >
               <Image
