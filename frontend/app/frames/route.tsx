@@ -1,6 +1,35 @@
 /* eslint-disable react/jsx-key */
-import { Button } from "frames.js/next";
-import { frames } from "./frames";
+import { Button, createFrames } from "frames.js/next";
+import fs from "fs/promises";
+import path from "path";
+
+export const frames = createFrames({
+  basePath: "/frames",
+  initialState: {
+    currentState: 0,
+    questionState: 0,
+    quizData: {},
+  },
+  imageRenderingOptions: async () => {
+    const senVariableFontData = await fs.readFile(
+      path.join(
+        path.resolve(process.cwd(), "public"),
+        "Sen-VariableFont_wght.ttf"
+      )
+    );
+
+    return {
+      imageOptions: {
+        fonts: [
+          {
+            name: "Sen",
+            data: senVariableFontData,
+          },
+        ],
+      },
+    };
+  },
+});
 
 const handleRequest = frames(async (ctx) => {
   return {

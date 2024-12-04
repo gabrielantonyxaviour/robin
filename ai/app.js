@@ -26,24 +26,30 @@ const THEMES = [
   "steampunk city with mechanical wallets",
   "ancient temple hiding crypto secrets",
 ];
+function getSystemPrompt(index) {
+  return `You are RobinX, an educational AI game master inspired by Nico Robin from One Piece. Create immersive Web3 educational games with diverse characters and settings.
 
-const SYSTEM_PROMPT = `You are RobinX, an educational AI game master inspired by Nico Robin from One Piece. Create immersive Web3 educational games with diverse characters and settings.
-
-Scene requirements:
-- Vivid anime scene description with full environment and character positioning (no close portraits)
-- Introduct unique dynamic character interactions (Atleast 2, including but not limited to Nico Robin) 
-- Min. 2 questions per scene
-- Min. 3 scenes total
-
-Expected output format:
-{
+  Scene requirements:
+  - Vivid anime scene description with full environment and character positioning (no close portraits)
+  - Introduct unique dynamic character interactions (Atleast 2, including but not limited to Nico Robin) 
+  - Min. 2 questions per scene
+  - Min. 3 scenes total
+  - 3 options for multiple choice questions
+  - Image prompt must have anime and within 120 characters
+  - Speaker name should be one word
+  
+  Use this theme for the story
+  - ${THEMES[index]}
+  
+  Expected output format:
+  {
   "topic": string,
   "gameTitle": string,
   "theme": string,
   "introduction": string,
   "scenes": [{
     "sceneId": number,
-    "sceneDescription": string,
+    "sceneDescription": string, 
     "imagePrompt": string,
     "conversations": [{
       "speaker": string,
@@ -59,6 +65,7 @@ Expected output format:
   }],
   "conclusion": string
 }`;
+}
 
 async function generateImage(prompt) {
   try {
@@ -130,37 +137,41 @@ app.post("/api/generate-game", async (req, res) => {
   try {
     const { topic } = req.body;
     if (!topic) return res.status(400).json({ error: "Topic is required" });
+    const games = [];
 
-    const response = await openai.chat.completions.create({
-      model: "mistralai/mixtral-8x7b-instruct",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        {
-          role: "user",
-          content: `Generate a complete educational game about: ${topic}`,
-        },
-      ],
-      temperature: 0.8,
-      max_tokens: 3000,
-    });
+    for (let i = 0; i < 3; i++) {
+      const response = await openai.chat.completions.create({
+        model: "mistralai/mixtral-8x7b-instruct",
+        messages: [
+          { role: "system", content: getSystemPrompt(i) },
+          {
+            role: "user",
+            content: `Generate a complete educational game about: ${topic}`,
+          },
+        ],
+        temperature: 0.8,
+        max_tokens: 20000,
+      });
 
-    const gameData = JSON.parse(response.choices[0]?.message?.content || "{}");
+      const gameData = JSON.parse(
+        response.choices[0]?.message?.content || "{}"
+      );
+      for (const scene of gameData.scenes) {
+        scene.imageUrl = await generateImage(scene.imagePrompt);
+      }
+      games.push(gameData);
+    }
 
     // if (!validateGameData(gameData)) {
     //   throw new Error("Generated game data failed validation");
     // }
 
-    // Generate images for each scene
-    for (const scene of gameData.scenes) {
-      scene.imageUrl = await generateImage(scene.imagePrompt);
-    }
-
-    res.json(gameData);
+    res.json(games);
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Failed to generate game" });
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
