@@ -4,9 +4,16 @@ const OpenAI = require("openai");
 const Heurist = require("heurist");
 const app = express();
 app.use(express.json());
+const { PinataSDK } = require("pinata");
+const fetch = require("node-fetch");
+const { gameGen } = require("./utils/gameGen");
+const { uploadJsonToPinata } = require("./utils/uploadJsonToPinata");
+const { createPollTx } = require("./utils/createPollTx");
+const { addQuizz } = require("./utils/addQuizz");
 
-const heurist = new Heurist({
-  apiKey: process.env["HEURIST_API_KEY"],
+const pinata = new PinataSDK({
+  pinataJwt: process.env.PINATA_JWT,
+  pinataGateway: "amethyst-impossible-ptarmigan-368.mypinata.cloud",
 });
 
 const openai = new OpenAI({
@@ -37,9 +44,7 @@ function getSystemPrompt(index) {
   - 3 options for multiple choice questions
   - Image prompt must have anime and within 120 characters
   - Speaker name should be one word
-  
-  Use this theme for the story
-  - ${THEMES[index]}
+  - Use this theme for the game: ${THEMES[index]}
   
   Expected output format:
   {
@@ -67,62 +72,6 @@ function getSystemPrompt(index) {
 }`;
 }
 
-async function generateImage(prompt) {
-  try {
-    const defaultConfig = {
-      model: "FLUX.1-dev",
-      width: 1024,
-      height: 768,
-      stylization_level: 3,
-      //   detail_level: 4,
-      color_level: 4,
-      lighting_level: 3,
-      //   quality: "high",
-      guidance_scale: 3,
-    };
-
-    const finalConfig = {
-      ...defaultConfig,
-      prompt,
-    };
-
-    console.log(finalConfig);
-
-    const response = await heurist.images.generate(finalConfig);
-    return response.url;
-  } catch (error) {
-    console.error("Image generation error:", error);
-    return null;
-  }
-}
-
-function validateGameData(data) {
-  if (!data.topic || !data.gameTitle || !data.introduction || !data.conclusion)
-    return false;
-  if (!Array.isArray(data.scenes) || data.scenes.length < 3) return false;
-
-  return data.scenes.every((scene) => {
-    if (!scene.sceneId || !scene.sceneDescription || !scene.imagePrompt)
-      return false;
-    if (!Array.isArray(scene.conversations) || scene.conversations.length < 1)
-      return false;
-    if (!Array.isArray(scene.questions) || scene.questions.length < 2)
-      return false;
-    if (!scene.imageConfig) return false;
-
-    return scene.questions.every((question) => {
-      if (!question.type || !question.questionText || !question.correctAnswer)
-        return false;
-      if (
-        question.type === "multiple_choice" &&
-        (!Array.isArray(question.options) || question.options.length !== 4)
-      )
-        return false;
-      return true;
-    });
-  });
-}
-
 app.post("/api/image", async (req, res) => {
   const { prompt } = req.body;
   try {
@@ -137,36 +86,33 @@ app.post("/api/generate-game", async (req, res) => {
   try {
     const { topic } = req.body;
     if (!topic) return res.status(400).json({ error: "Topic is required" });
-    const games = [];
+    const currentDate = new Date().toISOString();
 
-    for (let i = 0; i < 3; i++) {
-      const response = await openai.chat.completions.create({
-        model: "mistralai/mixtral-8x7b-instruct",
-        messages: [
-          { role: "system", content: getSystemPrompt(i) },
-          {
-            role: "user",
-            content: `Generate a complete educational game about: ${topic}`,
-          },
-        ],
-        temperature: 0.8,
-        max_tokens: 20000,
-      });
-
-      const gameData = JSON.parse(
-        response.choices[0]?.message?.content || "{}"
-      );
-      for (const scene of gameData.scenes) {
-        scene.imageUrl = await generateImage(scene.imagePrompt);
-      }
-      games.push(gameData);
-    }
+    const games = gameGen(topic, currentDate);
 
     // if (!validateGameData(gameData)) {
     //   throw new Error("Generated game data failed validation");
     // }
+    const quizzes_url = await uploadJsonToPinata(
+      currentDate + "_quizzes",
+      games
+    );
+    const metadata_url = await uploadJsonToPinata(currentDate + "_metadata", {
+      name: "RobinX",
+      description:
+        "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
+      topic: topic,
+      date: currentDate,
+    });
 
-    res.json(games);
+    const { txHash, pollId } = await createPollTx(metadata_url);
+
+    await addQuizz(pollId, quizzes_url);
+
+    res.json({
+      quizzes_url,
+      metadata_url,
+    });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Failed to generate game" });
