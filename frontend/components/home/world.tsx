@@ -8,18 +8,21 @@ import {
   useWriteContract,
   useWaitForTransactionReceipt,
   type BaseError,
+  useSwitchChain,
 } from "wagmi";
 import { decodeAbiParameters, parseAbiParameters } from "viem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { ROBINX_VERIFIER_ABI, ROBINX_VERIFIER_ADDRESS } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
-import { title } from "process";
+import { ToastAction } from "../ui/toast";
+import { sepolia } from "viem/chains";
 
 export default function World({ close }: { close: () => void }) {
-  const { address } = useAccount();
-  const toast = useToast();
+  const { address, chainId } = useAccount();
+  const { switchChainAsync } = useSwitchChain();
+  const { toast } = useToast();
   const { setOpen } = useIDKit();
   const [done, setDone] = useState(false);
   const {
@@ -31,6 +34,11 @@ export default function World({ close }: { close: () => void }) {
 
   const submitTx = async (proof: ISuccessResult) => {
     try {
+      if (chainId != sepolia.id) {
+        await switchChainAsync({
+          chainId: sepolia.id,
+        });
+      }
       await writeContractAsync({
         address: ROBINX_VERIFIER_ADDRESS as `0x${string}`,
         account: address,
@@ -50,8 +58,38 @@ export default function World({ close }: { close: () => void }) {
       throw new Error((error as BaseError).shortMessage);
     }
   };
+
+  useEffect(() => {
+    if (hash) {
+      toast({
+        title: "Transcaction Success",
+        description: "Your WorldId has been verified on Sepolia.",
+        action: (
+          <ToastAction
+            className="bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[2px] border-black mr-[2px] rounded-sm"
+            altText="view tx"
+            onClick={() => {
+              window.open(
+                "hhttps://eth-sepolia.blockscout.com/tx/" + hash,
+                "_blank"
+              );
+            }}
+          >
+            View Tx
+          </ToastAction>
+        ),
+      });
+    }
+  }, [hash]);
   return (
-    <div className="w-[400px] h-[240px] absolute top-[32%] left-[38%] bg-black h-full rounded-sm">
+    <div className="w-[400px] h-[240px] absolute top-[32%] left-[38%] bg-black rounded-sm">
+      <IDKitWidget
+        app_id={process.env.NEXT_PUBLIC_WORLDCOIN_APP_ID as `app_${string}`}
+        action={process.env.NEXT_PUBLIC_WORLDCOIN_ACTION as string}
+        signal={address}
+        onSuccess={submitTx}
+        autoClose
+      />
       <div
         onClick={() => {}}
         className={`absolute w-[400px] h-[240px] flex flex-col items-center -top-[1%] -left-[1%] w-full h-full space-y-2 sen rounded-sm text-sm border border-[2px] border-black py-2 bg-[#ffd75f] text-black`}
@@ -66,7 +104,25 @@ export default function World({ close }: { close: () => void }) {
             <Button
               className="absolute -top-[4px] -left-[4px] flex p-5 space-x-2 bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[1px] border-black mr-[2px]"
               onClick={() => {
-                setOpen(true);
+                // setOpen(true);
+                toast({
+                  title: "Transcaction Success",
+                  description: "Your WorldId has been verified on Sepolia.",
+                  action: (
+                    <ToastAction
+                      className="bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[2px] border-black mr-[2px] rounded-sm"
+                      altText="view tx"
+                      onClick={() => {
+                        window.open(
+                          "hhttps://eth-sepolia.blockscout.com/tx/" + hash,
+                          "_blank"
+                        );
+                      }}
+                    >
+                      View Tx
+                    </ToastAction>
+                  ),
+                });
               }}
             >
               <Image
@@ -79,13 +135,6 @@ export default function World({ close }: { close: () => void }) {
               <p>Sign in with Worldcoin</p>
             </Button>
           </div>
-          <IDKitWidget
-            app_id={process.env.NEXT_PUBLIC_WORLDCOIN_APP_ID as `app_${string}`}
-            action={process.env.NEXT_PUBLIC_WORLDCOIN_ACTION as string}
-            signal={address}
-            onSuccess={submitTx}
-            autoClose
-          />
         </div>
       </div>
     </div>

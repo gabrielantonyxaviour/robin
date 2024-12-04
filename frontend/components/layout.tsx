@@ -28,7 +28,7 @@ export default function Layout({
   const { robinXBalance, setRobinXBalance } = useEnvironmentStore(
     (store) => store
   );
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chainId } = useAccount();
   const { connectAsync } = useConnect();
   const { data: balance } = useBalance({
     address: address,
@@ -77,13 +77,21 @@ export default function Layout({
             <div className="relative w-[130px] bg-black h-[40px] rounded-sm">
               <Button className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#131beb] border-black mr-[2px]">
                 <Image
-                  src={"/chains/educhain.png"}
+                  src={
+                    chainId == educhainTestnet.id
+                      ? "/chains/educhain.png"
+                      : "/chains/eth.png"
+                  }
                   width={25}
                   height={25}
                   alt="educhain"
                   className="rounded-full"
                 />
-                <p> {parseFloat(balance?.formatted).toFixed(2)} EDU</p>
+                <p>
+                  {" "}
+                  {parseFloat(balance?.formatted).toFixed(2)}{" "}
+                  {chainId == educhainTestnet.id ? "tEDU" : "tETH"}
+                </p>
               </Button>
             </div>
           </>
