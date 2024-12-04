@@ -63,26 +63,21 @@ contract RobinXCore {
     error NotRobin(address requiredRobinXAiAgent);
 
     /// @dev Events
-    event DailyQuizStarted(uint256 indexed pollId, string metadata);
-    event VerifiedNullifier(
-        uint256 indexed nullifierHash,
-        address indexed caller
-    );
+    event DailyQuizStarted(uint256 pollId, string metadata);
+    event VerifiedNullifier(uint256 nullifierHash, address caller);
     event ResponseSubmitted(
-        uint256 indexed pollId,
-        address indexed caller,
+        uint256 pollId,
+        address caller,
         uint256 nullifierHash,
         string encryptedResponse
     );
     event RewardsMinted(
-        uint256 indexed pollId,
-        uint256 indexed receiverNullifierHash,
+        uint256 pollId,
+        uint256 receiverNullifierHash,
+        uint256 score,
         uint256 amount
     );
-    event RewardReceiverAddressSet(
-        uint256 indexed nullifierHash,
-        address indexed receiver
-    );
+    event RewardReceiverAddressSet(uint256 nullifierHash, address receiver);
 
     /// @notice Modifier to restrict access to the owner.
     modifier onlyOwner() {
@@ -168,10 +163,12 @@ contract RobinXCore {
     /// @notice Mints rewards for a verified poll response.
     /// @param pollId The ID of the poll.
     /// @param receiverNullifierHash The nullifier hash of the receiver.
+    /// @param score The score of the response.
     /// @param amount The reward amount.
     function mintRewards(
         uint256 pollId,
         uint256 receiverNullifierHash,
+        uint256 score,
         uint256 amount
     ) external onlyRobin {
         if (pollId >= pollCount) revert InvalidPollId(pollId);
@@ -182,7 +179,7 @@ contract RobinXCore {
         address receiver = rewardReceivers[receiverNullifierHash];
         robinX.mintRewards(receiver, amount);
 
-        emit RewardsMinted(pollId, receiverNullifierHash, amount);
+        emit RewardsMinted(pollId, receiverNullifierHash, score, amount);
     }
 
     /// @notice Sets the reward receiver address for a nullifier hash.

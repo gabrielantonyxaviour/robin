@@ -1,8 +1,4 @@
-const {
-  networks,
-  priceFeedIds,
-  robinXAiAgentAddress,
-} = require("../../networks");
+const { networks, robinXAiAgentAddress } = require("../../networks");
 
 task("deploy-core", "Deploys the RobinXCore contract")
   .addOptionalParam(

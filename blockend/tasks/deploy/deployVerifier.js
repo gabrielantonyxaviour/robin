@@ -17,7 +17,13 @@ task("deploy-verifier", "Deploys the RobinXWorldIdVerifier contract")
       "RobinXWorldIdVerifier"
     );
 
-    const args = [networks.kinto.mailbox];
+    const args = [
+      networks.sepolia.worldIdRouter,
+      networks.sepolia.appId,
+      networks.sepolia.actionId,
+      networks.sepolia.mailbox,
+      networks.educhainTestnet.robinXCore,
+    ];
 
     const verifierContract = await verifierContractFactory.deploy(...args);
 

@@ -3,7 +3,6 @@ require("@chainlink/env-enc").config();
 const DEFAULT_VERIFICATION_BLOCK_CONFIRMATIONS = 3;
 
 const PRIVATE_KEY = process.env.TEST_PRIVATE_KEY;
-
 const accounts = [];
 if (PRIVATE_KEY) {
   accounts.push(PRIVATE_KEY);
@@ -19,12 +18,12 @@ const networks = {
     accounts,
     verifyApiKey: "sdklnjvndslknv",
     chainId: 656476,
-    confirmations: DEFAULT_VERIFICATION_BLOCK_CONFIRMATIONS,
+    confirmations: 4,
     nativeCurrencySymbol: "ETH",
-    blockExplorer: "https://opencampus-codex.blockscout.com/",
-    verifyApiUrl: "https://opencampus-codex.blockscout.com/api",
+    blockExplorer: "https://edu-chain-testnet.blockscout.com/",
+    verifyApiUrl: "https://edu-chain-testnet.blockscout.com/api",
     mailbox: "0xCfA62ac3Cc7E9eBA17Fab9Bc92df6AC648A18338",
-    robinXCore: "",
+    robinXCore: "0x98f862014f5D58bfBcf972695c1b12e9e8821E7A",
   },
   sepolia: {
     url: "https://eth-sepolia.g.alchemy.com/v2/" + process.env.ALCHEMY_API_KEY,
@@ -41,7 +40,7 @@ const networks = {
     worldIdRouter: "0x469449f251692e0779667583026b5a1e99512157",
     appId: "app_staging_377789e106476d4596e59f1ff516d4f0",
     actionId: "verify-humanness",
-    robinXWorldIdVerifier: "",
+    robinXWorldIdVerifier: "0x95C82Bb347A6ADf97F3B3Bd2B1c57b38E4C5E863",
   },
 };
 
