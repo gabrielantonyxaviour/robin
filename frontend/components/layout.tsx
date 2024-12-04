@@ -4,7 +4,13 @@ import { useCallback, useEffect } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { getSdk } from "@/lib/sdk";
-import { useAccount, useBalance, useConnect, useDisconnect } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useConnect,
+  useDisconnect,
+  useSwitchChain,
+} from "wagmi";
 import { educhainTestnet, shortenAddress } from "@/lib/utils";
 import { injected } from "wagmi/connectors";
 import { getBalance } from "@wagmi/core";
@@ -19,6 +25,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { sepolia } from "viem/chains";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@radix-ui/react-toast";
 
 export default function Layout({
   children,
@@ -28,7 +37,9 @@ export default function Layout({
   const { robinXBalance, setRobinXBalance } = useEnvironmentStore(
     (store) => store
   );
+  const { toast } = useToast();
   const { address, isConnected, chainId } = useAccount();
+  const { switchChain } = useSwitchChain();
   const { connectAsync } = useConnect();
   const { data: balance } = useBalance({
     address: address,
@@ -75,7 +86,28 @@ export default function Layout({
               </Button>
             </div>
             <div className="relative w-[130px] bg-black h-[40px] rounded-sm">
-              <Button className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#131beb] border-black mr-[2px]">
+              <Button
+                onClick={() => {
+                  console.log("Toasting");
+                  const description =
+                    chainId == educhainTestnet.id
+                      ? "Connected to Sepolia Testnet"
+                      : "Connected to Educhain Testnet";
+                  toast({
+                    title: "Swithching Network",
+                    description,
+                  });
+                  // if (chainId == educhainTestnet.id)
+                  //   switchChain({
+                  //     chainId: sepolia.id,
+                  //   });
+                  // else
+                  //   switchChain({
+                  //     chainId: educhainTestnet.id,
+                  //   });
+                }}
+                className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#131beb] border-black mr-[2px]"
+              >
                 <Image
                   src={
                     chainId == educhainTestnet.id

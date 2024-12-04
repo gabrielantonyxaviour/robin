@@ -66,7 +66,7 @@ export default function World({ close }: { close: () => void }) {
         description: "Your WorldId has been verified on Sepolia.",
         action: (
           <ToastAction
-            className="bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[2px] border-black mr-[2px] rounded-sm"
+            className="bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[2px] border-black mr-[2px] rounded-sm "
             altText="view tx"
             onClick={() => {
               window.open(
