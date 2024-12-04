@@ -8,3 +8,53 @@ export type Token = {
   name: string;
   symbol: string; // A ticker symbol or shorthand, up to 11 characters
 };
+
+// Define types for the queries
+export interface WorldcoinCommitmentData {
+  users: { id: string; address: string }[];
+}
+
+export interface WorldcoinVerifiedData {
+  bridgedVerifiedNullifiers: {
+    caller: string;
+    messageId: string;
+    nullifierHash: string;
+    transactionHash: string;
+  }[];
+}
+
+export interface ActiveQuizzesData {
+  quizzes: {
+    id: string;
+    metadata: string;
+    totalResponses: number;
+    createdAt: string;
+  }[];
+}
+
+export interface SubmittedQuizzesData {
+  user: {
+    responses: {
+      quiz: {
+        id: string;
+        metadata: string;
+        createdAt: string;
+      };
+      encryptedResponse: string;
+      reward: {
+        score: number;
+        amount: string;
+        receiver: string;
+      };
+    }[];
+  };
+}
+
+export interface QuizzData {
+  quizzes: {
+    id: string;
+    metadata: string;
+    totalResponses: number;
+    createdAt: string;
+  }[];
+}

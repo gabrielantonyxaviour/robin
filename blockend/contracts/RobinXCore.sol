@@ -27,6 +27,9 @@ contract RobinXCore {
     /// @notice Mapping of poll IDs to metadata.
     mapping(uint256 => string) public polls;
 
+    // @notice Mapping of poll IDs to it's validity.
+    mapping(uint256 => uint256) public pollValidity;
+
     /// @notice Mapping of addresses to verified nullifier hashes.
     mapping(address => uint256) public verifiedNullifiers;
 
@@ -63,7 +66,7 @@ contract RobinXCore {
     error NotRobin(address requiredRobinXAiAgent);
 
     /// @dev Events
-    event DailyQuizStarted(uint256 pollId, string metadata);
+    event QuizCreated(uint256 pollId, uint256 validity, string metadata);
     event VerifiedNullifier(uint256 nullifierHash, address caller);
     event ResponseSubmitted(
         uint256 pollId,
@@ -131,9 +134,13 @@ contract RobinXCore {
 
     /// @notice Creates a new poll with given metadata.
     /// @param _metadata The metadata for the poll.
-    function createPoll(string memory _metadata) external onlyRobin {
+    function createPoll(
+        string memory _metadata,
+        uint256 validity
+    ) external onlyRobin {
         polls[pollCount] = _metadata;
-        emit DailyQuizStarted(pollCount, _metadata);
+        pollValidity[pollCount] = validity;
+        emit QuizCreated(pollCount, validity, _metadata);
         pollCount++;
     }
 
