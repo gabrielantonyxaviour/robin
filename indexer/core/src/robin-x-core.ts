@@ -1,6 +1,6 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts";
 import {
-  DailyQuizStarted as DailyQuizStartedEvent,
+  QuizCreated as QuizCreatedEvent,
   VerifiedNullifier as VerifiedNullifierEvent,
   ResponseSubmitted as ResponseSubmittedEvent,
   RewardsMinted as RewardsMintedEvent,
@@ -28,12 +28,13 @@ export function handleVerifiedNullifier(event: VerifiedNullifierEvent): void {
   user.save();
 }
 
-export function handleDailyQuizStarted(event: DailyQuizStartedEvent): void {
+export function handleQuizCreated(event: QuizCreatedEvent): void {
   let quiz = new Quiz(event.params.pollId.toString());
   quiz.metadata = event.params.metadata;
   quiz.totalResponses = BigInt.fromI32(0);
   quiz.totalRewardsDistributed = BigInt.fromI32(0);
   quiz.createdAt = event.block.timestamp;
+  quiz.validity = event.params.validity;
   quiz.transactionHash = event.transaction.hash;
   quiz.save();
 }

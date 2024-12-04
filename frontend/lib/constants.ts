@@ -8,12 +8,12 @@ export const graphClient = new ApolloClient({
 });
 
 export const ROBINX_ADDRESS = "0x057651A8F159B05875c851113eA472B0Deb7bd4D";
-export const ROBINX_CORE_ADDRESS = "0x7c249c42CF87deCf9f424FcBb851397599C3073E";
+export const ROBINX_CORE_ADDRESS = "0x11feDEF3a24F3030147C6755497F775FE283e0cA";
 export const ROBINX_VERIFIER_ADDRESS =
-  "0x087c565DE401AE3F3F3f15c65696a4BE7625aa0b";
+  "0xe04647Bb5a851e1c3DE4aEa5f0cc0e4A74c5f27A";
 
 export const coreGraphClient = new ApolloClient({
-  uri: "https://da27-103-170-245-236.ngrok-free.app/subgraphs/name/core",
+  uri: "https://7d47-103-170-245-236.ngrok-free.app/subgraphs/name/core",
   cache: new InMemoryCache(),
 });
 

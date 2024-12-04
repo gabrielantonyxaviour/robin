@@ -6,6 +6,7 @@ type quiz @entity {
   totalResponses: BigInt!
   totalRewardsDistributed: BigInt!
   createdAt: BigInt!
+  validity: BigInt!
   transactionHash: Bytes!
 }
 

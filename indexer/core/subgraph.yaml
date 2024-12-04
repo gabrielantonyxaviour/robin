@@ -8,9 +8,9 @@ dataSources:
     name: RobinXCore
     network: educhaintestnet
     source:
-      address: "0x7c249c42CF87deCf9f424FcBb851397599C3073E"
+      address: "0x11feDEF3a24F3030147C6755497F775FE283e0cA"
       abi: RobinXCore
-      startBlock: 18792170
+      startBlock: 18797078
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -21,8 +21,8 @@ dataSources:
         - name: RobinXCore
           file: ./abis/RobinXCore.json
       eventHandlers:
-        - event: DailyQuizStarted(uint256,string)
-          handler: handleDailyQuizStarted
+        - event: QuizCreated(uint256,uint256,string)
+          handler: handleQuizCreated
         - event: VerifiedNullifier(uint256,address)
           handler: handleVerifiedNullifier
         - event: ResponseSubmitted(uint256,address,uint256,string)

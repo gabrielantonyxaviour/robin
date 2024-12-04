@@ -23,7 +23,7 @@ const networks = {
     blockExplorer: "https://edu-chain-testnet.blockscout.com/",
     verifyApiUrl: "https://edu-chain-testnet.blockscout.com/api",
     mailbox: "0xCfA62ac3Cc7E9eBA17Fab9Bc92df6AC648A18338",
-    robinXCore: "0x7c249c42CF87deCf9f424FcBb851397599C3073E",
+    robinXCore: "0x11feDEF3a24F3030147C6755497F775FE283e0cA",
   },
   sepolia: {
     url: "https://eth-sepolia.g.alchemy.com/v2/" + process.env.ALCHEMY_API_KEY,
@@ -40,7 +40,7 @@ const networks = {
     worldIdRouter: "0x469449f251692e0779667583026b5a1e99512157",
     appId: "app_staging_377789e106476d4596e59f1ff516d4f0",
     actionId: "verify-humanness",
-    robinXWorldIdVerifier: "0x087c565DE401AE3F3F3f15c65696a4BE7625aa0b",
+    robinXWorldIdVerifier: "0xe04647Bb5a851e1c3DE4aEa5f0cc0e4A74c5f27A",
   },
 };
 
