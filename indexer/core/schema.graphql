@@ -1,0 +1,41 @@
+type quiz @entity {
+  id: ID!
+  metadata: String!
+  responses: [response!]! @derivedFrom(field: "quiz")
+  rewards: [reward!]! @derivedFrom(field: "quiz")
+  totalResponses: BigInt!
+  totalRewardsDistributed: BigInt!
+  createdAt: BigInt!
+  transactionHash: Bytes!
+}
+
+type user @entity {
+  "nullifier hash"
+  id: ID!
+  addresses: [Bytes!]!
+  responses: [response!]! @derivedFrom(field: "user")
+  totalResponses: BigInt!
+  totalRewards: BigInt!
+  averageScore: BigInt!
+}
+
+type response @entity {
+  "quiz id + nullifier hash"
+  id: ID!
+  quiz: quiz!
+  user: user!
+  encryptedResponse: String!
+  reward: reward @derivedFrom(field: "response")
+  transactionHash: Bytes!
+}
+
+type reward @entity {
+  "quiz id + nullifier hash"
+  id: ID!
+  quiz: quiz!
+  response: response!
+  score: BigInt!
+  amount: BigInt!
+  receiver: Bytes
+  transactionHash: Bytes!
+}

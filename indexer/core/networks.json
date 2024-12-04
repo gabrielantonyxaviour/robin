@@ -1,6 +1,6 @@
 {
-  "sepolia": {
-    "RobinXWorldIdVerifier": {
+  "educhaintestnet": {
+    "RobinXCore": {
       "address": "0x95C82Bb347A6ADf97F3B3Bd2B1c57b38E4C5E863",
       "startBlock": 7207319
     }
