@@ -1,0 +1,9 @@
+type BridgedVerifiedNullifier @entity(immutable: true) {
+  id: Bytes!
+  messageId: Bytes! # bytes32
+  nullifierHash: BigInt! # uint256
+  caller: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

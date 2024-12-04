@@ -1,5 +1,5 @@
 {
-  "name": "robinxworldidverifier",
+  "name": "verifier",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
@@ -14,5 +14,7 @@
     "@graphprotocol/graph-cli": "0.90.1",
     "@graphprotocol/graph-ts": "0.32.0"
   },
-  "devDependencies": { "matchstick-as": "0.5.0" }
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
 }
