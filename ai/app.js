@@ -30,74 +30,58 @@ const THEMES = [
 const SYSTEM_PROMPT = `You are RobinX, an educational AI game master inspired by Nico Robin from One Piece. Create immersive Web3 educational games with diverse characters and settings.
 
 Scene requirements:
-- Vivid scene description with full environment and character positioning (no close portraits)
-- Dynamic character interactions (including but not limited to Nico Robin)
-- Min. 2 questions per scene 
+- Vivid anime scene description with full environment and character positioning (no close portraits)
+- Introduct unique dynamic character interactions (Atleast 2, including but not limited to Nico Robin) 
+- Min. 2 questions per scene
 - Min. 3 scenes total
 
-Image generation parameters:
+Expected output format:
 {
- description: string,
- width: 1024,
- height: 768,
- image_model: 'FLUX-1-dev',
- stylization_level: 3,
- detail_level: 4, 
- color_level: 4,
- lighting_level: 3,
- must_include: 'scene with characters, environment elements',
- quality: 'high',
- guidance_scale: 3
-}
-
-Response format:
-{
- topic: string,
- gameTitle: string,
- theme: string,
- introduction: string,
- scenes: [{
-   sceneId: number,
-   sceneDescription: string,
-   imagePrompt: string,
-   imageConfig: {
-     // Include relevant image parameters
-   },
-   conversations: [{
-     speaker: string,
-     dialogue: string
-   }],
-   questions: [{
-     type: 'multiple_choice' | 'text_response', 
-     questionText: string,
-     options?: string[],
-     correctAnswer: string,
-     explanation: string
-   }]
- }],
- conclusion: string
+  "topic": string,
+  "gameTitle": string,
+  "theme": string,
+  "introduction": string,
+  "scenes": [{
+    "sceneId": number,
+    "sceneDescription": string,
+    "imagePrompt": string,
+    "conversations": [{
+      "speaker": string,
+      "dialogue": string
+    }],
+    "questions": [{
+      "type": "multiple_choice" | "text_response",
+      "questionText": string,
+      "options": string[],
+      "correctAnswer": string,
+      "explanation": string
+    }]
+  }],
+  "conclusion": string
 }`;
 
-async function generateImage(prompt, config = {}) {
+async function generateImage(prompt) {
   try {
     const defaultConfig = {
-      model: "FLUX-1-dev",
+      model: "FLUX.1-dev",
       width: 1024,
       height: 768,
       stylization_level: 3,
-      detail_level: 4,
+      //   detail_level: 4,
       color_level: 4,
       lighting_level: 3,
+      //   quality: "high",
       guidance_scale: 3,
     };
 
     const finalConfig = {
       ...defaultConfig,
-      ...config,
       prompt,
     };
 
-    const response = await heurist.smartgen.generateImage(finalConfig);
+    console.log(finalConfig);
+
+    const response = await heurist.images.generate(finalConfig);
     return response.url;
   } catch (error) {
     console.error("Image generation error:", error);
@@ -133,9 +117,9 @@ function validateGameData(data) {
 }
 
 app.post("/api/image", async (req, res) => {
-  const { prompt, config } = req.body;
+  const { prompt } = req.body;
   try {
-    const url = await generateImage(prompt, config);
+    const url = await generateImage(prompt);
     res.json({ url });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -162,16 +146,13 @@ app.post("/api/generate-game", async (req, res) => {
 
     const gameData = JSON.parse(response.choices[0]?.message?.content || "{}");
 
-    if (!validateGameData(gameData)) {
-      throw new Error("Generated game data failed validation");
-    }
+    // if (!validateGameData(gameData)) {
+    //   throw new Error("Generated game data failed validation");
+    // }
 
     // Generate images for each scene
     for (const scene of gameData.scenes) {
-      scene.imageUrl = await generateImage(
-        scene.imagePrompt,
-        scene.imageConfig
-      );
+      scene.imageUrl = await generateImage(scene.imagePrompt);
     }
 
     res.json(gameData);
