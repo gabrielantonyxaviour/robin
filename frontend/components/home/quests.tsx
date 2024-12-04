@@ -6,15 +6,6 @@ import { title } from "process";
 import { useEffect, useState } from "react";
 import { formatEther, parseUnits } from "viem";
 
-interface Quest {
-  id: string;
-  title: string;
-  imageUrl: string;
-  createdAt: string;
-  validity: number; // validity period in seconds
-  reward: string;
-}
-
 function formatTimeLeft(seconds: number): string {
   if (seconds <= 0) return "Expired";
 
@@ -128,11 +119,11 @@ export default function Quests({ close }: { close: () => void }) {
           ) : (
             <div className="space-y-4 py-4">
               {quests.map((quest) => (
-                <div className="bg-black w-full rounded-lg relative h-[90px]">
-                  <div
-                    key={quest.id}
-                    className="absolute w-full flex items-center space-x-4 bg-[#e7ccfc] border-black border-[2px] p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                  >
+                <div
+                  key={quest.id}
+                  className="bg-black w-full rounded-lg relative h-[90px]"
+                >
+                  <div className="absolute w-full flex items-center space-x-4 bg-[#e7ccfc] border-black border-[2px] p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
                     <div className="h-16 w-16 flex-shrink-0">
                       <img
                         src={quest.imageUrl}

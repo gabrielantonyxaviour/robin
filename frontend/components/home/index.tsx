@@ -36,9 +36,11 @@ export default function Home() {
     <div className="flex justify-between h-screen">
       <div className="flex flex-col h-full justify-center space-y-12  px-6">
         {nav.map((i) => (
-          <div className="relative bg-black w-[130px] h-[100px] rounded-sm">
+          <div
+            key={i.id}
+            className="relative bg-black w-[130px] h-[100px] rounded-sm"
+          >
             <div
-              key={i.id}
               onClick={() => {
                 setShowWindows((prev) =>
                   prev.map((val, index) => (index === i.id - 1 ? !val : val))

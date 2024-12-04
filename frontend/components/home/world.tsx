@@ -13,9 +13,13 @@ import { decodeAbiParameters, parseAbiParameters } from "viem";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { ROBINX_VERIFIER_ABI, ROBINX_VERIFIER_ADDRESS } from "@/lib/constants";
+import { useToast } from "@/hooks/use-toast";
+import { title } from "process";
 
 export default function World({ close }: { close: () => void }) {
   const { address } = useAccount();
+  const toast = useToast();
   const { setOpen } = useIDKit();
   const [done, setDone] = useState(false);
   const {
@@ -27,51 +31,21 @@ export default function World({ close }: { close: () => void }) {
 
   const submitTx = async (proof: ISuccessResult) => {
     try {
-      // await writeContractAsync({
-      //   address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
-      //   account: address,
-      //   abi: [
-      //     {
-      //       inputs: [
-      //         {
-      //           internalType: "address",
-      //           name: "signal",
-      //           type: "address",
-      //         },
-      //         {
-      //           internalType: "uint256",
-      //           name: "root",
-      //           type: "uint256",
-      //         },
-      //         {
-      //           internalType: "uint256",
-      //           name: "nullifierHash",
-      //           type: "uint256",
-      //         },
-      //         {
-      //           internalType: "uint256[8]",
-      //           name: "proof",
-      //           type: "uint256[8]",
-      //         },
-      //       ],
-      //       name: "verifyAndExecute",
-      //       outputs: [],
-      //       stateMutability: "payable",
-      //       type: "function",
-      //     },
-      //   ],
-      //   functionName: "verifyAndExecute",
-      //   args: [
-      //     address as `0x${string}`,
-      //     BigInt(proof.merkle_root),
-      //     BigInt(proof.nullifier_hash),
-      //     decodeAbiParameters(
-      //       parseAbiParameters("uint256[8]"),
-      //       proof.proof as `0x${string}`
-      //     )[0],
-      //   ],
-      // });
-      setDone(true);
+      await writeContractAsync({
+        address: ROBINX_VERIFIER_ADDRESS as `0x${string}`,
+        account: address,
+        abi: ROBINX_VERIFIER_ABI,
+        functionName: "verifyAndExecute",
+        args: [
+          address as `0x${string}`,
+          BigInt(proof.merkle_root),
+          BigInt(proof.nullifier_hash),
+          decodeAbiParameters(
+            parseAbiParameters("uint256[8]"),
+            proof.proof as `0x${string}`
+          )[0],
+        ],
+      });
     } catch (error) {
       throw new Error((error as BaseError).shortMessage);
     }
