@@ -1,5 +1,5 @@
 {
-  "name": "verifier",
+  "name": "robinxworldidverifier",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
