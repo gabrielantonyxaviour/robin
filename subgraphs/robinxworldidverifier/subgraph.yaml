@@ -1,0 +1,26 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: RobinXWorldIdVerifier
+    network: sepolia
+    source:
+      address: "0x95C82Bb347A6ADf97F3B3Bd2B1c57b38E4C5E863"
+      abi: RobinXWorldIdVerifier
+      startBlock: 7207319
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - BridgedVerifiedNullifier
+      abis:
+        - name: RobinXWorldIdVerifier
+          file: ./abis/RobinXWorldIdVerifier.json
+      eventHandlers:
+        - event: BridgedVerifiedNullifier(indexed bytes32,indexed uint256,indexed address)
+          handler: handleBridgedVerifiedNullifier
+      file: ./src/robin-x-world-id-verifier.ts
