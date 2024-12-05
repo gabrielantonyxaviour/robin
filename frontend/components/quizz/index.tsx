@@ -6,6 +6,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { uploadJsonToPinata } from "@/lib/pinata/uploadJsonToPinata";
+import { useAccount, useSwitchChain } from "wagmi";
+import { educhainTestnet, educhainTestnetPublicClient } from "@/lib/utils";
+import { ROBINX_CORE_ABI, ROBINX_CORE_ADDRESS } from "@/lib/constants";
+import { createPublicClient, createWalletClient, custom, http } from "viem";
+import { ToastAction } from "../ui/toast";
+import { useToast } from "@/hooks/use-toast";
 
 type Conversation = {
   speaker: string;
@@ -39,6 +46,9 @@ type Game = {
 };
 
 export default function Quizz({ id }: { id: string }) {
+  const { address, chainId } = useAccount();
+  const { toast } = useToast();
+  const { switchChainAsync } = useSwitchChain();
   const [quizzData, setQuizzData] = useState<Game | null>(null);
   const [currentState, setCurrentState] = useState(0);
   const [currentScene, setCurrentScene] = useState(0);
@@ -239,7 +249,69 @@ export default function Quizz({ id }: { id: string }) {
                       <Button
                         className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
                         onClick={async () => {
-                          setCurrentState((prev) => prev + 1);
+                          if (endGame) {
+                            console.log("RIGHT HERE");
+                            toast({
+                              title: "Uploading to IPFS",
+                              description:
+                                "Please wait to pin your encrypted responses on IPFS.",
+                            });
+                            const responseMetadataUrl =
+                              await uploadJsonToPinata(
+                                new Date().toISOString() +
+                                  "_responses_" +
+                                  address,
+                                { responses }
+                              );
+                            console.log(responseMetadataUrl);
+
+                            if (chainId != educhainTestnet.id) {
+                              await switchChainAsync({
+                                chainId: educhainTestnet.id,
+                              });
+                            }
+                            const publicClient = createPublicClient({
+                              chain: educhainTestnet,
+                              transport: http(),
+                            });
+                            const walletClient = createWalletClient({
+                              chain: educhainTestnet,
+                              transport: custom(window.ethereum!),
+                            });
+                            console.log([id, responseMetadataUrl]);
+                            const { request } =
+                              await publicClient.simulateContract({
+                                address: ROBINX_CORE_ADDRESS,
+                                functionName: "submitResponse",
+                                args: [id, responseMetadataUrl],
+                                abi: ROBINX_CORE_ABI,
+                              });
+
+                            const tx = await walletClient.writeContract(
+                              request as any
+                            );
+
+                            toast({
+                              title: "Transcaction Success",
+                              description:
+                                "Your responses are submitted on Educhain Testnet.",
+                              action: (
+                                <ToastAction
+                                  className="bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[2px] border-black mr-[2px] rounded-sm"
+                                  altText="view tx"
+                                  onClick={() => {
+                                    window.open(
+                                      "https://edu-chain-testnet.blockscout.com/tx/" +
+                                        tx,
+                                      "_blank"
+                                    );
+                                  }}
+                                >
+                                  View Tx
+                                </ToastAction>
+                              ),
+                            });
+                          } else setCurrentState((prev) => prev + 1);
                         }}
                       >
                         <p> {endGame ? "Submit Responses" : "Next"}</p>
