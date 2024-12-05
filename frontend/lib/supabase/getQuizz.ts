@@ -10,5 +10,19 @@ export async function getQuizz(pollId: string) {
     .select("*")
     .eq("id", pollId);
 
-  return fetchedData![0].data;
+  const response = await fetch("/api/proxy", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ url: fetchedData![0].data }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  console.log(data);
+  return data[Math.floor(Math.random() * data.length)];
 }

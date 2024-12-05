@@ -22,6 +22,11 @@ const nextConfig = {
         hostname: "amethyst-impossible-ptarmigan-368.mypinata.cloud",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "robinx-ai.vercel.app",
+        port: "",
+      },
     ],
   },
 };
