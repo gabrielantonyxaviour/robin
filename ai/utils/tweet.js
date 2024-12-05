@@ -11,7 +11,7 @@ export async function tweet(text) {
   try {
     const tweet = await client.v2.tweet(text);
     console.log("Tweet posted successfully:", tweet.data.id);
-    return tweet;
+    return tweet.data.id;
   } catch (error) {
     console.error("Error posting tweet:", error);
     throw error;

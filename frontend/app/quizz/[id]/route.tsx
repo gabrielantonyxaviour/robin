@@ -2,11 +2,14 @@
 import { NextRequest } from "next/server";
 import { Button, createFrames } from "frames.js/next";
 import { frames } from "../frames";
+import { getQuizz } from "@/lib/supabase/getQuizz";
 
 const handler = async (
   req: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) => {
+  const quizz = getQuizz(id);
+  console.log(quizz);
   const response = await frames(async (ctx) => {
     return {
       title: "RobinX | Quizz",
