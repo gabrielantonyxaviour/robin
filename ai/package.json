@@ -11,7 +11,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@farcaster/hub-nodejs": "^0.12.7",
+    "@neynar/nodejs-sdk": "^2.0.5",
+    "@noble/ed25519": "^2.1.0",
     "@supabase/supabase-js": "^2.46.2",
+    "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "fs": "^0.0.1-security",
