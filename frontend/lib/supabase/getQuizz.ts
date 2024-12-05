@@ -1,9 +1,9 @@
-const { createClient } = require("@supabase/supabase-js");
+import { createClient } from "@supabase/supabase-js";
 
 export async function getQuizz(pollId: string) {
   const supabase = createClient(
     "https://zrphknbmflnjyezigmay.supabase.co",
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY!
   );
   const { data: fetchedData, error } = await supabase
     .from("quizz")
