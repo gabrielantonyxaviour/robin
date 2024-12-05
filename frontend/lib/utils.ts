@@ -43,6 +43,10 @@ export function shortenAddress(address: string): string {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
+export function shortenNullifier(nullifier: string): string {
+  return `${nullifier.slice(0, 10)}...${nullifier.slice(-8)}`;
+}
+
 const NEXT_PUBLIC_ALCHEMY_API_KEY =
   process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "";
 

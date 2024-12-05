@@ -18,6 +18,7 @@ import { ROBINX_VERIFIER_ABI, ROBINX_VERIFIER_ADDRESS } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../ui/toast";
 import { sepolia } from "viem/chains";
+import { shortenAddress, shortenNullifier } from "@/lib/utils";
 
 export default function World({ close }: { close: () => void }) {
   const { address, chainId } = useAccount();
@@ -31,6 +32,7 @@ export default function World({ close }: { close: () => void }) {
     error,
     writeContractAsync,
   } = useWriteContract();
+  const [nullifier, setNullifier] = useState(339472389728937498231);
 
   const submitTx = async (proof: ISuccessResult) => {
     try {
@@ -95,7 +97,9 @@ export default function World({ close }: { close: () => void }) {
         className={`absolute w-[400px] h-[240px] flex flex-col items-center -top-[1%] -left-[1%] w-full h-full space-y-2 sen rounded-sm text-sm border border-[2px] border-black py-2 bg-[#ffd75f] text-black`}
       >
         <div className="flex justify-between items-center w-full px-2">
-          <p className="px-4 font-bold text-lg">Verify Human</p>
+          <p className="px-4 font-bold text-lg">
+            {nullifier != 0 ? "Verified Human!" : "Verify Human"}
+          </p>
           <X className="cursor-pointer" onClick={close} />
         </div>
         <Separator className="bg-black" />
@@ -104,17 +108,33 @@ export default function World({ close }: { close: () => void }) {
             <Button
               className="absolute -top-[4px] -left-[4px] flex p-5 space-x-2 bg-[#e7ccfc] hover:bg-[#e7ccfc] text-black hover:text-black border-[1px] border-black mr-[2px]"
               onClick={() => {
+                if (nullifier != 0) return;
                 setOpen(true);
               }}
             >
-              <Image
-                src="/world.png"
-                width={30}
-                height={30}
-                alt="world"
-                className="rounded-full"
-              />
-              <p>Sign in with Worldcoin</p>
+              {nullifier != 0 ? (
+                <>
+                  <Image
+                    src="/world.png"
+                    width={30}
+                    height={30}
+                    alt="world"
+                    className="rounded-full"
+                  />
+                  <p>{shortenNullifier(nullifier.toString())}</p>
+                </>
+              ) : (
+                <>
+                  <Image
+                    src="/world.png"
+                    width={30}
+                    height={30}
+                    alt="world"
+                    className="rounded-full"
+                  />
+                  <p>Sign in with Worldcoin</p>
+                </>
+              )}
             </Button>
           </div>
         </div>

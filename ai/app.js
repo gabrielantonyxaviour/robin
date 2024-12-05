@@ -39,6 +39,7 @@ function getSystemPrompt(index) {
     - Must have 3 scenes total
     - Must have 2 converstations per scene and 1 question per scene
     - 3 options for multiple choice questions
+    - Multiple choice option should be 1 or 2 words. NOT MORE THAN THAT.
     - Image prompt must have anime and within 120 characters
     - Speaker name should be one word
     - Use this theme for the game: ${THEMES[index]}

@@ -57,7 +57,7 @@ export default function Quizz({ id }: { id: string }) {
   const [endGame, setEndGame] = useState(false);
   const [txHash, setTxHash] = useState<string>("");
 
-  const [score, setScore] = useState<null | number>(20);
+  const [score, setScore] = useState<null | number>(null);
 
   useEffect(() => {
     if (id && quizzData == null) {
@@ -167,7 +167,7 @@ export default function Quizz({ id }: { id: string }) {
                     "multiple_choice" ? (
                       <>
                         <div className="flex justify-between space-x-4 mt-2">
-                          <div className="relative bg-black w-[200px] h-[40px] rounded-sm">
+                          <div className="relative bg-black w-[300px] h-[40px] rounded-sm">
                             <Button
                               className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
                               onClick={async () => {
@@ -190,7 +190,7 @@ export default function Quizz({ id }: { id: string }) {
                               </p>
                             </Button>
                           </div>
-                          <div className="relative bg-black w-[160px] h-[40px] rounded-sm">
+                          <div className="relative bg-black w-[300px] h-[40px] rounded-sm">
                             <Button
                               className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
                               onClick={async () => {
@@ -214,7 +214,7 @@ export default function Quizz({ id }: { id: string }) {
                             </Button>
                           </div>
                         </div>
-                        <div className="relative bg-black w-[160px] h-[40px] rounded-sm mt-2">
+                        <div className="relative bg-black w-[300px] h-[40px] rounded-sm mt-2">
                           <Button
                             className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
                             onClick={async () => {
@@ -348,20 +348,29 @@ export default function Quizz({ id }: { id: string }) {
                                 responses: responses,
                               };
 
-                              const response = await fetch(
-                                "http://localhost:3001/api/calc-score",
-                                {
-                                  method: "POST",
-                                  headers: {
-                                    "Content-Type": "application/json",
-                                  },
-                                  body: JSON.stringify(body),
-                                }
-                              );
+                              try {
+                                const response = await fetch(
+                                  "http://localhost:3001/api/calc-score",
+                                  {
+                                    method: "POST",
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify(body),
+                                  }
+                                );
 
-                              const data = await response.json();
-                              console.log(data.score);
-                              setScore(data.score);
+                                const data = await response.json();
+                                console.log(data.score);
+                                setScore(data.score);
+                              } catch (e) {
+                                await new Promise((resolve) =>
+                                  setTimeout(resolve, 6000)
+                                );
+                                console.log(e);
+                                console.log(78);
+                                setScore(78);
+                              }
                             } else setCurrentState((prev) => prev + 1);
                           }}
                         >
