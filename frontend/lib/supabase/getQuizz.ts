@@ -10,6 +10,5 @@ export async function getQuizz(pollId: string) {
     .select("*")
     .eq("id", pollId);
 
-  console.log(fetchedData);
-  return fetchedData;
+  return fetchedData![0].data;
 }

@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: "noun-api.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "amethyst-impossible-ptarmigan-368.mypinata.cloud",
+        port: "",
+      },
     ],
   },
 };

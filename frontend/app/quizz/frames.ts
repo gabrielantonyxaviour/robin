@@ -6,8 +6,11 @@ export const frames = createFrames({
   basePath: "/quizz",
   initialState: {
     currentState: 0,
+    currentScene: 0,
     questionState: 0,
-    quizData: {},
+    gameSeed: -1,
+    quizData: "",
+    responses: [],
   },
   // imageRenderingOptions: async () => {
   //   const senVariableFontData = await fs.readFile(
