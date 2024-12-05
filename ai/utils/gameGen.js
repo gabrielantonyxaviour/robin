@@ -60,7 +60,7 @@ function getSystemPrompt(index) {
   }`;
 }
 
-export async function gameGen(topic, currentDate) {
+async function gameGen(topic, currentDate) {
   const games = [];
 
   for (let i = 0; i < 3; i++) {
@@ -90,3 +90,7 @@ export async function gameGen(topic, currentDate) {
   }
   return games;
 }
+
+module.exports = {
+  gameGen,
+};

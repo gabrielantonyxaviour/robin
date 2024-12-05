@@ -76,7 +76,7 @@ const ROBINX_CORE_ABI = [
   },
 ];
 
-export async function createPollTx(metadata_url) {
+async function createPollTx(metadata_url) {
   const AI_AGENT_PRIVATE_KEY = process.env.AI_AGENT_PRIVATE_KEY;
 
   const account = privateKeyToAccount("0x" + AI_AGENT_PRIVATE_KEY);
@@ -121,3 +121,7 @@ export async function createPollTx(metadata_url) {
     pollId: eventLog.args.pollId.toString(),
   };
 }
+
+module.exports = {
+  createPollTx,
+};

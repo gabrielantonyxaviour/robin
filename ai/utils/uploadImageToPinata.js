@@ -2,7 +2,7 @@ require("dotenv").config();
 const { PinataSDK } = require("pinata");
 const fetch = require("node-fetch");
 
-export async function uploadImageToPinata(name, imageUrl) {
+async function uploadImageToPinata(name, imageUrl) {
   const pinata = new PinataSDK({
     pinataJwt: process.env.PINATA_JWT,
     pinataGateway: "amethyst-impossible-ptarmigan-368.mypinata.cloud",
@@ -28,3 +28,7 @@ export async function uploadImageToPinata(name, imageUrl) {
   console.log(url);
   return url;
 }
+
+module.exports = {
+  uploadImageToPinata,
+};

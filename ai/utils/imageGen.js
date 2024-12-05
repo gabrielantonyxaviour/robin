@@ -1,6 +1,6 @@
 const Heurist = require("heurist");
 
-export async function imageGen(prompt) {
+async function imageGen(prompt) {
   const heurist = new Heurist({
     apiKey: process.env["HEURIST_API_KEY"],
   });
@@ -32,3 +32,5 @@ export async function imageGen(prompt) {
     return null;
   }
 }
+
+module.exports = { imageGen };

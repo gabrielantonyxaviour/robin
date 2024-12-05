@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { PinataSDK } = require("pinata");
-export async function uploadJsonToPinata(name, jsonObject) {
+async function uploadJsonToPinata(name, jsonObject) {
   const pinata = new PinataSDK({
     pinataJwt: process.env.PINATA_JWT,
     pinataGateway: "amethyst-impossible-ptarmigan-368.mypinata.cloud",
@@ -26,3 +26,7 @@ export async function uploadJsonToPinata(name, jsonObject) {
   console.log(url);
   return url;
 }
+
+module.exports = {
+  uploadJsonToPinata,
+};

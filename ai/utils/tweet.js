@@ -7,7 +7,7 @@ const client = new TwitterApi({
   accessToken: process.env.TWITTER_ACCESS_TOKEN,
   accessSecret: process.env.TWITTER_ACCESS_SECRET,
 });
-export async function tweet(text) {
+async function tweet(text) {
   try {
     const tweet = await client.v2.tweet(text);
     console.log("Tweet posted successfully:", tweet.data.id);
@@ -17,3 +17,7 @@ export async function tweet(text) {
     throw error;
   }
 }
+
+module.exports = {
+  tweet,
+};

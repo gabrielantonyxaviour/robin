@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { createClient } = require("@supabase/supabase-js");
-export async function addQuizz(pollId, quizzes_url, tweet) {
+async function addQuizz(pollId, quizzes_url, tweet) {
   const supabase = createClient(
     "https://zrphknbmflnjyezigmay.supabase.co",
     process.env.SUPABASE_PUBLIC_ANON_KEY
@@ -12,3 +12,7 @@ export async function addQuizz(pollId, quizzes_url, tweet) {
 
   console.log(insertData);
 }
+
+module.exports = {
+  addQuizz,
+};
