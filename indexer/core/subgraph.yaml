@@ -8,9 +8,9 @@ dataSources:
     name: RobinXCore
     network: educhaintestnet
     source:
-      address: "0x1f8d9883C91a8210F43aA13BE5C9f576986EA027"
+      address: "0xDc59057716677afE37755e8aA256c8d852D62f64"
       abi: RobinXCore
-      startBlock: 18797078
+      startBlock: 19071290
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7

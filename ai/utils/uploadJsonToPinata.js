@@ -16,7 +16,7 @@ async function uploadJsonToPinata(name, jsonObject) {
 
   // Upload to Pinata
   const upload = await pinata.upload.file(file);
-  console.log("Upload successful:", upload);
+  console.log("JSON Upload successful:", upload);
   //   const data = await pinata.gateways.get(upload.cid);
   //   console.log(data);
   const url = await pinata.gateways.createSignedURL({

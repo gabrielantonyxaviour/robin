@@ -18,7 +18,7 @@ async function uploadImageToPinata(name, imageUrl) {
   // Create a File object from the buffer
   const imageFile = new File([buffer], fileName, { type: "image/png" });
   const upload = await pinata.upload.file(imageFile);
-  console.log("Upload successful:", upload);
+  console.log("Image Upload successful:", upload);
   //   const data = await pinata.gateways.get(upload.cid);
   //   console.log(data);
   const url = await pinata.gateways.createSignedURL({

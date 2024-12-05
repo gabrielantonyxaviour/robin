@@ -8,9 +8,9 @@ dataSources:
     name: RobinXWorldIdVerifier
     network: sepolia
     source:
-      address: "0xBa1D4926eCeC7f34b308Fc47c173Df49a73B5Be2"
+      address: "0x51b5703fF5e22A2AFdC5408163212dcF8aef3303"
       abi: RobinXWorldIdVerifier
-      startBlock: 7208459
+      startBlock: 7214602
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
