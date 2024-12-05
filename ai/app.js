@@ -10,6 +10,7 @@ const { gameGen } = require("./utils/gameGen");
 const { uploadJsonToPinata } = require("./utils/uploadJsonToPinata");
 const { createPollTx } = require("./utils/createPollTx");
 const { addQuizz } = require("./utils/addQuizz");
+const { tweet } = require("./utils/tweet");
 
 const pinata = new PinataSDK({
   pinataJwt: process.env.PINATA_JWT,
@@ -108,6 +109,11 @@ app.post("/api/generate-game", async (req, res) => {
     const { txHash, pollId } = await createPollTx(metadata_url);
 
     await addQuizz(pollId, quizzes_url);
+
+    await tweet(
+      "Today's Quest is ready! 🎮🎉 Play now and earn $RX rewards: https://robinx-ai.vercel.app/quizz/" +
+        pollId
+    );
 
     res.json({
       quizzes_url,

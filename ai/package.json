@@ -23,6 +23,7 @@
     "openai": "^4.75.0",
     "path": "^0.12.7",
     "pinata": "^1.8.1",
+    "twitter-api-v2": "^1.18.2",
     "viem": "^2.21.53"
   },
   "devDependencies": {
