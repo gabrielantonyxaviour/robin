@@ -8,7 +8,7 @@ dataSources:
     name: RobinXWorldIdVerifier
     network: sepolia
     source:
-      address: "0xe04647Bb5a851e1c3DE4aEa5f0cc0e4A74c5f27A"
+      address: "0xBa1D4926eCeC7f34b308Fc47c173Df49a73B5Be2"
       abi: RobinXWorldIdVerifier
       startBlock: 7208459
     mapping:

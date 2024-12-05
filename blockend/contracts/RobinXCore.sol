@@ -151,11 +151,11 @@ contract RobinXCore {
         uint256 pollId,
         string memory encryptedResponse
     ) external {
-        if (pollId >= pollCount) revert InvalidPollId(pollId);
+        // if (pollId >= pollCount) revert InvalidPollId(pollId);
         uint256 nullifierHash = verifiedNullifiers[msg.sender];
-        if (nullifierHash == 0) revert UnverifiedCaller(pollId, msg.sender);
-        if (bytes(pollResponses[pollId][nullifierHash]).length > 0)
-            revert AlreadyAttempted(pollId, msg.sender, nullifierHash);
+        // if (nullifierHash == 0) revert UnverifiedCaller(pollId, msg.sender);
+        // if (bytes(pollResponses[pollId][nullifierHash]).length > 0)
+        //     revert AlreadyAttempted(pollId, msg.sender, nullifierHash);
 
         pollResponses[pollId][nullifierHash] = encryptedResponse;
 
@@ -178,9 +178,9 @@ contract RobinXCore {
         uint256 score,
         uint256 amount
     ) external onlyRobin {
-        if (pollId >= pollCount) revert InvalidPollId(pollId);
-        if (rewards[pollId][receiverNullifierHash] != 0)
-            revert AlreadyRewarded(pollId, receiverNullifierHash);
+        // if (pollId >= pollCount) revert InvalidPollId(pollId);
+        // if (rewards[pollId][receiverNullifierHash] != 0)
+        //     revert AlreadyRewarded(pollId, receiverNullifierHash);
 
         rewards[pollId][receiverNullifierHash] = amount;
         address receiver = rewardReceivers[receiverNullifierHash];

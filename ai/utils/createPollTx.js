@@ -26,7 +26,7 @@ const educhainTestnet = defineChain({
   testnet: true,
 });
 
-const ROBINX_CORE = "0x11feDEF3a24F3030147C6755497F775FE283e0cA";
+const ROBINX_CORE = "0x1f8d9883C91a8210F43aA13BE5C9f576986EA027";
 const ROBINX_CORE_ABI = [
   {
     inputs: [

@@ -8,9 +8,9 @@ export const graphClient = new ApolloClient({
 });
 
 export const ROBINX_ADDRESS = "0x057651A8F159B05875c851113eA472B0Deb7bd4D";
-export const ROBINX_CORE_ADDRESS = "0x11feDEF3a24F3030147C6755497F775FE283e0cA";
+export const ROBINX_CORE_ADDRESS = "0x1f8d9883C91a8210F43aA13BE5C9f576986EA027";
 export const ROBINX_VERIFIER_ADDRESS =
-  "0xe04647Bb5a851e1c3DE4aEa5f0cc0e4A74c5f27A";
+  "0xBa1D4926eCeC7f34b308Fc47c173Df49a73B5Be2";
 
 export const coreGraphClient = new ApolloClient({
   uri: "https://7d47-103-170-245-236.ngrok-free.app/subgraphs/name/core",
