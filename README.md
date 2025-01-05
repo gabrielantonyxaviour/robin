@@ -51,6 +51,6 @@ At its heart, RobinX is an AI agent with a personality and memory. Built on the 
 
 Web3 education shouldn't feel like studying for an exam. It should feel like going on an adventure with a knowledgeable friend. With RobinX, every day brings a new story, a new challenge, and a new opportunity to grow your Web3 expertise while earning rewards.
 
-Ready to start your journey? Find us on X [@RobinX] and join a community of learners who are exploring Web3 one quest at a time.
+Ready to start your journey? Find us on [X](https://x.com/EduRobinX) and join a community of learners who are exploring Web3 one quest at a time.
 
 Built with ❤️ by [Gabriel](https://x.com/gabrielaxyeth)
