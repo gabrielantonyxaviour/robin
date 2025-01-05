@@ -11,7 +11,7 @@ export const getSdk = () => {
   if (typeof sdk === "undefined") {
     sdk = new OCAuthSandbox({
       redirectUri: JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "false")
-        ? `http://localhost:3000/redirect`
+        ? `http://localhost:3001/redirect`
         : "https://robinx-ai.vercel.app/redirect",
     });
   }

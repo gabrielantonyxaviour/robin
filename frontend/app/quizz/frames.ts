@@ -8,5 +8,5 @@ export const frames = createFrames({
   debug: JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "false"),
   baseUrl: !JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "false")
     ? "https://robinx-ai.vercel.app"
-    : "http://localhost:3000",
+    : "http://localhost:3001",
 });
