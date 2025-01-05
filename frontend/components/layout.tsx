@@ -4,13 +4,7 @@ import { useCallback, useEffect } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { getSdk } from "@/lib/sdk";
-import {
-  useAccount,
-  useBalance,
-  useConnect,
-  useDisconnect,
-  useSwitchChain,
-} from "wagmi";
+import { useAccount, useBalance, useConnect, useDisconnect } from "wagmi";
 import { educhainTestnet, shortenAddress } from "@/lib/utils";
 import { injected } from "wagmi/connectors";
 import { getBalance } from "@wagmi/core";
@@ -21,13 +15,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { sepolia } from "viem/chains";
 import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@radix-ui/react-toast";
 
 export default function Layout({
   children,
@@ -39,7 +29,6 @@ export default function Layout({
   );
   const { toast } = useToast();
   const { address, isConnected, chainId } = useAccount();
-  const { switchChain } = useSwitchChain();
   const { connectAsync } = useConnect();
   const { data: balance } = useBalance({
     address: address,
@@ -74,7 +63,16 @@ export default function Layout({
         {isConnected && address != null && balance && (
           <>
             <div className="relative w-[130px] bg-black h-[40px] rounded-sm">
-              <Button className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#131beb] border-black mr-[2px]">
+              <Button
+                onClick={() => {
+                  window.open(
+                    "https://edu-chain-testnet.blockscout.com/address/" +
+                      ROBINX_ADDRESS,
+                    "_blank"
+                  );
+                }}
+                className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#131beb] border-black mr-[2px]"
+              >
                 <Image
                   src={"/robin.jpg"}
                   width={25}
@@ -88,32 +86,12 @@ export default function Layout({
             <div className="relative w-[130px] bg-black h-[40px] rounded-sm">
               <Button
                 onClick={() => {
-                  console.log("Toasting");
-                  const description =
-                    chainId == educhainTestnet.id
-                      ? "Connected to Sepolia Testnet"
-                      : "Connected to Educhain Testnet";
-                  toast({
-                    title: "Swithching Network",
-                    description,
-                  });
-                  // if (chainId == educhainTestnet.id)
-                  //   switchChain({
-                  //     chainId: sepolia.id,
-                  //   });
-                  // else
-                  //   switchChain({
-                  //     chainId: educhainTestnet.id,
-                  //   });
+                  window.open("https://opencampus.xyz/", "_blank");
                 }}
                 className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#131beb] border-black mr-[2px]"
               >
                 <Image
-                  src={
-                    chainId == educhainTestnet.id
-                      ? "/chains/educhain.png"
-                      : "/chains/eth.png"
-                  }
+                  src={"/chains/educhain.png"}
                   width={25}
                   height={25}
                   alt="educhain"
@@ -121,8 +99,7 @@ export default function Layout({
                 />
                 <p>
                   {" "}
-                  {parseFloat(balance?.formatted).toFixed(2)}{" "}
-                  {chainId == educhainTestnet.id ? "tEDU" : "tETH"}
+                  {parseFloat(balance?.formatted).toFixed(2)} {"EDU"}
                 </p>
               </Button>
             </div>

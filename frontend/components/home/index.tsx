@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import Quests from "./quests";
 import Completed from "./completed";
-import World from "./world";
 import Leaderboard from "./leaderboard";
+import About from "./about";
 
 export default function Home() {
   const nav = [
@@ -89,7 +89,7 @@ export default function Home() {
           />
         )}
         {showWindows[3] && (
-          <World
+          <About
             close={() => {
               setShowWindows((prev) =>
                 prev.map((val, index) => (index === 3 ? !val : val))

@@ -4,10 +4,9 @@ import { educhainTestnet } from "./utils";
 import { injected } from "wagmi/connectors";
 
 export const config = createConfig({
-  chains: [sepolia, educhainTestnet],
+  chains: [educhainTestnet],
   connectors: [injected()],
   transports: {
-    [sepolia.id]: http(),
     [educhainTestnet.id]: http(),
   },
 });
