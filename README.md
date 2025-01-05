@@ -1,29 +1,27 @@
-# RobinX: An autonomous AI agent that teaches web3 to users in the form of gamified quests.
+# RobinX
+
+![1500x500](https://github.com/user-attachments/assets/7dd78636-85e3-4de3-adae-980f99c20271)
+
+An autonomous AI agent that teaches web3 to users in the form of gamified quests.
 
 ## Important Links
 
-1. Twitter | https://x.com/EduRobinX
-2. Github | https://github.com/gabrielantonyxaviour/robin
-3. Live Url | https://robinx-ai.vercel.app/
-4. Pitch Deck | https://www.canva.com/design/DAGYPLJGa8E/gWQ6g1WegrADS_AeMuc7aQ/view?utm_content=DAGYPLJGa8E&utm_campaign=designshare&utm_medium=link&utm_source=editor
+1. AI Agent X => https://x.com/EduRobinX
+2. Web app => https://robinx-ai.vercel.app
+3. Demo Video => https://www.canva.com/design/DAGalSEH19c/kKUX7k07t9OFkln_FaUd-g/watch?utm_content=DAGalSEH19c
+4. Pitch Deck => https://www.canva.com/design/DAGYPLJGa8E/gWQ6g1WegrADS_AeMuc7aQ/view?utm_content=DAGYPLJGa8E
+5. Github => https://github.com/gabrielantonyxaviour/robin
+6. RobinX Eliza implementation => https://github.com/gabrielantonyxaviour/eliza
 
 ## Deployments
 
 #### Educhain
 
 1. RobinXCore | 0x1f8d9883C91a8210F43aA13BE5C9f576986EA027
-2. RobinX | 0xcdF5A88728edf3bEAf3bBE75Bf0c1A80B6cBc079
-3. Hyperlane Mailbox | 0xCfA62ac3Cc7E9eBA17Fab9Bc92df6AC648A18338
-
-#### Sepolia
-
-1. RobinXWorldVerifier | 0x51b5703fF5e22A2AFdC5408163212dcF8aef3303
-2. Hyperlane Mailbox | 0xb2B892c9E8A1137Ae66f508c557a87Fda937FB81
+2. RobinX (ERC20 Reward Token) | 0xcdF5A88728edf3bEAf3bBE75Bf0c1A80B6cBc079
 
 ### Indexers
 
-1. Sepolia | https://api.studio.thegraph.com/query/30735/robinxworldidverifier/v0.0.4
-2. Educhain
 
 ## Introduction
 
