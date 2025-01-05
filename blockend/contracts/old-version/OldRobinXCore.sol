@@ -5,10 +5,10 @@ import "../RobinX.sol";
 import "../hyperlane/Structs.sol";
 import "../hyperlane/IMailbox.sol";
 
-/// @title RobinXCore
+/// @title OldRobinXCore
 /// @author Gabriel Antony Xaviour
 /// @notice Core contract for managing polls, responses, and rewards with cross-chain verification.
-contract RobinXCore {
+contract OldRobinXCore {
     /// @notice Address of the RobinX AI agent.
     address public robinXAiAgent;
 

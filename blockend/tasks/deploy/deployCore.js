@@ -15,7 +15,7 @@ task("deploy-core", "Deploys the RobinXCore contract")
 
     const coreContractFactory = await ethers.getContractFactory("RobinXCore");
 
-    const args = [robinXAiAgentAddress, networks.educhainTestnet.mailbox];
+    const args = [robinXAiAgentAddress];
 
     const coreContract = await coreContractFactory.deploy(...args);
 

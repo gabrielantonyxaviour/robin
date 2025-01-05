@@ -9,6 +9,12 @@ import "./hyperlane/IMailbox.sol";
 /// @author Gabriel Antony Xaviour
 /// @notice Core contract for managing polls, responses, and results with cross-chain verification.
 contract RobinXCore {
+    struct Poll {
+        string metadata;
+        uint256 tokenReward;
+        uint256 validity;
+    }
+
     struct Result {
         uint8 score;
         uint256 reward;
@@ -27,10 +33,7 @@ contract RobinXCore {
     uint256 public pollCount;
 
     /// @notice Mapping of poll IDs to metadata.
-    mapping(uint256 => string) public polls;
-
-    // @notice Mapping of poll IDs to it's validity.
-    mapping(uint256 => uint256) public pollValidity;
+    mapping(uint256 => Poll) public polls;
 
     /// @notice Mapping of poll results.
     /// @dev pollId => nullifierHash => reward amount.
@@ -47,7 +50,12 @@ contract RobinXCore {
     error NotRobin(address requiredRobinXAiAgent);
 
     /// @dev Events
-    event QuizCreated(uint256 pollId, uint256 validity, string metadata);
+    event QuizCreated(
+        uint256 pollId,
+        uint256 validity,
+        uint256 tokenRewardAmount,
+        string metadata
+    );
     event ResponseSubmitted(
         uint256 pollId,
         address caller,
@@ -95,11 +103,11 @@ contract RobinXCore {
     /// @param _metadata The metadata for the poll.
     function createPoll(
         string memory _metadata,
+        uint256 tokenRewardAmount,
         uint256 validity
     ) external onlyRobin {
-        polls[pollCount] = _metadata;
-        pollValidity[pollCount] = validity;
-        emit QuizCreated(pollCount, validity, _metadata);
+        polls[pollCount] = Poll(_metadata, tokenRewardAmount, validity);
+        emit QuizCreated(pollCount, validity, tokenRewardAmount, _metadata);
         pollCount++;
     }
 
@@ -121,18 +129,18 @@ contract RobinXCore {
     /// @param pollId The ID of the poll.
     /// @param receiver The address of the receiver.
     /// @param score The score of the response.
-    /// @param amount The reward amount.
     function mintRewards(
         uint256 pollId,
         address receiver,
-        uint8 score,
-        uint256 amount
+        uint8 score
     ) external onlyRobin {
         if (pollId >= pollCount) revert InvalidPollId(pollId);
 
-        results[pollId][receiver] = Result(score, amount);
-        robinX.mintRewards(receiver, amount);
+        Poll memory poll = polls[pollId];
+        uint256 rewardAmount = (score * poll.tokenReward) / 100;
+        results[pollId][receiver] = Result(score, rewardAmount);
+        robinX.mintRewards(receiver, rewardAmount);
 
-        emit RewardsMinted(pollId, receiver, score, amount);
+        emit RewardsMinted(pollId, receiver, score, rewardAmount);
     }
 }
