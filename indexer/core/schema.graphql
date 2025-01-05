@@ -5,6 +5,7 @@ type quiz @entity {
   responses: [response!]! @derivedFrom(field: "quiz")
   totalResponses: BigInt!
   topScoreTokenReward: BigInt!
+  totalPointsScored: BigInt!
   totalRewardsDistributed: BigInt!
   createdAt: BigInt!
   validity: BigInt!
@@ -15,10 +16,9 @@ type user @entity {
   "address"
   id: ID!
   responses: [response!]! @derivedFrom(field: "user")
-  rewards: []
   totalResponses: BigInt!
   totalRewards: BigInt!
-  averageScore: BigInt!
+  totalPointsScored: BigInt!
 }
 
 type response @entity {

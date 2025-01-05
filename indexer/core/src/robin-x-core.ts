@@ -1,38 +1,22 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts";
 import {
   QuizCreated as QuizCreatedEvent,
-  VerifiedNullifier as VerifiedNullifierEvent,
   ResponseSubmitted as ResponseSubmittedEvent,
   RewardsMinted as RewardsMintedEvent,
-  RewardReceiverAddressSet as RewardReceiverAddressSetEvent,
 } from "../generated/RobinXCore/RobinXCore";
 import {
   quiz as Quiz,
   response as Response,
   user as User,
-  reward as Reward,
 } from "../generated/schema";
 
-export function handleVerifiedNullifier(event: VerifiedNullifierEvent): void {
-  let userId = event.params.nullifierHash.toString();
-  let user = User.load(userId);
-
-  if (!user) {
-    user = new User(userId);
-    user.totalResponses = BigInt.fromI32(0);
-    user.totalRewards = BigInt.fromI32(0);
-    user.averageScore = BigInt.fromI32(0);
-  }
-  user.address = event.params.caller;
-
-  user.save();
-}
-
 export function handleQuizCreated(event: QuizCreatedEvent): void {
-  let quiz = new Quiz(event.params.pollId.toString());
+  let quiz = new Quiz(event.params.pollId.toHexString());
   quiz.metadata = event.params.metadata;
   quiz.totalResponses = BigInt.fromI32(0);
   quiz.totalRewardsDistributed = BigInt.fromI32(0);
+  quiz.totalPointsScored = BigInt.fromI32(0);
+  quiz.topScoreTokenReward = event.params.tokenRewardAmount;
   quiz.createdAt = event.block.timestamp;
   quiz.validity = event.params.validity;
   quiz.transactionHash = event.transaction.hash;
@@ -40,24 +24,27 @@ export function handleQuizCreated(event: QuizCreatedEvent): void {
 }
 
 export function handleResponseSubmitted(event: ResponseSubmittedEvent): void {
-  let user = User.load(event.params.nullifierHash.toString());
-  if (!user) return;
+  let user = User.load(event.params.caller.toHexString());
+  if (!user) {
+    user = new User(event.params.caller.toHexString());
+    user.totalResponses = BigInt.fromI32(0);
+    user.totalRewards = BigInt.fromI32(0);
+    user.totalPointsScored = BigInt.fromI32(0);
+  }
 
-  let responseId =
-    event.params.pollId.toString() +
-    "-" +
-    event.params.nullifierHash.toString();
-  let response = new Response(responseId);
-  response.quiz = event.params.pollId.toString();
-  response.user = event.params.nullifierHash.toString();
+  let response = new Response(
+    event.params.pollId.toHexString() + "-" + event.params.caller.toHexString()
+  );
+  response.quiz = event.params.pollId.toHexString();
+  response.user = event.params.caller.toHexString();
   response.encryptedResponse = event.params.encryptedResponse;
-  response.transactionHash = event.transaction.hash;
+  response.responseTxHash = event.transaction.hash;
   response.save();
 
   user.totalResponses = user.totalResponses.plus(BigInt.fromI32(1));
   user.save();
 
-  let quiz = Quiz.load(event.params.pollId.toString());
+  let quiz = Quiz.load(event.params.pollId.toHexString());
   if (quiz) {
     quiz.totalResponses = quiz.totalResponses.plus(BigInt.fromI32(1));
     quiz.save();
@@ -65,43 +52,36 @@ export function handleResponseSubmitted(event: ResponseSubmittedEvent): void {
 }
 
 export function handleRewardsMinted(event: RewardsMintedEvent): void {
-  let rewardId =
-    event.params.pollId.toString() +
-    "-" +
-    event.params.receiverNullifierHash.toString();
-  let reward = new Reward(rewardId);
-  reward.quiz = event.params.pollId.toString();
-  reward.response = rewardId;
-  reward.score = event.params.score;
-  reward.amount = event.params.amount;
-  reward.transactionHash = event.transaction.hash;
-  reward.save();
+  let response = Response.load(
+    event.params.pollId.toHexString() +
+      "-" +
+      event.params.receiver.toHexString()
+  );
+  if (response) {
+    response.amount = event.params.amount;
+    response.score = BigInt.fromI32(event.params.score);
+    response.rewardTxHash = event.transaction.hash;
+    response.save();
+  }
 
-  let quiz = Quiz.load(event.params.pollId.toString());
+  let user = User.load(event.params.receiver.toHexString());
+
+  if (user) {
+    user.totalRewards = user.totalRewards.plus(event.params.amount);
+    user.totalPointsScored = user.totalPointsScored.plus(
+      BigInt.fromI32(event.params.score)
+    );
+    user.save();
+  }
+
+  let quiz = Quiz.load(event.params.pollId.toHexString());
   if (quiz) {
     quiz.totalRewardsDistributed = quiz.totalRewardsDistributed.plus(
       event.params.amount
     );
+    quiz.totalPointsScored = quiz.totalPointsScored.plus(
+      BigInt.fromI32(event.params.score)
+    );
     quiz.save();
-  }
-}
-
-export function handleRewardReceiverAddressSet(
-  event: RewardReceiverAddressSetEvent
-): void {
-  let reward = Reward.load("-" + event.params.nullifierHash.toString());
-  if (reward) {
-    reward.receiver = event.params.receiver;
-    reward.save();
-
-    let user = User.load(event.params.nullifierHash.toString());
-    if (user) {
-      user.totalRewards = user.totalRewards.plus(reward.amount);
-      let currentScore = user.averageScore.times(user.totalResponses);
-      user.averageScore = currentScore
-        .plus(reward.score)
-        .div(user.totalResponses);
-      user.save();
-    }
   }
 }
