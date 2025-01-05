@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: RobinXCore
-    network: educhaintestnet
+    network: educhain
     source:
       address: "0x868d93b0Da22444100ADF128424bafF8B26500ff"
       abi: RobinXCore
-      startBlock: 28457441
+      startBlock: 28457541
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
