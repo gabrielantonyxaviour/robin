@@ -23,7 +23,7 @@ const networks = {
     blockExplorer: "https://edu-chain-testnet.blockscout.com/",
     verifyApiUrl: "https://edu-chain-testnet.blockscout.com/api",
     mailbox: "0xCfA62ac3Cc7E9eBA17Fab9Bc92df6AC648A18338",
-    robinXCore: "0x1f8d9883C91a8210F43aA13BE5C9f576986EA027",
+    robinXCore: "",
   },
   sepolia: {
     url: "https://eth-sepolia.g.alchemy.com/v2/" + process.env.ALCHEMY_API_KEY,
