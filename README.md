@@ -10,7 +10,7 @@ Remember how you first stumbled into Web3? The confusing terms, the overwhelming
 
 ## What Makes RobinX Different?
 
-At its heart, RobinX is an AI agent with a personality and memory. Built on the ELIZA framework, it's not just another chatbot – it's a teacher that remembers your journey and adapts to your learning style. Every day, RobinX crafts unique story-based quizzes that make Web3 concepts click through engaging narratives and visuals.
+At its heart, RobinX is an AI agent with a personality and memory. Built on the ELIZA framework, it's not just another chatbot – it's a teacher that remembers your journey and adapts to your learning style. Every day, RobinX crafts unique story-based quizzes that make Web3 concepts click through engaging narratives and visuals. RobinX runs in a Trusted Execution Environment powered by Phala Network, ensuring privacy and security.
 
 ## How It Works
 
@@ -27,6 +27,7 @@ At its heart, RobinX is an AI agent with a personality and memory. Built on the 
 - **Frontend**: Next.js + ShadCN + TailwindCSS for a sleek, responsive interface
 - **AI Engine**: OpenAI + Heurist AI for dynamic content generation
 - **Blockchain**: Smart contracts built and tested with Hardhat
+- **Security**: ELIZA framework runs in Phala Network's TEE (Trusted Execution Environment)
 - **Data Indexing**: Custom subgraph deployed on TheGraph + Educhain
 - **Social Integration**: Seamless iframe embedding for X platform quizzes
 - **AI Agent Framework**: ELIZA
@@ -48,8 +49,9 @@ Ready to start your journey? Find us on [X](https://x.com/EduRobinX) and join a 
 
 ### Deployments
 
-1. RobinXCore | 0x1f8d9883C91a8210F43aA13BE5C9f576986EA027
-2. RobinX (ERC20 Reward Token) | 0xcdF5A88728edf3bEAf3bBE75Bf0c1A80B6cBc079
+1. RobinXCore | 0x868d93b0Da22444100ADF128424bafF8B26500ff
+2. RobinX (ERC20 Reward Token) | 0x6c19E9a9299e7346102da7E735F3b95e87f25DEe
+3. RobinX Phala TEE Wallet | 
 
 ### TheGraph Indexer 
 
