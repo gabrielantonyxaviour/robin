@@ -1,20 +1,19 @@
 type quiz @entity {
+  "hex string of quiz id"
   id: ID!
   metadata: String!
   responses: [response!]! @derivedFrom(field: "quiz")
   totalResponses: BigInt!
-  
+  topScoreTokenReward: BigInt!
   totalRewardsDistributed: BigInt!
-  totalPointsScored: BigInt!
   createdAt: BigInt!
   validity: BigInt!
   transactionHash: Bytes!
 }
 
 type user @entity {
-  "nullifier hash"
+  "address"
   id: ID!
-  address: Bytes!
   responses: [response!]! @derivedFrom(field: "user")
   rewards: []
   totalResponses: BigInt!

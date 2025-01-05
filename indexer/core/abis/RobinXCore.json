@@ -5,11 +5,6 @@
         "internalType": "address",
         "name": "_robinXAiAgent",
         "type": "address"
-      },
-      {
-        "internalType": "contract IMailbox",
-        "name": "_mailbox",
-        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -26,11 +21,6 @@
         "internalType": "address",
         "name": "caller",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "nullifierHash",
-        "type": "uint256"
       }
     ],
     "name": "AlreadyAttempted",
@@ -42,46 +32,9 @@
         "internalType": "uint256",
         "name": "pollId",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "receiverNullifierHash",
-        "type": "uint256"
-      }
-    ],
-    "name": "AlreadyRewarded",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "origin",
-        "type": "uint32"
-      },
-      {
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      }
-    ],
-    "name": "InvalidCrosschainCaller",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "pollId",
-        "type": "uint256"
       }
     ],
     "name": "InvalidPollId",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NotMailbox",
     "type": "error"
   },
   {
@@ -107,38 +60,6 @@
     "type": "error"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "pollId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      }
-    ],
-    "name": "UnverifiedCaller",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "nullifierHash",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      }
-    ],
-    "name": "UnverifiedReceiverAddress",
-    "type": "error"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -151,6 +72,12 @@
         "indexed": false,
         "internalType": "uint256",
         "name": "validity",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenRewardAmount",
         "type": "uint256"
       },
       {
@@ -180,12 +107,6 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "nullifierHash",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
         "internalType": "string",
         "name": "encryptedResponse",
         "type": "string"
@@ -200,7 +121,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "nullifierHash",
+        "name": "pollId",
         "type": "uint256"
       },
       {
@@ -208,31 +129,12 @@
         "internalType": "address",
         "name": "receiver",
         "type": "address"
-      }
-    ],
-    "name": "RewardReceiverAddressSet",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "pollId",
-        "type": "uint256"
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "receiverNullifierHash",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
+        "internalType": "uint8",
         "name": "score",
-        "type": "uint256"
+        "type": "uint8"
       },
       {
         "indexed": false,
@@ -245,81 +147,16 @@
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "nullifierHash",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "caller",
-        "type": "address"
-      }
-    ],
-    "name": "VerifiedNullifier",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "SEPOLIA_DOMAIN_ID",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_address",
-        "type": "address"
-      }
-    ],
-    "name": "addressToBytes32",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "_bytes32",
-        "type": "bytes32"
-      }
-    ],
-    "name": "bytes32ToAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "string",
         "name": "_metadata",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenRewardAmount",
+        "type": "uint256"
       },
       {
         "internalType": "uint256",
@@ -335,60 +172,19 @@
   {
     "inputs": [
       {
-        "internalType": "uint32",
-        "name": "_origin",
-        "type": "uint32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_sender",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes",
-        "name": "_data",
-        "type": "bytes"
-      }
-    ],
-    "name": "handle",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "mailbox",
-    "outputs": [
-      {
-        "internalType": "contract IMailbox",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "pollId",
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "receiverNullifierHash",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint8",
         "name": "score",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
+        "type": "uint8"
       }
     ],
     "name": "mintRewards",
@@ -430,9 +226,9 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
+        "internalType": "address",
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
     "name": "pollResponses",
@@ -454,50 +250,22 @@
         "type": "uint256"
       }
     ],
-    "name": "pollValidity",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
     "name": "polls",
     "outputs": [
       {
         "internalType": "string",
-        "name": "",
+        "name": "metadata",
         "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
+      },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "tokenReward",
         "type": "uint256"
-      }
-    ],
-    "name": "rewardReceivers",
-    "outputs": [
+      },
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "validity",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -511,16 +279,21 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
+        "internalType": "address",
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
-    "name": "rewards",
+    "name": "results",
     "outputs": [
       {
+        "internalType": "uint8",
+        "name": "score",
+        "type": "uint8"
+      },
+      {
         "internalType": "uint256",
-        "name": "",
+        "name": "reward",
         "type": "uint256"
       }
     ],
@@ -554,19 +327,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "robinXWorldIdVerifier",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -575,24 +335,6 @@
       }
     ],
     "name": "setOwner",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_receiver",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_nullifierHash",
-        "type": "uint256"
-      }
-    ],
-    "name": "setRewardReceiverAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -613,19 +355,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_verifier",
-        "type": "address"
-      }
-    ],
-    "name": "setRobinXWorldIdVerifier",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "pollId",
         "type": "uint256"
@@ -639,25 +368,6 @@
     "name": "submitResponse",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "verifiedNullifiers",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   }
 ]
