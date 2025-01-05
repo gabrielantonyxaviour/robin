@@ -32,7 +32,7 @@ export default function World({ close }: { close: () => void }) {
     error,
     writeContractAsync,
   } = useWriteContract();
-  const [nullifier, setNullifier] = useState(339472389728937498231);
+  const [nullifier, setNullifier] = useState(0);
 
   const submitTx = async (proof: ISuccessResult) => {
     try {

@@ -73,7 +73,7 @@ function getSystemPrompt(index) {
 app.post("/api/image", async (req, res) => {
   const { prompt } = req.body;
   try {
-    const url = await generateImage(prompt);
+    const url = await imageGen(prompt);
     res.json({ url });
   } catch (error) {
     res.status(500).json({ error: error.message });

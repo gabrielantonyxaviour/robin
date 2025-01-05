@@ -1,8 +1,0 @@
-# fail: EntityDirectivesMissing
-type Stats {
-  id: Int8!
-  timestamp: Timestamp!
-  token: Bytes!
-  avg: BigDecimal! @aggregate(fn: "avg", arg: "price")
-  sum: BigInt! @aggregate(fn: "sum", arg: "price")
-}

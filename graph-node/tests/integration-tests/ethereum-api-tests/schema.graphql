@@ -1,6 +1,0 @@
-type Foo @entity {
-  id: ID!
-  balance: BigInt!
-  hasCode1: Boolean!
-  hasCode2: Boolean!
-}

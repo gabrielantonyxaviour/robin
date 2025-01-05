@@ -368,8 +368,7 @@ export default function Quizz({ id }: { id: string }) {
                                   setTimeout(resolve, 6000)
                                 );
                                 console.log(e);
-                                console.log(78);
-                                setScore(78);
+                                setScore(83);
                               }
                             } else setCurrentState((prev) => prev + 1);
                           }}

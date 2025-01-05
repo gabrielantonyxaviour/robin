@@ -1,7 +1,0 @@
-type AnotherTriggerEntity @entity {
-  id: ID!
-  a: BigInt
-  b: BigInt
-  c: BigInt
-  data: String
-}
