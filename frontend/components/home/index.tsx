@@ -19,15 +19,16 @@ export default function Home() {
       name: "Completed",
       image: "/home/done.png",
     },
+
     {
       id: 3,
-      name: "Worldcoin",
-      image: "/home/bot.png",
+      name: "Leaderboard",
+      image: "/home/trophy.png",
     },
     {
       id: 4,
-      name: "Leaderboard",
-      image: "/home/trophy.png",
+      name: "About",
+      image: "/home/bot.png",
     },
   ];
 
@@ -78,20 +79,20 @@ export default function Home() {
           />
         )}
 
-        {showWindows[3] && (
+        {showWindows[2] && (
           <Leaderboard
             close={() => {
               setShowWindows((prev) =>
-                prev.map((val, index) => (index === 3 ? !val : val))
+                prev.map((val, index) => (index === 2 ? !val : val))
               );
             }}
           />
         )}
-        {showWindows[2] && (
+        {showWindows[3] && (
           <World
             close={() => {
               setShowWindows((prev) =>
-                prev.map((val, index) => (index === 2 ? !val : val))
+                prev.map((val, index) => (index === 3 ? !val : val))
               );
             }}
           />
