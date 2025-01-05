@@ -29,7 +29,7 @@ async function cast() {
   // const cast = await makeCastAdd(
   //   {
   //     text: "",
-  //     embeds: [{ url: "https://robinx-ai.vercel.app/quizz/2" }],
+  //     embeds: [{ url: "https://robinx-ai.vercel.app/quiz/2" }],
   //     embedsDeprecated: [],
   //   },
   //   dataOptions,

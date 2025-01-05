@@ -6,7 +6,7 @@ export async function getQuizz(pollId: string) {
     process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY!
   );
   const { data: fetchedData, error } = await supabase
-    .from("quizz")
+    .from("quiz")
     .select("*")
     .eq("id", pollId);
 

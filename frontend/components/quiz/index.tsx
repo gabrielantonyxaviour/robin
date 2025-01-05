@@ -45,7 +45,7 @@ type Game = {
   conclusion: string;
 };
 
-export default function Quizz({ id }: { id: string }) {
+export default function Quiz({ id }: { id: string }) {
   const { address, chainId } = useAccount();
   const { toast } = useToast();
   const { switchChainAsync } = useSwitchChain();

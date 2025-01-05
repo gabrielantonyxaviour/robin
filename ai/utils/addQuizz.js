@@ -6,7 +6,7 @@ async function addQuizz(pollId, quizzes_url, tweet) {
     process.env.SUPABASE_PUBLIC_ANON_KEY
   );
   const { data: insertData, error } = await supabase
-    .from("quizz")
+    .from("quiz")
     .insert({ id: pollId, data: quizzes_url, tweet_url: tweet })
     .select();
 

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Quizz from "@/components/quizz";
+import Quiz from "@/components/quiz";
 
 export const metadata: Metadata = {
-  title: "RobinX | Quizz",
+  title: "RobinX | Quiz",
   description:
     "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
 };
 
 export default function QuizzPage({ params }: { params: { id: string } }) {
-  return <Quizz id={params.id} />;
+  return <Quiz id={params.id} />;
 }

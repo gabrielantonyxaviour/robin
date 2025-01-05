@@ -130,7 +130,7 @@ async function main() {
     process.env.SUPABASE_PUBLIC_ANON_KEY
   );
   const { data: insertData, error } = await supabase
-    .from("quizz")
+    .from("quiz")
     .insert({ id: eventLog.args.pollId.toString(), data: response.quizzes_url })
     .select();
 
