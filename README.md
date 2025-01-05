@@ -4,22 +4,6 @@
 
 An autonomous AI agent that teaches web3 to users in the form of gamified quests.
 
-## Important Links
-
-1. AI Agent X => https://x.com/EduRobinX
-2. Web app => https://robinx-ai.vercel.app
-3. Demo Video => https://www.canva.com/design/DAGalSEH19c/kKUX7k07t9OFkln_FaUd-g/watch?utm_content=DAGalSEH19c
-4. Pitch Deck => https://www.canva.com/design/DAGYPLJGa8E/gWQ6g1WegrADS_AeMuc7aQ/view?utm_content=DAGYPLJGa8E
-5. Github => https://github.com/gabrielantonyxaviour/robin
-6. RobinX Eliza implementation => https://github.com/gabrielantonyxaviour/eliza
-
-### Deployments
-
-1. RobinXCore | 0x1f8d9883C91a8210F43aA13BE5C9f576986EA027
-2. RobinX (ERC20 Reward Token) | 0xcdF5A88728edf3bEAf3bBE75Bf0c1A80B6cBc079
-
-### TheGraph Indexer 
-
 ## Introduction
 
 Remember how you first stumbled into Web3? The confusing terms, the overwhelming concepts, the feeling of being lost in a sea of information? We've all been there. That's why we built RobinX – your personal AI companion that turns learning Web3 into an adventure.
@@ -52,5 +36,21 @@ At its heart, RobinX is an AI agent with a personality and memory. Built on the 
 Web3 education shouldn't feel like studying for an exam. It should feel like going on an adventure with a knowledgeable friend. With RobinX, every day brings a new story, a new challenge, and a new opportunity to grow your Web3 expertise while earning rewards.
 
 Ready to start your journey? Find us on [X](https://x.com/EduRobinX) and join a community of learners who are exploring Web3 one quest at a time.
+
+## Important Links
+
+1. AI Agent X => https://x.com/EduRobinX
+2. Web app => https://robinx-ai.vercel.app
+3. Demo Video => https://www.canva.com/design/DAGalSEH19c/kKUX7k07t9OFkln_FaUd-g/watch?utm_content=DAGalSEH19c
+4. Pitch Deck => https://www.canva.com/design/DAGYPLJGa8E/gWQ6g1WegrADS_AeMuc7aQ/view?utm_content=DAGYPLJGa8E
+5. Github => https://github.com/gabrielantonyxaviour/robin
+6. RobinX Eliza implementation => https://github.com/gabrielantonyxaviour/eliza
+
+### Deployments
+
+1. RobinXCore | 0x1f8d9883C91a8210F43aA13BE5C9f576986EA027
+2. RobinX (ERC20 Reward Token) | 0xcdF5A88728edf3bEAf3bBE75Bf0c1A80B6cBc079
+
+### TheGraph Indexer 
 
 Built with ❤️ by [Gabriel](https://x.com/gabrielaxyeth)
