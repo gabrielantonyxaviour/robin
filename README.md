@@ -13,12 +13,12 @@ An autonomous AI agent that teaches web3 to users in the form of gamified quests
 5. Github => https://github.com/gabrielantonyxaviour/robin
 6. RobinX Eliza implementation => https://github.com/gabrielantonyxaviour/eliza
 
-## Deployments on Educhain
+### Deployments on Educhain
 
 1. RobinXCore | 0x1f8d9883C91a8210F43aA13BE5C9f576986EA027
 2. RobinX (ERC20 Reward Token) | 0xcdF5A88728edf3bEAf3bBE75Bf0c1A80B6cBc079
 
-## TheGraph Indexer 
+### TheGraph Indexer 
 
 
 ## Introduction
