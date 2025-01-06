@@ -131,23 +131,25 @@ export default function Quiz({ id }: { id: string }) {
                   </Button>
                 </div>
               ) : (
-                <Button
-                  className="w-full flex p-5 m-0 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black"
-                  onClick={async () => {
-                    await authSdk.signInWithRedirect({
-                      state: "opencampus",
-                    });
-                  }}
-                >
-                  <Image
-                    src="/chains/educhain.png"
-                    width={30}
-                    height={30}
-                    alt="educhain"
-                    className="rounded-full"
-                  />
-                  <p> {"Connect OCID"}</p>
-                </Button>
+                <div>
+                  <Button
+                    className="w-full flex p-5 m-0 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black"
+                    onClick={async () => {
+                      await authSdk.signInWithRedirect({
+                        state: "opencampus",
+                      });
+                    }}
+                  >
+                    <Image
+                      src="/chains/educhain.png"
+                      width={30}
+                      height={30}
+                      alt="educhain"
+                      className="rounded-full"
+                    />
+                    <p> {"Connect OCID"}</p>
+                  </Button>
+                </div>
               )}
             </div>
           ) : (

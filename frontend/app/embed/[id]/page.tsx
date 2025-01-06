@@ -6,14 +6,14 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   return {
-    title: "RobinX | Gamified Quests",
+    title: "Embedded Content",
     description:
       "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
     openGraph: {
       title: "RobinX | Gamified Quests",
       description:
         "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
-      images: ["https://robinx-ai.vercel.app/robin.jpg"],
+      images: ["/robin.jpg"],
     },
     other: {
       "twitter:player": `https://robinx-ai.vercel.app/embed/${params.id}`,
