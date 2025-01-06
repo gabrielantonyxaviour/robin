@@ -12,7 +12,6 @@ import { decodeAbiParameters, parseAbiParameters } from "viem";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { ROBINX_VERIFIER_ABI, ROBINX_VERIFIER_ADDRESS } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../ui/toast";
 import { sepolia } from "viem/chains";
