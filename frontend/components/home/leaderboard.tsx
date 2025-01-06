@@ -4,6 +4,8 @@ import { X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
+import { shortenAddress } from "@/lib/utils";
+import { formatEther } from "viem";
 
 const mockData = [
   {
@@ -102,28 +104,28 @@ interface LeaderboardData {
 
 export default function Leaderboard({ close }: { close: () => void }) {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([]);
-  const fetchLeaderboardData = async () => {
-    try {
-      const response = await fetch("/api/leaderboard");
-      const data = await response.json();
-      console.log(data); // You can handle the data as needed
-      setLeaderboardData(
-        data.users.map((d: any, i: number) => {
-          return {
-            id: i,
-            wallet: d.id,
-            attempted: d.totalResponses,
-            avgScore: d.totalPointsScored / d.totalResponses,
-            rewards: d.totalRewards,
-          };
-        })
-      );
-    } catch (error) {
-      console.error("Failed to fetch leaderboard data:", error);
-    }
-  };
 
   useEffect(() => {
+    const fetchLeaderboardData = async () => {
+      try {
+        const response = await fetch("/api/leaderboard");
+        const data = await response.json();
+        console.log(data); // You can handle the data as needed
+        setLeaderboardData(
+          data.map((d: any, i: number) => {
+            return {
+              id: i,
+              wallet: d.id,
+              attempted: d.totalResponses,
+              avgScore: d.totalPointsScored / d.totalResponses,
+              rewards: d.totalRewards,
+            };
+          })
+        );
+      } catch (error) {
+        console.error("Failed to fetch leaderboard data:", error);
+      }
+    };
     fetchLeaderboardData();
   }, []);
   return (
@@ -139,7 +141,7 @@ export default function Leaderboard({ close }: { close: () => void }) {
           <table className="w-full">
             <thead>
               <tr className="text-left border-b-2 border-black sticky top-0 bg-[#ffd75f]">
-                <th className="py-3 font-bold">id</th>
+                <th className="py-3 font-bold">Id</th>
                 <th className="py-3 font-bold">Wallet Address</th>
                 <th className="py-3 font-bold">Attempted</th>
                 <th className="py-3 font-bold">Average Score</th>
@@ -153,10 +155,23 @@ export default function Leaderboard({ close }: { close: () => void }) {
                   className="border-b border-black/20 hover:bg-black/5"
                 >
                   <td className="py-4 pl-3">{item.id}</td>
-                  <td className="py-4 font-mono">{item.wallet}</td>
+                  <td
+                    className="py-4 font-mono cursor-pointer"
+                    onClick={() => {
+                      window.open(
+                        "https://edu-chain-testnet.blockscout.com/address/" +
+                          item.wallet,
+                        "_blank"
+                      );
+                    }}
+                  >
+                    {shortenAddress(item.wallet)}
+                  </td>
                   <td className="py-4">{item.attempted}</td>
                   <td className="py-4">{item.avgScore}%</td>
-                  <td className="py-4 font-bold">{item.rewards} RX</td>
+                  <td className="py-4 font-bold">
+                    {formatEther(BigInt(item.rewards))} RX
+                  </td>
                 </tr>
               ))}
             </tbody>

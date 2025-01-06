@@ -1,20 +1,31 @@
+// app/api/quiz/[pollId]/route.ts
+import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
-
-const API_URL =
-  process.env.NEXT_PUBLIC_ROBINX_AI_ENDPOINT ||
-  "http://localhost:" + process.env.NEXT_PUBLIC_LOCAL_AI_PORT;
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const response = await fetch(`${API_URL}/api/quiz/${params.id}`);
+    const supabase = createClient(
+      "https://zrphknbmflnjyezigmay.supabase.co",
+      process.env.SUPABASE_PUBLIC_ANON_KEY!
+    );
+    const { data: fetchedData, error } = await supabase
+      .from("quiz")
+      .select("*")
+      .eq("hex_id", params.id)
+      .single();
+    console.log(fetchedData);
+    if (error) throw error;
+
+    const response = await fetch(fetchedData.data);
     const data = await response.json();
-    return NextResponse.json(data);
+    console.log(data);
+    return NextResponse.json(data[0]);
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch quiz" },
+      { error: `Failed to fetch quiz: ${error}` },
       { status: 500 }
     );
   }

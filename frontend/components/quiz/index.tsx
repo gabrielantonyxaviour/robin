@@ -1,6 +1,5 @@
 "use client";
 
-import { getQuizz } from "@/lib/supabase/getQuizz";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -49,7 +48,7 @@ export default function Quiz({ id }: { id: string }) {
   const { address, chainId } = useAccount();
   const { toast } = useToast();
   const { switchChainAsync } = useSwitchChain();
-  const [quizzData, setQuizzData] = useState<Game | null>(null);
+  const [quizData, setQuizData] = useState<Game | null>(null);
   const [currentState, setCurrentState] = useState(0);
   const [currentScene, setCurrentScene] = useState(0);
   const [responses, setResponses] = useState<string[]>([]);
@@ -60,18 +59,20 @@ export default function Quiz({ id }: { id: string }) {
   const [score, setScore] = useState<null | number>(null);
 
   useEffect(() => {
-    if (id && quizzData == null) {
-      getQuizz(id).then((data) => {
-        console.log(data);
-        setQuizzData(data);
-      });
+    if (id && quizData == null) {
+      fetch(`/api/quiz/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setQuizData(data);
+        });
     }
   }, [id]);
   return (
     <div className="flex flex-col h-full justify-center w-full  px-6">
       <div className="w-[900px] h-[600px] absolute top-24 left-[18%] bg-black rounded-sm">
         <div className="absolute w-[900px] h-[600px] flex flex-col -top-[1%] -left-[1%] space-y-2 sen rounded-sm text-sm border-2 border-black py-2 bg-[#ffd75f] text-black">
-          {quizzData == null ? (
+          {quizData == null ? (
             <div className="w-full flex flex-col justify-center h-full items-center">
               <Image
                 src={"/loading.gif"}
@@ -83,7 +84,7 @@ export default function Quiz({ id }: { id: string }) {
           ) : (
             <>
               <div className="flex justify-between items-center w-full px-6">
-                <p className="font-bold text-lg">{quizzData.gameTitle}</p>
+                <p className="font-bold text-lg">{quizData.gameTitle}</p>
               </div>
               <Separator className="bg-black" />
               {score != null ? (
@@ -114,7 +115,7 @@ export default function Quiz({ id }: { id: string }) {
               ) : (
                 <div className="flex flex-col justify-center items-center">
                   <Image
-                    src={quizzData.scenes[currentScene].imageUrl}
+                    src={quizData.scenes[currentScene].imageUrl}
                     alt="scene"
                     width={450}
                     height={400}
@@ -123,20 +124,20 @@ export default function Quiz({ id }: { id: string }) {
                   <div className="bg-[#e7ccfc] w-[450px] p-3 rounded-b-sm border-b-2 border-x-2 border-black">
                     <p>
                       {endGame ? (
-                        quizzData.conclusion
+                        quizData.conclusion
                       ) : currentState % 4 == 0 ? (
-                        quizzData.scenes[currentScene].sceneDescription
+                        quizData.scenes[currentScene].sceneDescription
                       ) : currentState % 4 == 1 ? (
                         <>
                           <span className="font-bold">
                             {
-                              quizzData.scenes[currentScene].conversations[0]
+                              quizData.scenes[currentScene].conversations[0]
                                 .speaker
                             }
                             :{" "}
                           </span>
                           {
-                            quizzData.scenes[currentScene].conversations[0]
+                            quizData.scenes[currentScene].conversations[0]
                               .dialogue
                           }
                         </>
@@ -144,26 +145,26 @@ export default function Quiz({ id }: { id: string }) {
                         <>
                           <span className="font-bold">
                             {
-                              quizzData.scenes[currentScene].conversations[1]
+                              quizData.scenes[currentScene].conversations[1]
                                 .speaker
                             }
                             :{" "}
                           </span>
                           {
-                            quizzData.scenes[currentScene].conversations[1]
+                            quizData.scenes[currentScene].conversations[1]
                               .dialogue
                           }
                         </>
                       ) : (
                         currentState % 4 == 3 &&
-                        quizzData.scenes[currentScene].questions[0].questionText
+                        quizData.scenes[currentScene].questions[0].questionText
                       )}
                     </p>
                   </div>
                   {(currentState == 3 ||
                     currentState == 7 ||
                     currentState == 11) &&
-                    (quizzData.scenes[currentScene].questions[0].type ==
+                    (quizData.scenes[currentScene].questions[0].type ==
                     "multiple_choice" ? (
                       <>
                         <div className="flex justify-between space-x-4 mt-2">
@@ -173,7 +174,7 @@ export default function Quiz({ id }: { id: string }) {
                               onClick={async () => {
                                 setResponses((prev) => [
                                   ...prev,
-                                  quizzData.scenes[currentScene].questions[0]
+                                  quizData.scenes[currentScene].questions[0]
                                     .options[0],
                                 ]);
                                 setCurrentState((prev) => prev + 1);
@@ -184,7 +185,7 @@ export default function Quiz({ id }: { id: string }) {
                             >
                               <p>
                                 {
-                                  quizzData.scenes[currentScene].questions[0]
+                                  quizData.scenes[currentScene].questions[0]
                                     .options[0]
                                 }
                               </p>
@@ -196,7 +197,7 @@ export default function Quiz({ id }: { id: string }) {
                               onClick={async () => {
                                 setResponses((prev) => [
                                   ...prev,
-                                  quizzData.scenes[currentScene].questions[0]
+                                  quizData.scenes[currentScene].questions[0]
                                     .options[1],
                                 ]);
                                 setCurrentState((prev) => prev + 1);
@@ -207,7 +208,7 @@ export default function Quiz({ id }: { id: string }) {
                             >
                               <p>
                                 {
-                                  quizzData.scenes[currentScene].questions[0]
+                                  quizData.scenes[currentScene].questions[0]
                                     .options[1]
                                 }
                               </p>
@@ -220,7 +221,7 @@ export default function Quiz({ id }: { id: string }) {
                             onClick={async () => {
                               setResponses((prev) => [
                                 ...prev,
-                                quizzData.scenes[currentScene].questions[0]
+                                quizData.scenes[currentScene].questions[0]
                                   .options[2],
                               ]);
                               setCurrentState((prev) => prev + 1);
@@ -231,7 +232,7 @@ export default function Quiz({ id }: { id: string }) {
                           >
                             <p>
                               {
-                                quizzData.scenes[currentScene].questions[0]
+                                quizData.scenes[currentScene].questions[0]
                                   .options[2]
                               }
                             </p>
@@ -344,7 +345,7 @@ export default function Quiz({ id }: { id: string }) {
 
                               setTxHash(tx);
                               const body = {
-                                quiz: quizzData,
+                                quiz: quizData,
                                 responses: responses,
                               };
 
