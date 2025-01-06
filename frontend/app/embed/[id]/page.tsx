@@ -18,8 +18,7 @@ export async function generateMetadata({
     other: {
       "twitter:player": `https://robinx-ai.vercel.app/embed/${params.id}`,
       "x-frame-options": "ALLOWALL",
-      "content-security-policy":
-        "frame-ancestors 'self' https://twitter.com https://x.com;",
+      "content-security-policy": "frame-ancestors *;",
     },
     twitter: {
       card: "player",

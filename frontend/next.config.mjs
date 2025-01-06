@@ -3,7 +3,20 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/quiz/:id*", // Handle /embed and /embed/[id]
+        source: "/quiz/:id*",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "ALLOWALL",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors *;",
+          },
+        ],
+      },
+      {
+        source: "/embed/:id*",
         headers: [
           {
             key: "X-Frame-Options",
