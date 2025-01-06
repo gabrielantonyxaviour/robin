@@ -13,7 +13,7 @@ export async function generateMetadata({
       title: "RobinX | Gamified Quests",
       description:
         "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
-      images: ["/robin.jpg"],
+      images: ["https://robinx-ai.vercel.app/robin.jpg"],
     },
     other: {
       "twitter:player": `https://robinx-ai.vercel.app/embed/${params.id}`,
@@ -24,8 +24,8 @@ export async function generateMetadata({
     twitter: {
       card: "player",
       site: "https://x.com/EduRobinX",
-      title: "ZoroX | World's Best Memecoin Hunter",
-      images: ["https://zorox-ai.vercel.app/robin.jpg"],
+      title: "RobinX | Gamified Quests",
+      images: ["https://robinx-ai.vercel.app/robin.jpg"],
       description:
         "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
       players: [
