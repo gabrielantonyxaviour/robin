@@ -5,12 +5,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useAccount, useSwitchChain } from "wagmi";
+import { useAccount, useConnect, useSwitchChain } from "wagmi";
 import { educhainTestnet, educhainTestnetPublicClient } from "@/lib/utils";
 import { ROBINX_CORE_ABI, ROBINX_CORE_ADDRESS } from "@/lib/constants";
 import { createPublicClient, createWalletClient, custom, http } from "viem";
 import { ToastAction } from "../ui/toast";
 import { useToast } from "@/hooks/use-toast";
+import { getSdk } from "@/lib/sdk";
+import { injected } from "wagmi/connectors";
 
 type Conversation = {
   speaker: string;
@@ -44,9 +46,12 @@ type Game = {
 };
 
 export default function Quiz({ id }: { id: string }) {
-  const { address, chainId } = useAccount();
+  const { address, chainId, isConnected } = useAccount();
   const { toast } = useToast();
   const { switchChainAsync } = useSwitchChain();
+  const authSdk = getSdk();
+  const { connectAsync } = useConnect();
+
   const [quizData, setQuizData] = useState<Game | null>(null);
   const [currentState, setCurrentState] = useState(0);
   const [currentScene, setCurrentScene] = useState(0);
@@ -79,6 +84,71 @@ export default function Quiz({ id }: { id: string }) {
                 width={200}
                 height={200}
               />
+            </div>
+          ) : !isConnected || !authSdk.isAuthenticated() ? (
+            <div className="w-full flex flex-col justify-center h-full items-center">
+              <Image
+                src={"/hero.jpg"}
+                alt="loading"
+                width={300}
+                height={80}
+                className="rounded-md pb-4"
+              />
+              <p className="font-bold text-lg">{quizData.gameTitle}</p>
+              <p className="text-xs">Topic: {quizData.topic}</p>
+
+              <div className="flex space-x-20 py-6">
+                <div className="flex flex-col justify-center items-center space-y-1">
+                  <p className="font-bold text-md">Duration</p>
+                  <p className="text-xs">1-2 mins</p>
+                </div>
+                <div className="flex flex-col justify-center items-center space-y-1">
+                  <p className="font-bold text-md">Reward</p>
+                  <div className="flex space-x-1 items-center">
+                    <Image
+                      src={"/robin.jpg"}
+                      width={20}
+                      height={20}
+                      alt="robin"
+                      className="rounded-full"
+                    />
+                    <p> 2.3 RX</p>
+                  </div>
+                </div>
+              </div>
+              {!isConnected ? (
+                <div className="relative bg-black w-[160px] h-[40px] rounded-sm">
+                  <Button
+                    className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
+                    onClick={async () => {
+                      await connectAsync({
+                        chainId: educhainTestnet.id,
+                        connector: injected(),
+                      });
+                    }}
+                  >
+                    <p> {"Connect Wallet"}</p>
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  className="w-full flex p-5 m-0 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black"
+                  onClick={async () => {
+                    await authSdk.signInWithRedirect({
+                      state: "opencampus",
+                    });
+                  }}
+                >
+                  <Image
+                    src="/chains/educhain.png"
+                    width={30}
+                    height={30}
+                    alt="educhain"
+                    className="rounded-full"
+                  />
+                  <p> {"Connect OCID"}</p>
+                </Button>
+              )}
             </div>
           ) : (
             <>

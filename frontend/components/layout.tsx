@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
@@ -36,6 +36,7 @@ export default function Layout({
   const { disconnect } = useDisconnect();
   const authSdk = getSdk();
   const router = useRouter();
+  const pathname = usePathname();
   const handleLogout = useCallback(async () => {
     await authSdk.logout(
       JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "true")
@@ -45,7 +46,12 @@ export default function Layout({
   }, []);
 
   useEffect(() => {
-    if (!authSdk || !authSdk.isAuthenticated()) router.push("/");
+    if (authSdk) {
+      if (pathname.split("/")[1] == "embed" || pathname.split("/")[1] == "quiz")
+        return;
+      if (!authSdk.isAuthenticated()) router.push("/");
+      else router.push("/home");
+    }
   }, [authSdk]);
 
   useEffect(() => {

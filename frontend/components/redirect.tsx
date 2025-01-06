@@ -9,7 +9,7 @@ export default function Redirect() {
   const router = useRouter();
   useEffect(() => {
     authSdk.handleLoginRedirect().then(() => {
-      if (authSdk.OCId) router.push("/");
+      if (authSdk.OCId) router.push("/home");
     });
   }, []);
 

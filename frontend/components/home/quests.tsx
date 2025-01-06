@@ -137,7 +137,7 @@ export default function Quests({ close }: { close: () => void }) {
                   >
                     <div className="h-16 w-16 flex-shrink-0">
                       <img
-                        src={"https://picsum.photos/" + (300 + i * 100)}
+                        src={"https://picsum.photos/" + (301 + i * 100)}
                         alt={quest.title}
                         className="h-full w-full object-cover rounded-md"
                       />
