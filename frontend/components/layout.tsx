@@ -18,15 +18,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
+import { title } from "process";
 
 export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { robinXBalance, setRobinXBalance } = useEnvironmentStore(
-    (store) => store
-  );
+  const { robinXBalance, setRobinXBalance, setActive, setCompleted } =
+    useEnvironmentStore((store) => store);
   const { toast } = useToast();
   const { address, isConnected, chainId } = useAccount();
   const { connectAsync } = useConnect();
@@ -55,8 +55,67 @@ export default function Layout({
         token: ROBINX_ADDRESS,
         chainId: educhainTestnet.id,
       }).then((b) => setRobinXBalance(parseFloat(b.formatted)));
+      (async function () {
+        try {
+          const allQuizzesResponse = await fetch("/api/quiz");
+          const allQuizzes = await allQuizzesResponse.json();
+          const attemptedQuizzesResponse = await fetch(
+            "/api/quiz/completed/" + address.toLowerCase()
+          );
+          const attemptedQuizzes = await attemptedQuizzesResponse.json();
+          const unattemptedQuizzes = allQuizzes.quizzes.filter(
+            (quiz: any) =>
+              !attemptedQuizzes.users[0].responses.some(
+                (attempted: any) => attempted.id === quiz.id
+              )
+          );
+          setCompleted(
+            attemptedQuizzes.users[0].responses.map(
+              async (q: any, i: number) => {
+                const {
+                  quiz,
+                  amount,
+                  score,
+                  encryptedResponse,
+                  rewardTxHash,
+                  responseTxHash,
+                } = q;
+                const metadataReponse = await fetch(quiz.metadata);
+                const metadata = await metadataReponse.json();
+                return {
+                  id: i,
+                  title: metadata.topic,
+                  createdAt: quiz.createdAt,
+                  validity: quiz.validity,
+                  response: {
+                    amount,
+                    score,
+                    encryptedResponse,
+                    rewardTxHash,
+                    responseTxHash,
+                  },
+                };
+              }
+            )
+          );
+          setActive(
+            unattemptedQuizzes.map(async (q: any, i: number) => {
+              const { createdAt, validity } = q;
+              const metadataReponse = await fetch(q.metadata);
+              const metadata = await metadataReponse.json();
+              return {
+                id: i,
+                title: metadata.topic,
+                createdAt,
+                validity,
+              };
+            })
+          );
+        } catch (e) {}
+      })();
     }
   }, [address]);
+
   return (
     <div className="h-screen w-screen">
       <div className="fixed w-screen flex justify-end space-x-4 p-4">

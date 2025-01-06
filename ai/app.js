@@ -11,6 +11,13 @@ const { calcScore } = require("./utils/calcScore");
 const OpenAI = require("openai");
 const { imageGen } = require("./utils/imageGen");
 const { uploadImageToPinata } = require("./utils/uploadImageToPinata");
+const {
+  getQuiz,
+  getLeaderboard,
+  getCompletedQuizzes,
+  getQuizLeaderboard,
+  getQuizzes,
+} = require("./subgraph/queries");
 
 const openai = new OpenAI({
   apiKey: process.env["HEURIST_API_KEY"],
@@ -34,7 +41,7 @@ function getSystemPrompt(index) {
   return `You are RobinX, an educational AI game master inspired by Nico Robin from One Piece. Create immersive Web3 educational games with diverse characters and settings.
   
     Scene requirements:
-    - Vivid anime scene description with full environment and character positioning (MUST HAVE no close portraits)
+    - Vivid anime scene description with full environment and character positioning (MUST NOT HAVE close portraits)
     - Introduct unique dynamic character interactions (Atleast 2, including but not limited to Nico Robin) 
     - Must have 3 scenes total
     - Must have 2 converstations per scene and 1 question per scene
@@ -112,6 +119,7 @@ app.post("/api/generate-game", async (req, res) => {
         max_tokens: 20000,
       });
       console.log("Generated Game ", i);
+      console.log(response.choices[0]?.message?.content);
       const gameData = JSON.parse(
         response.choices[0]?.message?.content || "{}"
       );
@@ -167,6 +175,52 @@ app.post("/api/generate-game", async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Failed to generate game" });
+  }
+});
+
+app.get("/api/quiz", async (req, res) => {
+  try {
+    const quizzes = await getQuizzes();
+    res.json(quizzes);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/quiz/:id", async (req, res) => {
+  try {
+    const quiz = await getQuiz(req.params.id);
+    res.json(quiz);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/quiz/:id/leaderboard", async (req, res) => {
+  try {
+    const leaderboard = await getQuizLeaderboard(req.params.id);
+    res.json(leaderboard);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/quiz/completed/:address", async (req, res) => {
+  try {
+    console.log(req.params.address);
+    const quizzes = await getCompletedQuizzes(req.params.address);
+    res.json(quizzes);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/leaderboard", async (req, res) => {
+  try {
+    const leaderboard = await getLeaderboard();
+    res.json(leaderboard);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 

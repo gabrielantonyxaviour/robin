@@ -86,8 +86,8 @@ export default function World({ close }: { close: () => void }) {
   return (
     <div className="w-[400px] h-[240px] absolute top-[32%] left-[38%] bg-black rounded-sm">
       <IDKitWidget
-        app_id={process.env.NEXT_PUBLIC_WORLDCOIN_APP_ID as `app_${string}`}
-        action={process.env.NEXT_PUBLIC_WORLDCOIN_ACTION as string}
+        app_id={process.env.WORLDCOIN_APP_ID as `app_${string}`}
+        action={process.env.WORLDCOIN_ACTION as string}
         signal={address}
         onSuccess={submitTx}
         autoClose

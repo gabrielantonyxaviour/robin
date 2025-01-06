@@ -1,5 +1,26 @@
 import { Address } from "viem";
 
+export type Quest = {
+  id: number;
+  title: string;
+  createdAt: string;
+  validity: number;
+};
+
+export type QuestWithResponse = {
+  id: number;
+  title: string;
+  createdAt: string;
+  validity: number;
+  response: {
+    amount: number;
+    score: number;
+    encryptedResponse: string;
+    rewardTxHash: string;
+    responseTxHash: string;
+  };
+};
+
 export type Token = {
   address: Address; // The address of the token contract
   chainId: number; // The chain id of the token contract

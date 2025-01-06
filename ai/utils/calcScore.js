@@ -42,7 +42,7 @@ Evaluation criteria:
 
 You must return only a JSON object with this exact structure:
 {
- "score": number  // Average score across all questions, 0-100
+ "score": number  // Average score across all questions as a whole number, 0-100
 }
 
 No other text or explanations should be included in your response.
@@ -63,6 +63,7 @@ async function calcScore(inputData) {
   });
 
   const scoreData = JSON.parse(response.choices[0]?.message?.content || "{}");
+  console.log(scoreData);
   return scoreData;
 }
 

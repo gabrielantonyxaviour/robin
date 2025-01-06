@@ -4,7 +4,7 @@ use diesel::sql_types::{Binary, Bool, Integer, Nullable, Numeric, Range, Text};
 define_sql_function! { fn current_setting(setting_name: Text, missing_ok: Bool) }
 
 define_sql_function! {
-    fn set_config(setting_name: Text, new_value: Text, is_local: Bool)
+    fn set_config(setting_name: Text, new_value: Text,  NEXT_PUBLIC_IS_LOCAL: Bool)
 }
 
 define_sql_function! {

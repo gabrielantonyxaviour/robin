@@ -5,7 +5,7 @@ export async function uploadJsonToPinata(
   jsonObject: Record<string, any>
 ): Promise<string> {
   const pinata = new PinataSDK({
-    pinataJwt: process.env.NEXT_PUBLIC_PINATA_JWT || "",
+    pinataJwt: process.env.PINATA_JWT || "",
     pinataGateway: "amethyst-impossible-ptarmigan-368.mypinata.cloud",
   });
 

@@ -1,6 +1,7 @@
 const { PinataSDK } = require("pinata");
 require("dotenv").config();
 const fetch = require("node-fetch");
+const { uploadImageToPinata } = require("../utils/uploadImageToPinata");
 
 const pinata = new PinataSDK({
   pinataJwt: process.env.PINATA_JWT,
@@ -44,10 +45,10 @@ async function uploadToPinata(imageUrl) {
 async function main() {
   try {
     const imageUrl =
-      "https://heurist-images.s3.us-east-1.amazonaws.com/sdk-image-e48f1bf3b9_test-flux-3_e31971d6-0518-4231-b613-1dbdf7569d9a.jpg?x-id=GetObject&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWOPEZTMXKJKQSPG5%2F20241204%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241204T185522Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=95646f9a270800dbb7d581e713efbbe062394d062a96cdd0491bbdd25a9adda2";
+      "https://heurist-images.s3.us-east-1.amazonaws.com/sdk-image-31d83c0b93_test-flux-3_e4aa5458-3093-441c-9533-94b2c6a1e699.jpg?x-id=GetObject&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWOPEZTMXKJKQSPG5%2F20250106%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250106T074925Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=a61e910241b3bc8def797addcb5a951cdb76b86878bf78c214c3304e650f21c1";
 
     // Download the image and create a File object
-    await uploadToPinata(imageUrl);
+    await uploadImageToPinata("googd", imageUrl);
   } catch (error) {
     console.error("Error:", error);
   }

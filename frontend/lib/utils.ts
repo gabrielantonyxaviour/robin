@@ -47,14 +47,11 @@ export function shortenNullifier(nullifier: string): string {
   return `${nullifier.slice(0, 10)}...${nullifier.slice(-8)}`;
 }
 
-const NEXT_PUBLIC_ALCHEMY_API_KEY =
-  process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "";
+const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY || "";
 
 export const sepoliaPublicClient = createPublicClient({
   chain: sepolia,
-  transport: http(
-    "https://eth-sepolia.g.alchemy.com/v2/" + NEXT_PUBLIC_ALCHEMY_API_KEY
-  ),
+  transport: http("https://eth-sepolia.g.alchemy.com/v2/" + ALCHEMY_API_KEY),
 });
 
 export const educhainTestnetPublicClient = createPublicClient({

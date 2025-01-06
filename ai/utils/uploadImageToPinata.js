@@ -7,7 +7,6 @@ async function uploadImageToPinata(name, imageUrl) {
     pinataJwt: process.env.PINATA_JWT,
     pinataGateway: "amethyst-impossible-ptarmigan-368.mypinata.cloud",
   });
-
   const response = await fetch(imageUrl);
   const arrayBuffer = await response.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
