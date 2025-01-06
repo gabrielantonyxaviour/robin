@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { X } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { formatEther } from "viem";
+import { useEnvironmentStore } from "../context";
+import { QuestWithResponse } from "@/lib/type";
 
 function formatTimeAgo(attemptedAt: string): string {
   const now = new Date().getTime();
@@ -51,24 +53,25 @@ function ScoreMeter({ score }: { score: number }) {
   );
 }
 export default function Completed({ close }: { close: () => void }) {
-  const completedQuests = [
-    {
-      id: 1,
-      imageUrl: "https://picsum.photos/300",
-      title: "Introduction to Decentralized Finance",
-      attemptedAt: new Date(Date.now() - 5000).toISOString(),
-      reward: "15000000000000000000",
-      score: 75,
-    },
-    {
-      id: 2,
-      imageUrl: "https://picsum.photos/400",
-      title: "NFTs and Their Applications",
-      attemptedAt: new Date(Date.now() - 8000).toISOString(),
-      reward: "8000000000000000000",
-      score: 48,
-    },
-  ];
+  // const completedQuests = [
+  //   {
+  //     id: 1,
+  //     imageUrl: "https://picsum.photos/300",
+  //     title: "Introduction to Decentralized Finance",
+  //     attemptedAt: new Date(Date.now() - 5000).toISOString(),
+  //     reward: "15000000000000000000",
+  //     score: 75,
+  //   },
+  //   {
+  //     id: 2,
+  //     imageUrl: "https://picsum.photos/400",
+  //     title: "NFTs and Their Applications",
+  //     attemptedAt: new Date(Date.now() - 8000).toISOString(),
+  //     reward: "8000000000000000000",
+  //     score: 48,
+  //   },
+  // ];
+  const { completed } = useEnvironmentStore((store) => store);
 
   return (
     <div className="w-[50%] relative bg-black h-full rounded-sm">
@@ -82,21 +85,30 @@ export default function Completed({ close }: { close: () => void }) {
         </div>
         <Separator className="bg-black" />
         <div className="flex flex-col h-full w-full px-4 overflow-y-auto">
-          {completedQuests.length === 0 ? (
+          {completed.length === 0 ? (
             <div className="flex justify-center items-center h-full">
               <p className="text-gray-700">No quests available</p>
             </div>
           ) : (
             <div className="space-y-4 py-4">
-              {completedQuests.map((quest) => (
+              {completed.map((quest: QuestWithResponse, i: number) => (
                 <div
                   key={quest.id}
                   className="bg-black w-full rounded-lg relative h-[90px]"
                 >
-                  <div className="absolute w-full flex items-center space-x-4 bg-[#e7ccfc] border-black border-[2px] p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                  <div
+                    className="absolute w-full flex items-center space-x-4 bg-[#e7ccfc] border-black border-[2px] p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => {
+                      window.open(
+                        "https://edu-chain-testnet.blockscout.com/tx/" +
+                          quest.response.rewardTxHash,
+                        "_blank"
+                      );
+                    }}
+                  >
                     <div className="h-16 w-16 flex-shrink-0">
                       <img
-                        src={quest.imageUrl}
+                        src={"https://picsum.photos/" + (300 + i * 100)}
                         alt={quest.title}
                         className="h-full w-full object-cover rounded-md"
                       />
@@ -104,10 +116,15 @@ export default function Completed({ close }: { close: () => void }) {
                     <div className="flex-1">
                       <h3 className="font-semibold text-base">{quest.title}</h3>
                       <span className="text-xs text-gray-600">
-                        Completed {formatTimeAgo(quest.attemptedAt)}
+                        Completed{" "}
+                        {formatTimeAgo(
+                          new Date(
+                            Number(quest.createdAt + "000")
+                          ).toISOString()
+                        )}
                       </span>
                     </div>
-                    <ScoreMeter score={quest.score} />
+                    <ScoreMeter score={quest.response.score} />
                     <div className="flex flex-col items-center space-y-1">
                       <p className="text-sm text-gray-600">Rewards</p>
                       <div className="flex items-center space-x-1">
@@ -117,7 +134,7 @@ export default function Completed({ close }: { close: () => void }) {
                           className="h-6 w-6 rounded-full"
                         />
                         <span className="font-medium text-lg pl-2">
-                          {formatEther(BigInt(quest.reward))} {"RX"}
+                          {formatEther(BigInt(quest.response.amount))} {"RX"}
                         </span>
                       </div>
                     </div>

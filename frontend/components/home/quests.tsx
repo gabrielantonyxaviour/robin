@@ -5,6 +5,9 @@ import { Separator } from "../ui/separator";
 import { title } from "process";
 import { useEffect, useState } from "react";
 import { formatEther, parseUnits } from "viem";
+import { useEnvironmentStore } from "../context";
+import { Quest } from "@/lib/type";
+import { useRouter } from "next/navigation";
 
 function formatTimeLeft(seconds: number): string {
   if (seconds <= 0) return "Expired";
@@ -66,40 +69,43 @@ function QuestTimer({
 }
 
 export default function Quests({ close }: { close: () => void }) {
-  const quests = [
-    {
-      id: 1,
-      imageUrl: "https://picsum.photos/300",
-      title: "Introduction to DeFi",
-      createdAt: new Date(Date.now() - 10000).toISOString(),
-      validity: 7200,
-      reward: "15000000000000000000",
-    },
-    {
-      id: 2,
-      imageUrl: "https://picsum.photos/400",
-      title: "Understanding NFTs",
-      createdAt: new Date(Date.now() - 5000).toISOString(),
-      validity: 5400,
-      reward: "8000000000000000000",
-    },
-    {
-      id: 3,
-      imageUrl: "https://picsum.photos/500",
-      title: "Blockchain Basics",
-      createdAt: new Date(Date.now() - 15000).toISOString(),
-      validity: 3600,
-      reward: "20000000000000000000",
-    },
-    {
-      id: 4,
-      imageUrl: "https://picsum.photos/600",
-      title: "Crypto Wallets 101",
-      createdAt: new Date(Date.now() - 8000).toISOString(),
-      validity: 4800,
-      reward: "1000000000000000000",
-    },
-  ];
+  // const quests = [
+  //   {
+  //     id: 1,
+  //     imageUrl: "https://picsum.photos/300",
+  //     title: "Introduction to DeFi",
+  //     createdAt: new Date(Date.now() - 10000).toISOString(),
+  //     validity: 7200,
+  //     reward: "15000000000000000000",
+  //   },
+  //   {
+  //     id: 2,
+  //     imageUrl: "https://picsum.photos/400",
+  //     title: "Understanding NFTs",
+  //     createdAt: new Date(Date.now() - 5000).toISOString(),
+  //     validity: 5400,
+  //     reward: "8000000000000000000",
+  //   },
+  //   {
+  //     id: 3,
+  //     imageUrl: "https://picsum.photos/500",
+  //     title: "Blockchain Basics",
+  //     createdAt: new Date(Date.now() - 15000).toISOString(),
+  //     validity: 3600,
+  //     reward: "20000000000000000000",
+  //   },
+  //   {
+  //     id: 4,
+  //     imageUrl: "https://picsum.photos/600",
+  //     title: "Crypto Wallets 101",
+  //     createdAt: new Date(Date.now() - 8000).toISOString(),
+  //     validity: 4800,
+  //     reward: "1000000000000000000",
+  //   },
+  // ];
+
+  const { active } = useEnvironmentStore((store) => store);
+  const router = useRouter();
   return (
     <div className="w-[50%] relative bg-black h-full rounded-sm">
       <div
@@ -112,21 +118,26 @@ export default function Quests({ close }: { close: () => void }) {
         </div>
         <Separator className="bg-black" />
         <div className="flex flex-col h-full w-full px-4 overflow-y-auto">
-          {quests.length === 0 ? (
+          {active.length === 0 ? (
             <div className="flex justify-center items-center h-full">
               <p className="text-gray-700">No quests available</p>
             </div>
           ) : (
             <div className="space-y-4 py-4">
-              {quests.map((quest) => (
+              {active.map((quest: Quest, i) => (
                 <div
                   key={quest.id}
                   className="bg-black w-full rounded-lg relative h-[90px]"
                 >
-                  <div className="absolute w-full flex items-center space-x-4 bg-[#e7ccfc] border-black border-[2px] p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                  <div
+                    className="absolute w-full flex items-center space-x-4 bg-[#e7ccfc] border-black border-[2px] p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => {
+                      router.push("/quiz/" + quest.questId);
+                    }}
+                  >
                     <div className="h-16 w-16 flex-shrink-0">
                       <img
-                        src={quest.imageUrl}
+                        src={"https://picsum.photos/" + (300 + i * 100)}
                         alt={quest.title}
                         className="h-full w-full object-cover rounded-md"
                       />
@@ -134,7 +145,9 @@ export default function Quests({ close }: { close: () => void }) {
                     <div className="flex-1">
                       <h3 className="font-semibold text-base">{quest.title}</h3>
                       <QuestTimer
-                        createdAt={quest.createdAt}
+                        createdAt={new Date(
+                          Number(quest.createdAt + "000")
+                        ).toISOString()}
                         validity={quest.validity}
                       />
                     </div>
@@ -147,7 +160,8 @@ export default function Quests({ close }: { close: () => void }) {
                           className="h-6 w-6 rounded-full"
                         />
                         <span className="font-medium text-lg pl-2">
-                          {formatEther(BigInt(quest.reward))} {"RX"}
+                          {formatEther(BigInt(quest.topScoreTokenReward))}{" "}
+                          {"RX"}
                         </span>
                       </div>
                     </div>

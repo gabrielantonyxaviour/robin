@@ -2,13 +2,17 @@ import { Address } from "viem";
 
 export type Quest = {
   id: number;
+  questId: string;
   title: string;
   createdAt: string;
   validity: number;
+  topScoreTokenReward: number;
+  transactionHash: string;
 };
 
 export type QuestWithResponse = {
   id: number;
+  questId: string;
   title: string;
   createdAt: string;
   validity: number;

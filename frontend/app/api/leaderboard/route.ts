@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_ROBINX_AI_ENDPOINT || "http://localhost:3001";
+  process.env.NEXT_PUBLIC_ROBINX_AI_ENDPOINT ||
+  "http://localhost:" + process.env.NEXT_PUBLIC_LOCAL_AI_PORT;
 
 export async function GET() {
   try {

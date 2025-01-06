@@ -39,7 +39,7 @@ export default function Layout({
   const handleLogout = useCallback(async () => {
     await authSdk.logout(
       JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "true")
-        ? "http://localhost:3001"
+        ? "http://localhost:" + process.env.NEXT_PUBLIC_LOCAL_AI_PORT
         : "https://robinx-ai.vercel.app"
     );
   }, []);
@@ -63,55 +63,95 @@ export default function Layout({
             "/api/quiz/completed/" + address.toLowerCase()
           );
           const attemptedQuizzes = await attemptedQuizzesResponse.json();
-          const unattemptedQuizzes = allQuizzes.quizzes.filter(
+          console.log("ALL QUIZZES");
+          console.log(allQuizzes);
+          console.log("ATTEMPTED QUIZZES");
+          console.log(attemptedQuizzes);
+          const unattemptedQuizzes = allQuizzes.filter(
             (quiz: any) =>
-              !attemptedQuizzes.users[0].responses.some(
-                (attempted: any) => attempted.id === quiz.id
-              )
+              !(
+                attemptedQuizzes.users.length > 0
+                  ? attemptedQuizzes.users[0].responses
+                  : []
+              ).some((attempted: any) => attempted.quiz.id === quiz.id)
           );
+
+          console.log("UNATTEMPTED QUIZZES");
+          console.log(unattemptedQuizzes);
           setCompleted(
-            attemptedQuizzes.users[0].responses.map(
-              async (q: any, i: number) => {
+            attemptedQuizzes.users.length > 0
+              ? await Promise.all(
+                  attemptedQuizzes.users[0].responses.map(
+                    async (q: any, i: number) => {
+                      const {
+                        id,
+                        quiz,
+                        amount,
+                        score,
+                        encryptedResponse,
+                        rewardTxHash,
+                        responseTxHash,
+                      } = q;
+                      const metadataReponse = await fetch("/api/proxy", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ url: quiz.metadata }),
+                      });
+                      const metadata = await metadataReponse.json();
+                      return {
+                        id: i,
+                        questId: id,
+                        title: metadata.topic,
+                        createdAt: quiz.createdAt,
+                        validity: quiz.validity,
+                        response: {
+                          amount,
+                          score,
+                          encryptedResponse,
+                          rewardTxHash,
+                          responseTxHash,
+                        },
+                      };
+                    }
+                  )
+                )
+              : []
+          );
+          setActive(
+            await Promise.all(
+              unattemptedQuizzes.map(async (q: any, i: number) => {
                 const {
-                  quiz,
-                  amount,
-                  score,
-                  encryptedResponse,
-                  rewardTxHash,
-                  responseTxHash,
+                  id,
+                  createdAt,
+                  validity,
+                  topScoreTokenReward,
+                  transactionHash,
                 } = q;
-                const metadataReponse = await fetch(quiz.metadata);
+                const metadataReponse = await fetch("/api/proxy", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ url: q.metadata }),
+                });
                 const metadata = await metadataReponse.json();
                 return {
                   id: i,
+                  questId: id,
                   title: metadata.topic,
-                  createdAt: quiz.createdAt,
-                  validity: quiz.validity,
-                  response: {
-                    amount,
-                    score,
-                    encryptedResponse,
-                    rewardTxHash,
-                    responseTxHash,
-                  },
+                  createdAt,
+                  validity,
+                  topScoreTokenReward,
+                  transactionHash,
                 };
-              }
+              })
             )
           );
-          setActive(
-            unattemptedQuizzes.map(async (q: any, i: number) => {
-              const { createdAt, validity } = q;
-              const metadataReponse = await fetch(q.metadata);
-              const metadata = await metadataReponse.json();
-              return {
-                id: i,
-                title: metadata.topic,
-                createdAt,
-                validity,
-              };
-            })
-          );
-        } catch (e) {}
+        } catch (e) {
+          console.log(e);
+        }
       })();
     }
   }, [address]);
