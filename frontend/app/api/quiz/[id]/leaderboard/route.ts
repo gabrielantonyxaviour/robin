@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_ROBINX_AI_ENDPOINT ||
-  "http://localhost:" + process.env.NEXT_PUBLIC_LOCAL_AI_PORT;
-
+const API_URL = JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "true")
+  ? "http://localhost:" + process.env.NEXT_PUBLIC_LOCAL_AI_PORT
+  : process.env.NEXT_PUBLIC_ROBINX_AI_ENDPOINT;
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }

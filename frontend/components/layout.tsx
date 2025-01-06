@@ -39,7 +39,7 @@ export default function Layout({
   const handleLogout = useCallback(async () => {
     await authSdk.logout(
       JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "true")
-        ? "http://localhost:" + process.env.NEXT_PUBLIC_LOCAL_AI_PORT
+        ? "http://localhost:" + process.env.NEXT_PUBLIC_LOCAL_PORT
         : "https://robinx-ai.vercel.app"
     );
   }, []);

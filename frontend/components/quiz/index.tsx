@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { uploadJsonToPinata } from "@/lib/pinata/uploadJsonToPinata";
 import { useAccount, useSwitchChain } from "wagmi";
 import { educhainTestnet, educhainTestnetPublicClient } from "@/lib/utils";
 import { ROBINX_CORE_ABI, ROBINX_CORE_ADDRESS } from "@/lib/constants";
@@ -286,13 +285,24 @@ export default function Quiz({ id }: { id: string }) {
                                 description:
                                   "Please wait to pin your encrypted responses on IPFS.",
                               });
+                              const responseMetadataUrlResponse = await fetch(
+                                "/api/pinata",
+                                {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                  },
+                                  body: JSON.stringify({
+                                    name:
+                                      new Date().toISOString() +
+                                      "_responses_" +
+                                      address,
+                                    jsonObject: { responses },
+                                  }),
+                                }
+                              );
                               const responseMetadataUrl =
-                                await uploadJsonToPinata(
-                                  new Date().toISOString() +
-                                    "_responses_" +
-                                    address,
-                                  { responses }
-                                );
+                                await responseMetadataUrlResponse.json();
                               console.log(responseMetadataUrl);
 
                               if (chainId != educhainTestnet.id) {
@@ -351,7 +361,7 @@ export default function Quiz({ id }: { id: string }) {
 
                               try {
                                 const response = await fetch(
-                                  "http://localhost:3001/api/calc-score",
+                                  "/api/calc-score",
                                   {
                                     method: "POST",
                                     headers: {
