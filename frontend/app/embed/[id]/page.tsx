@@ -6,15 +6,13 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const { id } = params;
-  const dataResponse = await fetch("/api/quiz/" + id);
-  const metadata = await dataResponse.json();
 
   return {
-    title: "Daily Quiz " + parseInt(id, 16).toString(),
-    description: metadata.topic,
+    title: "RobinX | Gamified Quests",
+    description: "Daily Quiz " + parseInt(id, 16).toString(),
     openGraph: {
-      title: "Daily Quiz " + parseInt(id, 16).toString(),
-      description: metadata.topic,
+      title: "RobinX | Gamified Quests",
+      description: "Daily Quiz " + parseInt(id, 16).toString(),
       images: ["https://robinx-ai.vercel.app/robin.jpg"],
     },
     other: {
@@ -26,8 +24,8 @@ export async function generateMetadata({
     twitter: {
       card: "player",
       site: "https://x.com/EduRobinX",
-      title: "Daily Quiz " + parseInt(id, 16).toString(),
-      description: metadata.topic,
+      title: "RobinX | Gamified Quests",
+      description: "Daily Quiz " + parseInt(id, 16).toString(),
       images: ["https://robinx-ai.vercel.app/robin.jpg"],
       players: [
         {
