@@ -6,7 +6,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   return {
-    title: "Embedded Content",
+    title: "RobinX | Gamified Quests",
     description:
       "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
     openGraph: {
