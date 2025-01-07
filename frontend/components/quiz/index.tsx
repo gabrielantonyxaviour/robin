@@ -73,8 +73,8 @@ export default function Quiz({ id }: { id: string }) {
     }
   }, [id]);
   return (
-    <div className="flex flex-col h-full justify-center w-full  px-6 text-xs lg:text-base">
-      <div className="w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[600px] absolute top-24 left-[18%] bg-black rounded-sm">
+    <div className="flex flex-col h-full justify-center items-center w-full  px-6 text-xs lg:text-base">
+      <div className="w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[600px] absolute top-24 bg-black rounded-sm">
         <div className="absolute w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[600px]  flex flex-col -top-[1%] -left-[1%] space-y-2 sen rounded-sm text-sm border-2 border-black py-2 bg-[#ffd75f] text-black">
           {quizData == null ? (
             <div className="w-full flex flex-col justify-center h-full items-center">
