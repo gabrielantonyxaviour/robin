@@ -17,7 +17,7 @@ export async function generateMetadata({
       images: ["https://robinx-ai.vercel.app/robin.jpg"],
     },
     other: {
-      "twitter:player": `https://robinx-ai.vercel.app/embed/${id}`,
+      "twitter:player": `https://robinx-ai.vercel.app/quiz/${id}`,
       "x-frame-options": "ALLOWALL",
       "content-security-policy":
         "frame-ancestors 'self' https://twitter.com https://x.com;",
