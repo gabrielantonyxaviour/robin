@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export async function generateMetadata({
-  searchParams,
+  params,
 }: {
-  searchParams: { id: string };
+  params: { id: string };
 }): Promise<Metadata> {
-  const { id } = searchParams;
+  const { id } = params;
   const dataResponse = await fetch("/api/quiz/" + id);
   const metadata = await dataResponse.json();
 
