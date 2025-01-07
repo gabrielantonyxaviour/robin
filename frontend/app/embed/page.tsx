@@ -41,14 +41,15 @@ export async function generateMetadata({
     },
   };
 }
-export default function EmbedPage() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-
+export default function EmbedPage({
+  searchParams,
+}: {
+  searchParams: { id: string };
+}) {
   return (
     <div style={{ width: "100%", height: "100%", backgroundColor: "#000" }}>
       <iframe
-        src={`https://robinx-ai.vercel.app/quiz/${id}`}
+        src={`https://robinx-ai.vercel.app/quiz/${searchParams.id}`}
         style={{
           width: "100%",
           height: "100%",
