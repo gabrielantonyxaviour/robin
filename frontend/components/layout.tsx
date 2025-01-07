@@ -162,7 +162,9 @@ export default function Layout({
     }
   }, [address]);
 
-  return (
+  return pathname.startsWith("/embed") ? (
+    <>{children}</>
+  ) : (
     <div className="h-screen w-screen">
       <div className="fixed w-screen flex justify-end space-x-4 p-4">
         {isConnected && address != null && balance && (
