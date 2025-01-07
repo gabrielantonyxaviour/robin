@@ -6,14 +6,19 @@ export async function generateMetadata({
   searchParams: { id: string };
 }): Promise<Metadata> {
   const { id } = searchParams;
+
+  const dataResponse = await fetch("/api/quiz/" + id);
+  const data = await dataResponse.json();
+
+  const metadataResponse = await fetch(data.data);
+  const metadata = await metadataResponse.json();
+
   return {
-    title: "RobinX | Gamified Quests",
-    description:
-      "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
+    title: "Daily Quiz " + parseInt(id, 16).toString(),
+    description: metadata[0].topic,
     openGraph: {
-      title: "RobinX | Gamified Quests",
-      description:
-        "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
+      title: "Daily Quiz " + parseInt(id, 16).toString(),
+      description: metadata[0].topic,
       images: ["https://robinx-ai.vercel.app/robin.jpg"],
     },
     other: {
@@ -25,10 +30,9 @@ export async function generateMetadata({
     twitter: {
       card: "player",
       site: "https://x.com/EduRobinX",
-      title: "RobinX | Gamified Quests",
       images: ["https://robinx-ai.vercel.app/robin.jpg"],
-      description:
-        "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
+      title: "Daily Quiz " + parseInt(id, 16).toString(),
+      description: metadata[0].topic,
       players: [
         {
           playerUrl: `https://robinx-ai.vercel.app/embed/${id}`,

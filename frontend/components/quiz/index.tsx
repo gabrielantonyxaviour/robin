@@ -13,6 +13,7 @@ import { ToastAction } from "../ui/toast";
 import { useToast } from "@/hooks/use-toast";
 import { getSdk } from "@/lib/sdk";
 import { injected } from "wagmi/connectors";
+import { useRouter } from "next/navigation";
 
 type Conversation = {
   speaker: string;
@@ -59,6 +60,7 @@ export default function Quiz({ id }: { id: string }) {
   const [inputText, setInputext] = useState<string>("");
   const [endGame, setEndGame] = useState(false);
   const [txHash, setTxHash] = useState<string>("");
+  const router = useRouter();
 
   const [score, setScore] = useState<null | number>(null);
 
@@ -68,7 +70,8 @@ export default function Quiz({ id }: { id: string }) {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          setQuizData(data);
+          if (data.error) router.push("/");
+          else setQuizData(data);
         });
     }
   }, [id]);
