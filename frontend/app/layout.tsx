@@ -6,12 +6,14 @@ import { EnvironmentStoreProvider } from "@/components/context";
 import Layout from "@/components/layout";
 import OCConnectProvider from "@/components/providers/occonnect-provider";
 import WalletProvider from "@/components/providers/wallet-provider";
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
   return (
     <EnvironmentStoreProvider>
       <html lang="en">
