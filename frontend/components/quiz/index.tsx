@@ -73,9 +73,9 @@ export default function Quiz({ id }: { id: string }) {
     }
   }, [id]);
   return (
-    <div className="flex flex-col h-full justify-center w-full  px-6">
+    <div className="flex flex-col h-full justify-center w-full  px-6 text-xs lg:text-base">
       <div className="w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[600px] absolute top-24 left-[18%] bg-black rounded-sm">
-        <div className="absolute w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[600px] flex flex-col -top-[1%] -left-[1%] space-y-2 sen rounded-sm text-sm border-2 border-black py-2 bg-[#ffd75f] text-black">
+        <div className="absolute w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[600px]  flex flex-col -top-[1%] -left-[1%] space-y-2 sen rounded-sm text-sm border-2 border-black py-2 bg-[#ffd75f] text-black">
           {quizData == null ? (
             <div className="w-full flex flex-col justify-center h-full items-center">
               <Image
@@ -154,8 +154,10 @@ export default function Quiz({ id }: { id: string }) {
             </div>
           ) : (
             <>
-              <div className="flex justify-between items-center w-full px-6">
-                <p className="font-bold text-lg">{quizData.gameTitle}</p>
+              <div className="flex justify-center lg:justify-between items-center w-full px-6">
+                <p className="font-bold text-lg text-center lg:text-start">
+                  {quizData.gameTitle}
+                </p>
               </div>
               <Separator className="bg-black" />
               {score != null ? (
@@ -184,23 +186,20 @@ export default function Quiz({ id }: { id: string }) {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col justify-center items-center">
-                  <Image
+                <div className="flex flex-col justify-center items-center ">
+                  <img
                     src={quizData.scenes[currentScene].imageUrl}
-                    alt="scene"
-                    width={450}
-                    height={400}
-                    className="rounded-t-sm"
+                    className={`rounded-t-sm w-[290px] h-[200px] lg:w-[470px] lg:h-[370px]`}
                   />
-                  <div className="bg-[#e7ccfc] w-[450px] p-3 rounded-b-sm border-b-2 border-x-2 border-black">
-                    <p>
+                  <div className="bg-[#e7ccfc] w-[290px] lg:w-[470px] p-3 rounded-b-sm border-b-2 border-x-2 border-black">
+                    <p className="text-xs lg:text-base">
                       {endGame ? (
                         quizData.conclusion
                       ) : currentState % 4 == 0 ? (
                         quizData.scenes[currentScene].sceneDescription
                       ) : currentState % 4 == 1 ? (
                         <>
-                          <span className="font-bold">
+                          <span className="font-bold ">
                             {
                               quizData.scenes[currentScene].conversations[0]
                                 .speaker
@@ -214,7 +213,7 @@ export default function Quiz({ id }: { id: string }) {
                         </>
                       ) : currentState % 4 == 2 ? (
                         <>
-                          <span className="font-bold">
+                          <span className="font-bold ">
                             {
                               quizData.scenes[currentScene].conversations[1]
                                 .speaker
@@ -238,10 +237,10 @@ export default function Quiz({ id }: { id: string }) {
                     (quizData.scenes[currentScene].questions[0].type ==
                     "multiple_choice" ? (
                       <>
-                        <div className="flex justify-between space-x-4 mt-2">
+                        <div className="hidden lg:flex justify-between space-x-4 mt-2 ">
                           <div className="relative bg-black w-[300px] h-[40px] rounded-sm">
                             <Button
-                              className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
+                              className="absolute -top-[4px] -left-[3px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px] rounded-sm"
                               onClick={async () => {
                                 setResponses((prev) => [
                                   ...prev,
@@ -254,7 +253,7 @@ export default function Quiz({ id }: { id: string }) {
                                 else setEndGame(true);
                               }}
                             >
-                              <p>
+                              <p className="text-xs lg:text-base">
                                 {
                                   quizData.scenes[currentScene].questions[0]
                                     .options[0]
@@ -264,7 +263,7 @@ export default function Quiz({ id }: { id: string }) {
                           </div>
                           <div className="relative bg-black w-[300px] h-[40px] rounded-sm">
                             <Button
-                              className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
+                              className="absolute -top-[4px] -left-[3px] rounded-sm w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
                               onClick={async () => {
                                 setResponses((prev) => [
                                   ...prev,
@@ -286,9 +285,9 @@ export default function Quiz({ id }: { id: string }) {
                             </Button>
                           </div>
                         </div>
-                        <div className="relative bg-black w-[300px] h-[40px] rounded-sm mt-2">
+                        <div className="hidden lg:block relative bg-black w-[300px] h-[40px] rounded-sm mt-2">
                           <Button
-                            className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
+                            className="absolute -top-[4px] -left-[3px] rounded-sm w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
                             onClick={async () => {
                               setResponses((prev) => [
                                 ...prev,
@@ -309,6 +308,77 @@ export default function Quiz({ id }: { id: string }) {
                             </p>
                           </Button>
                         </div>
+                        <div className="flex flex-col lg:hidden items-center justify-between space-y-2 mt-4">
+                          <div className="relative bg-black w-[300px] h-[40px] rounded-sm">
+                            <Button
+                              className="absolute -top-[4px] -left-[3px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px] rounded-sm"
+                              onClick={async () => {
+                                setResponses((prev) => [
+                                  ...prev,
+                                  quizData.scenes[currentScene].questions[0]
+                                    .options[0],
+                                ]);
+                                setCurrentState((prev) => prev + 1);
+                                if (currentScene < 2)
+                                  setCurrentScene((prev) => prev + 1);
+                                else setEndGame(true);
+                              }}
+                            >
+                              <p className="text-xs lg:text-base">
+                                {
+                                  quizData.scenes[currentScene].questions[0]
+                                    .options[0]
+                                }
+                              </p>
+                            </Button>
+                          </div>
+                          <div className="relative bg-black w-[300px] h-[40px] rounded-sm">
+                            <Button
+                              className="absolute -top-[4px] -left-[3px] rounded-sm w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
+                              onClick={async () => {
+                                setResponses((prev) => [
+                                  ...prev,
+                                  quizData.scenes[currentScene].questions[0]
+                                    .options[1],
+                                ]);
+                                setCurrentState((prev) => prev + 1);
+                                if (currentScene < 2)
+                                  setCurrentScene((prev) => prev + 1);
+                                else setEndGame(true);
+                              }}
+                            >
+                              <p className="text-xs lg:text-base">
+                                {
+                                  quizData.scenes[currentScene].questions[0]
+                                    .options[1]
+                                }
+                              </p>
+                            </Button>
+                          </div>
+                          <div className="relative bg-black w-[300px] h-[40px] rounded-sm mt-2">
+                            <Button
+                              className="absolute -top-[4px] -left-[3px] rounded-sm w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
+                              onClick={async () => {
+                                setResponses((prev) => [
+                                  ...prev,
+                                  quizData.scenes[currentScene].questions[0]
+                                    .options[2],
+                                ]);
+                                setCurrentState((prev) => prev + 1);
+                                if (currentScene < 2)
+                                  setCurrentScene((prev) => prev + 1);
+                                else setEndGame(true);
+                              }}
+                            >
+                              <p className="text-xs lg:text-base">
+                                {
+                                  quizData.scenes[currentScene].questions[0]
+                                    .options[2]
+                                }
+                              </p>
+                            </Button>
+                          </div>
+                        </div>
                       </>
                     ) : (
                       <>
@@ -317,9 +387,9 @@ export default function Quiz({ id }: { id: string }) {
                           onChange={(e) => {
                             setInputext(e.target.value);
                           }}
-                          className="w-[450px] my-4 border-black"
+                          className="w-[300px] lg:w-[450px] my-4 border-black rounded-sm"
                         ></Input>
-                        <div className="flex w-[450px] justify-end">
+                        <div className="flex w-[450px] justify-center lg:justify-end">
                           <div className="relative bg-black w-[160px] h-[40px] rounded-sm">
                             <Button
                               className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
@@ -344,7 +414,7 @@ export default function Quiz({ id }: { id: string }) {
                     currentState == 7 ||
                     currentState == 11
                   ) && (
-                    <div className="flex justify-between mt-4 w-[450px]">
+                    <div className="flex justify-center lg:justify-between mt-4 w-[450px]">
                       <div></div>
                       <div className="relative bg-black w-[160px] h-[40px] rounded-sm">
                         <Button
