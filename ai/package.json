@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "vercel-build": "echo 'No build step required for this project'"
+    "vercel-build": "echo 'No build step'"
   },
   "keywords": [],
   "author": "",
