@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { useSearchParams } from "next/navigation";
 
 export async function generateMetadata({
   searchParams,
