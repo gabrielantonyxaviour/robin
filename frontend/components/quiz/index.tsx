@@ -74,8 +74,8 @@ export default function Quiz({ id }: { id: string }) {
   }, [id]);
   return (
     <div className="flex flex-col h-full justify-center items-center w-full  px-6 text-xs lg:text-base">
-      <div className="w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[600px] absolute top-24 bg-black rounded-sm">
-        <div className="absolute w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[600px]  flex flex-col -top-[1%] -left-[1%] space-y-2 sen rounded-sm text-sm border-2 border-black py-2 bg-[#ffd75f] text-black">
+      <div className="w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[500px] lg:h-[650px] absolute top-24 bg-black rounded-sm">
+        <div className="absolute w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[500px] lg:h-[650px]  flex flex-col -top-[1%] -left-[1%] space-y-2 sen rounded-sm text-sm border-2 border-black py-2 bg-[#ffd75f] text-black">
           {quizData == null ? (
             <div className="w-full flex flex-col justify-center h-full items-center">
               <Image
@@ -237,7 +237,7 @@ export default function Quiz({ id }: { id: string }) {
                     (quizData.scenes[currentScene].questions[0].type ==
                     "multiple_choice" ? (
                       <>
-                        <div className="hidden lg:flex justify-between space-x-4 mt-2 ">
+                        <div className="hidden lg:flex justify-between space-x-4 mt-4 ">
                           <div className="relative bg-black w-[300px] h-[40px] rounded-sm">
                             <Button
                               className="absolute -top-[4px] -left-[3px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px] rounded-sm"
