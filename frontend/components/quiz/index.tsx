@@ -85,7 +85,7 @@ export default function Quiz({ id }: { id: string }) {
                 height={200}
               />
             </div>
-          ) : !isConnected || !authSdk.isAuthenticated() ? (
+          ) : !isConnected ? (
             <div className="w-full flex flex-col justify-center h-full items-center">
               <Image
                 src={"/hero.jpg"}
