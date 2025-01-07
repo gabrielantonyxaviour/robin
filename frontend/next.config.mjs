@@ -3,7 +3,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/quiz/:id*",
+        source: "/quiz",
         headers: [
           {
             key: "X-Frame-Options",
@@ -16,7 +16,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/embed/:id*",
+        source: "/embed",
         headers: [
           {
             key: "X-Frame-Options",
