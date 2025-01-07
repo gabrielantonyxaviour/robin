@@ -13,12 +13,13 @@ export async function generateMetadata({
       title: "RobinX | Gamified Quests",
       description:
         "An autonomous AI agent that teaches web3 to users in the form of gamified quests.",
-      images: ["/robin.jpg"],
+      images: ["https://robinx-ai.vercel.app/robin.jpg"],
     },
     other: {
       "twitter:player": `https://robinx-ai.vercel.app/embed/${params.id}`,
       "x-frame-options": "ALLOWALL",
-      "content-security-policy": "frame-ancestors *;",
+      "content-security-policy":
+        "frame-ancestors 'self' https://twitter.com https://x.com;",
     },
     twitter: {
       card: "player",
@@ -42,7 +43,7 @@ export default function EmbedPage({ params }: { params: { id: string } }) {
   return (
     <div style={{ width: "100%", height: "100%", backgroundColor: "#000" }}>
       <iframe
-        src={`/quiz/${params.id}`}
+        src={`/quiz/0x1`}
         style={{
           width: "100%",
           height: "100%",
