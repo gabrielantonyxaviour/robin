@@ -90,7 +90,6 @@ export default function Layout({
                   attemptedQuizzes.users[0].responses.map(
                     async (q: any, i: number) => {
                       const {
-                        id,
                         quiz,
                         amount,
                         score,
@@ -108,7 +107,7 @@ export default function Layout({
                       const metadata = await metadataReponse.json();
                       return {
                         id: i,
-                        questId: id,
+                        questId: quiz.id,
                         title: metadata.topic,
                         createdAt: quiz.createdAt,
                         validity: quiz.validity,

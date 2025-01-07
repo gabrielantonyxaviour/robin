@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getSdk } from "@/lib/sdk";
 import { injected } from "wagmi/connectors";
 import { useRouter } from "next/navigation";
+import { useEnvironmentStore } from "../context";
 
 type Conversation = {
   speaker: string;
@@ -60,21 +61,28 @@ export default function Quiz({ id }: { id: string }) {
   const [inputText, setInputext] = useState<string>("");
   const [endGame, setEndGame] = useState(false);
   const [txHash, setTxHash] = useState<string>("");
+  const [txStatus, setTxStatus] = useState<string>("");
   const router = useRouter();
 
   const [score, setScore] = useState<null | number>(null);
+  const { completed } = useEnvironmentStore((store) => store);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   useEffect(() => {
     if (id && quizData == null) {
       fetch(`/api/quiz/${id}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           if (data.error) router.push("/");
           else setQuizData(data);
         });
     }
   }, [id]);
+
+  useEffect(() => {
+    if (completed.length > 0)
+      setIsCompleted(completed.some((entry) => entry.questId == id));
+  }, [completed]);
   return (
     <div className="flex flex-col h-full justify-center items-center w-full  px-6 text-xs lg:text-base">
       <div className="w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[500px] lg:h-[650px] absolute top-24 bg-black rounded-sm">
@@ -88,7 +96,7 @@ export default function Quiz({ id }: { id: string }) {
                 height={200}
               />
             </div>
-          ) : !isConnected ? (
+          ) : !isConnected || isCompleted ? (
             <div className="w-full flex flex-col justify-center h-full items-center">
               <Image
                 src={"/hero.jpg"}
@@ -97,7 +105,9 @@ export default function Quiz({ id }: { id: string }) {
                 height={80}
                 className="rounded-md pb-4"
               />
-              <p className="font-bold text-lg">{quizData.gameTitle}</p>
+              <p className="font-bold text-lg text-center lg:text-start">
+                {quizData.gameTitle}
+              </p>
               <p className="text-xs">Topic: {quizData.topic}</p>
 
               <div className="flex space-x-20 py-6">
@@ -134,25 +144,9 @@ export default function Quiz({ id }: { id: string }) {
                   </Button>
                 </div>
               ) : (
-                <div>
-                  <Button
-                    className="w-full flex p-5 m-0 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black"
-                    onClick={async () => {
-                      await authSdk.signInWithRedirect({
-                        state: "opencampus",
-                      });
-                    }}
-                  >
-                    <Image
-                      src="/chains/educhain.png"
-                      width={30}
-                      height={30}
-                      alt="educhain"
-                      className="rounded-full"
-                    />
-                    <p> {"Connect OCID"}</p>
-                  </Button>
-                </div>
+                <p className="text-center">
+                  Already attempted <br /> the quiz
+                </p>
               )}
             </div>
           ) : (
@@ -421,15 +415,12 @@ export default function Quiz({ id }: { id: string }) {
                       <div></div>
                       <div className="relative bg-black w-[160px] h-[40px] rounded-sm">
                         <Button
+                          disabled={txStatus != ""}
                           className="absolute -top-[4px] -left-[4px] w-full h-full flex p-5 space-x-2 bg-[#131beb] hover:bg-[#ffd75f] hover:text-black border-[1px] border-black mr-[2px]"
                           onClick={async () => {
                             if (endGame) {
                               console.log("RIGHT HERE");
-                              toast({
-                                title: "Uploading to IPFS",
-                                description:
-                                  "Please wait to pin your encrypted responses on IPFS.",
-                              });
+                              setTxStatus("Uploading to IPFS");
                               const responseMetadataUrlResponse = await fetch(
                                 "/api/pinata",
                                 {
@@ -449,6 +440,7 @@ export default function Quiz({ id }: { id: string }) {
                               const responseMetadataUrl =
                                 await responseMetadataUrlResponse.json();
                               console.log(responseMetadataUrl);
+                              setTxStatus("Sending Transaction");
 
                               if (chainId != educhainTestnet.id) {
                                 await switchChainAsync({
@@ -476,6 +468,7 @@ export default function Quiz({ id }: { id: string }) {
                               const tx = await walletClient.writeContract(
                                 request
                               );
+                              setTxStatus("Calculating score");
 
                               toast({
                                 title: "Transcaction Success",
@@ -519,17 +512,25 @@ export default function Quiz({ id }: { id: string }) {
                                 const data = await response.json();
                                 console.log(data.score);
                                 setScore(data.score);
+                                setTxStatus("");
                               } catch (e) {
                                 await new Promise((resolve) =>
                                   setTimeout(resolve, 6000)
                                 );
                                 console.log(e);
+                                setTxStatus("");
                                 setScore(83);
                               }
                             } else setCurrentState((prev) => prev + 1);
                           }}
                         >
-                          <p> {endGame ? "Submit Responses" : "Next"}</p>
+                          <p>
+                            {txStatus != ""
+                              ? txStatus
+                              : endGame
+                              ? "Submit Responses"
+                              : "Next"}
+                          </p>
                         </Button>
                       </div>
                     </div>
