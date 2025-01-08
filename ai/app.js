@@ -31,7 +31,55 @@ const openai = new OpenAI({
   apiKey: process.env["HEURIST_API_KEY"],
   baseURL: "https://llm-gateway.heurist.xyz",
 });
-
+const ROBINX_CORE = "0x868d93b0Da22444100ADF128424bafF8B26500ff";
+const ROBINX_CORE_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_metadata",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenRewardAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "validity",
+        type: "uint256",
+      },
+    ],
+    name: "createPoll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "pollId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "receiver",
+        type: "address",
+      },
+      {
+        internalType: "uint8",
+        name: "score",
+        type: "uint8",
+      },
+    ],
+    name: "mintRewards",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
 const educhainTestnet = defineChain({
   id: 656476,
   name: "Educhain Testnet",
