@@ -17,6 +17,7 @@ const {
   getCompletedQuizzes,
   getQuizLeaderboard,
   getQuizzes,
+  getTopScoreTokenReward,
 } = require("./subgraph/queries");
 
 const openai = new OpenAI({
@@ -200,6 +201,15 @@ app.get("/api/quiz/:id/leaderboard", async (req, res) => {
   try {
     const leaderboard = await getQuizLeaderboard(req.params.id);
     res.json(leaderboard);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/quiz/:id/top-score-token-reward", async (req, res) => {
+  try {
+    const topScoreTokenReward = await getTopScoreTokenReward(req.params.id);
+    res.json(topScoreTokenReward);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

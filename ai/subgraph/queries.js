@@ -51,6 +51,14 @@ const GET_QUIZZ = `
   }
 `;
 
+const GET_TOP_SCORE_TOKEN_REWARD = `
+  query GetTopScoreTokenReward($id: ID!) {
+    quizzes(where: { id: $id }) {
+      topScoreTokenReward      
+    }
+  }
+`;
+
 const GET_QUIZ_LEADERBORD = `
   query GetQuizLearboard($id: ID!) {
     responses(where: { quiz: $id }) {
@@ -133,10 +141,23 @@ async function getQuizLeaderboard(quizId) {
   }
 }
 
+async function getTopScoreTokenReward(quizId) {
+  try {
+    const { data } = await client
+      .query(GET_TOP_SCORE_TOKEN_REWARD, { id: quizId })
+      .toPromise();
+    return data.quizzes || null;
+  } catch (error) {
+    console.error("Error fetching top score token reward:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   getQuiz,
   getLeaderboard,
   getQuizLeaderboard,
   getCompletedQuizzes,
   getQuizzes,
+  getTopScoreTokenReward,
 };

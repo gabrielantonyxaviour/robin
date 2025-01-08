@@ -45,6 +45,7 @@ type Game = {
   introduction: string;
   scenes: Scene[];
   conclusion: string;
+  topScoreTokenReward: string;
 };
 
 export default function Quiz({ id }: { id: string }) {
@@ -125,7 +126,7 @@ export default function Quiz({ id }: { id: string }) {
                       alt="robin"
                       className="rounded-full"
                     />
-                    <p> 2.3 RX</p>
+                    <p> {quizData.topScoreTokenReward} RX</p>
                   </div>
                 </div>
               </div>
