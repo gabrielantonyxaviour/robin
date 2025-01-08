@@ -28,7 +28,7 @@ export async function GET(
 
     return NextResponse.json({
       ...data[0],
-      topScoreTokenReward: data[0].top_score_token_reward,
+      topScoreTokenReward: fetchedData.top_score_token_reward,
     });
   } catch (error) {
     return NextResponse.json(
