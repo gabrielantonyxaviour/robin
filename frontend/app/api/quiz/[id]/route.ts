@@ -18,14 +18,17 @@ export async function GET(
     );
     const { data: fetchedData, error } = await supabase
       .from("quiz")
-      .select("*")
+      .select("data,top_score_token_reward")
       .eq("hex_id", params.id)
       .single();
     if (error) throw error;
 
     const response = await fetch(fetchedData.data);
     const data = await response.json();
-
+    console.log(fetchedData);
+    console.log({
+      topScoreTokenReward: fetchedData.top_score_token_reward,
+    });
     return NextResponse.json({
       ...data[0],
       topScoreTokenReward: fetchedData.top_score_token_reward,
