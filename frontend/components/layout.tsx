@@ -30,6 +30,7 @@ export default function Layout({
   const { toast } = useToast();
   const { address, isConnected, chainId } = useAccount();
   const { connectAsync } = useConnect();
+  const { disconnectAsync } = useDisconnect();
   const { data: balance } = useBalance({
     address: address,
   });
@@ -56,12 +57,6 @@ export default function Layout({
   }, [authSdk]);
 
   useEffect(() => {
-    // console.log(pathname.startsWith("/embed") || pathname.startsWith("/quiz"));
-    // console.log(pathname);
-    // if (pathname.startsWith("/embed") || pathname.startsWith("/quiz")) {
-    //   console.log("THIS IS EXECUTING");
-    //   disconnect();
-    // }
     if (
       address &&
       !pathname.startsWith("/embed") &&
@@ -171,6 +166,16 @@ export default function Layout({
       })();
     }
   }, [address]);
+
+  useEffect(() => {
+    if (
+      !isConnected &&
+      pathname.split("/")[1] != "embed" &&
+      pathname.split("/")[1] != "quiz"
+    ) {
+      router.push("/");
+    }
+  }, [isConnected]);
 
   return pathname.startsWith("/embed") ? (
     <>{children}</>
