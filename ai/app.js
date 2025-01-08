@@ -19,7 +19,12 @@ const {
   getQuizzes,
   getTopScoreTokenReward,
 } = require("./subgraph/queries");
-const { createWalletClient, defineChain, createPublicClient } = require("viem");
+const {
+  createWalletClient,
+  defineChain,
+  createPublicClient,
+  http,
+} = require("viem");
 const { privateKeyToAccount } = require("viem/accounts");
 
 const openai = new OpenAI({
@@ -151,7 +156,7 @@ app.post("/api/calc-score", async (req, res) => {
       console.log(e);
     }
 
-    res.json(score);
+    res.json({ score: Math.ceil(score) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
