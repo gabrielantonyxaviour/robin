@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
+import { useAccount, useConnect, useSwitchChain } from "wagmi";
 import { educhainTestnet, educhainTestnetPublicClient } from "@/lib/utils";
 import { ROBINX_CORE_ABI, ROBINX_CORE_ADDRESS } from "@/lib/constants";
 import { createPublicClient, createWalletClient, custom, http } from "viem";
@@ -52,10 +52,7 @@ export default function Quiz({ id }: { id: string }) {
   const { address, chainId, isConnected } = useAccount();
   const { toast } = useToast();
   const { switchChainAsync } = useSwitchChain();
-  const authSdk = getSdk();
   const { connectAsync } = useConnect();
-  const { disconnect } = useDisconnect();
-  const pathname = usePathname();
 
   const [quizData, setQuizData] = useState<Game | null>(null);
   const [currentState, setCurrentState] = useState(0);
@@ -78,8 +75,6 @@ export default function Quiz({ id }: { id: string }) {
         .then((data) => {
           if (data.error) router.push("/");
           else setQuizData(data);
-          // console.log(pathname);
-          // if (pathname.split("/")[1] == "embed") disconnect();
         });
     }
   }, [id]);

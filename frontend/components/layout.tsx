@@ -30,7 +30,6 @@ export default function Layout({
   const { toast } = useToast();
   const { address, isConnected, chainId } = useAccount();
   const { connectAsync } = useConnect();
-  const { disconnectAsync } = useDisconnect();
   const { data: balance } = useBalance({
     address: address,
   });
