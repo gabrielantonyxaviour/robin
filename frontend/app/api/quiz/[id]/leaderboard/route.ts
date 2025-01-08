@@ -9,7 +9,10 @@ export async function GET(
 ) {
   try {
     const response = await fetch(
-      `${API_URL}/api/quiz/${params.id}/leaderboard`
+      `${API_URL}/api/quiz/${params.id}/leaderboard`,
+      {
+        cache: "no-store",
+      }
     );
     const data = await response.json();
     return NextResponse.json(data);

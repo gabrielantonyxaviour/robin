@@ -5,7 +5,9 @@ const API_URL = JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "true")
   : process.env.NEXT_PUBLIC_ROBINX_AI_ENDPOINT;
 export async function GET() {
   try {
-    const response = await fetch(`${API_URL}/api/leaderboard`);
+    const response = await fetch(`${API_URL}/api/leaderboard`, {
+      cache: "no-store",
+    });
     const data = await response.json();
     console.log("LEADERBOARD DATA");
     console.log(data);

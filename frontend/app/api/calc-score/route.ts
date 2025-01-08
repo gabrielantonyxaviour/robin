@@ -23,6 +23,7 @@ export async function POST(request: Request) {
         quiz,
         responses,
       }),
+      cache: "no-store",
     });
 
     const data = await response.json();

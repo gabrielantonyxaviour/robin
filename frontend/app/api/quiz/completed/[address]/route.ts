@@ -11,7 +11,10 @@ export async function GET(
     console.log(params.address);
     console.log(`${API_URL}/api/quiz/completed/${params.address}`);
     const response = await fetch(
-      `${API_URL}/api/quiz/completed/${params.address}`
+      `${API_URL}/api/quiz/completed/${params.address}`,
+      {
+        cache: "no-store",
+      }
     );
     const data = await response.json();
     return NextResponse.json(data);
