@@ -55,11 +55,7 @@ export default function Layout({
   }, [authSdk]);
 
   useEffect(() => {
-    if (
-      address &&
-      !pathname.startsWith("/embed") &&
-      !pathname.startsWith("/quiz")
-    ) {
+    if (address) {
       getBalance(config, {
         address: address,
         token: ROBINX_ADDRESS,
