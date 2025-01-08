@@ -17,8 +17,8 @@ export type QuestWithResponse = {
   createdAt: string;
   validity: number;
   response: {
-    amount: number;
-    score: number;
+    amount: string;
+    score: string;
     encryptedResponse: string;
     rewardTxHash: string;
     responseTxHash: string;

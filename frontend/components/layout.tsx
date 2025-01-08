@@ -76,7 +76,11 @@ export default function Layout({
           console.log("ALL QUIZZES");
           console.log(allQuizzes);
           console.log("ATTEMPTED QUIZZES");
-          console.log(attemptedQuizzes);
+          console.log(
+            attemptedQuizzes.users.length > 0
+              ? attemptedQuizzes.users[0].responses
+              : []
+          );
           const unattemptedQuizzes = allQuizzes.filter(
             (quiz: any) =>
               !(

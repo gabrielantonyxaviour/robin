@@ -124,7 +124,7 @@ export default function Completed({ close }: { close: () => void }) {
                         )}
                       </span>
                     </div>
-                    <ScoreMeter score={quest.response.score} />
+                    <ScoreMeter score={parseInt(quest.response.score ?? "0")} />
                     <div className="flex flex-col items-center space-y-1">
                       <p className="text-sm text-gray-600">Rewards</p>
                       <div className="flex items-center space-x-1">
@@ -134,7 +134,8 @@ export default function Completed({ close }: { close: () => void }) {
                           className="h-6 w-6 rounded-full"
                         />
                         <span className="font-medium text-lg pl-2">
-                          {formatEther(BigInt(quest.response.amount))} {"RX"}
+                          {formatEther(BigInt(quest.response.amount ?? "0"))}{" "}
+                          {"RX"}
                         </span>
                       </div>
                     </div>
