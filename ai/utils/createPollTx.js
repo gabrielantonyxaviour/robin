@@ -92,17 +92,15 @@ async function createPollTx(metadata_url) {
     chain: educhainTestnet,
     transport: http(),
   });
-
+  const reward = parseEther(
+    (Math.random() * (3 - 1) + 1).toFixed(2).toString()
+  );
   const { request } = await publicClient.simulateContract({
     account,
     address: ROBINX_CORE,
     abi: ROBINX_CORE_ABI,
     functionName: "createPoll",
-    args: [
-      metadata_url,
-      parseEther((Math.random() * (3 - 1) + 1).toFixed(2).toString()),
-      (24 * 60 * 60).toString(),
-    ],
+    args: [metadata_url, reward, (24 * 60 * 60).toString()],
   });
   const tx = await walletClient.writeContract(request);
 
@@ -124,6 +122,7 @@ async function createPollTx(metadata_url) {
   return {
     txHash: tx,
     pollId: "0x" + eventLog.args.pollId.toString(16),
+    reward,
   };
 }
 

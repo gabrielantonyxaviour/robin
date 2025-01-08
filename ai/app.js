@@ -269,7 +269,7 @@ app.post("/api/generate-game", async (req, res) => {
       date: currentDate,
     });
 
-    const { txHash, pollId } = await createPollTx(metadata_url);
+    const { txHash, pollId, reward } = await createPollTx(metadata_url);
 
     const tweetId = await tweet(
       "https://robinx-ai.vercel.app/embed?id=" + pollId
@@ -278,7 +278,8 @@ app.post("/api/generate-game", async (req, res) => {
     await addQuizz(
       pollId,
       quizzes_url,
-      "https://x.com/EduRobinX/status/" + tweetId
+      "https://x.com/EduRobinX/status/" + tweetId,
+      reward
     );
 
     res.json({
