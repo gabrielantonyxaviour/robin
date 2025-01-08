@@ -109,7 +109,7 @@ app.post("/api/image", async (req, res) => {
 
 app.post("/api/calc-score", async (req, res) => {
   console.log(req.body);
-  const { quiz, responses, address, pollId } = await request.json();
+  const { quiz, responses, address, pollId } = req.body;
 
   try {
     console.log(calcScore);
