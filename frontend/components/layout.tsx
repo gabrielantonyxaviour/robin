@@ -18,7 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { title } from "process";
 
 export default function Layout({
   children,
@@ -30,7 +29,6 @@ export default function Layout({
   const { toast } = useToast();
   const { address, isConnected, chainId } = useAccount();
   const { connectAsync } = useConnect();
-  const { disconnectAsync } = useDisconnect();
   const { data: balance } = useBalance({
     address: address,
   });
@@ -241,7 +239,7 @@ export default function Layout({
                 // });
               }}
             >
-              <p> {"Connect Wallet"}</p>
+              <p> {"Connect Metamask"}</p>
             </Button>
           </div>
         ) : (
