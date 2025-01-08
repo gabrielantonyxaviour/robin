@@ -6,6 +6,7 @@ const {
   defineChain,
   decodeEventLog,
   parseAbi,
+  parseEther,
 } = require("viem");
 const { privateKeyToAccount } = require("viem/accounts");
 
@@ -26,7 +27,7 @@ const educhainTestnet = defineChain({
   testnet: true,
 });
 
-const ROBINX_CORE = "0x1f8d9883C91a8210F43aA13BE5C9f576986EA027";
+const ROBINX_CORE = "0x868d93b0Da22444100ADF128424bafF8B26500ff";
 const ROBINX_CORE_ABI = [
   {
     inputs: [
@@ -34,6 +35,11 @@ const ROBINX_CORE_ABI = [
         internalType: "string",
         name: "_metadata",
         type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenRewardAmount",
+        type: "uint256",
       },
       {
         internalType: "uint256",
@@ -54,19 +60,14 @@ const ROBINX_CORE_ABI = [
         type: "uint256",
       },
       {
-        internalType: "uint256",
-        name: "receiverNullifierHash",
-        type: "uint256",
+        internalType: "address",
+        name: "receiver",
+        type: "address",
       },
       {
-        internalType: "uint256",
+        internalType: "uint8",
         name: "score",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
+        type: "uint8",
       },
     ],
     name: "mintRewards",
@@ -97,7 +98,11 @@ async function createPollTx(metadata_url) {
     address: ROBINX_CORE,
     abi: ROBINX_CORE_ABI,
     functionName: "createPoll",
-    args: [metadata_url, (24 * 60 * 60).toString()],
+    args: [
+      metadata_url,
+      parseEther((Math.random() * (3 - 1) + 1).toFixed(2).toString()),
+      (24 * 60 * 60).toString(),
+    ],
   });
   const tx = await walletClient.writeContract(request);
 
@@ -109,7 +114,7 @@ async function createPollTx(metadata_url) {
 
   const eventLog = decodeEventLog({
     abi: parseAbi([
-      "event QuizCreated(uint256 pollId, uint256 validity, string metadata)",
+      "event QuizCreated(uint256 pollId, uint256 validity, uint256 tokenRewardAmount, string metadata)",
     ]),
     data: transaction.logs[0].data,
     topics: transaction.logs[0].topics,
@@ -118,7 +123,7 @@ async function createPollTx(metadata_url) {
 
   return {
     txHash: tx,
-    pollId: eventLog.args.pollId.toString(),
+    pollId: eventLog.args.pollId.toString(16),
   };
 }
 

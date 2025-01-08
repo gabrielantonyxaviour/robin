@@ -7,7 +7,7 @@ async function addQuizz(pollId, quizzes_url, tweet) {
   );
   const { data: insertData, error } = await supabase
     .from("quiz")
-    .insert({ id: pollId, data: quizzes_url, tweet_url: tweet })
+    .insert({ hexId: pollId, data: quizzes_url, tweet_url: tweet })
     .select();
 
   console.log(insertData);

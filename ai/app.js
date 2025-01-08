@@ -129,6 +129,10 @@ app.post("/api/generate-game", async (req, res) => {
         const image = await imageGen(scene.imagePrompt);
         console.log("Image Generated");
         console.log(image);
+        console.log({
+          date: currentDate + "_" + scene.sceneId,
+          image,
+        });
         scene.imageUrl = await uploadImageToPinata(
           currentDate + "_" + scene.sceneId,
           image
@@ -156,8 +160,7 @@ app.post("/api/generate-game", async (req, res) => {
     const { txHash, pollId } = await createPollTx(metadata_url);
 
     const tweetId = await tweet(
-      "Today's Quest is ready! 🎮🎉 Play now and earn $RX rewards: https://robinx-ai.vercel.app/quiz/" +
-        pollId
+      "https://robinx-ai.vercel.app/embed?id=" + pollId
     );
 
     await addQuizz(

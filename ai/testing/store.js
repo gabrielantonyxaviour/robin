@@ -45,10 +45,10 @@ async function uploadToPinata(imageUrl) {
 async function main() {
   try {
     const imageUrl =
-      "https://heurist-images.s3.us-east-1.amazonaws.com/sdk-image-31d83c0b93_test-flux-3_e4aa5458-3093-441c-9533-94b2c6a1e699.jpg?x-id=GetObject&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWOPEZTMXKJKQSPG5%2F20250106%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250106T074925Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=a61e910241b3bc8def797addcb5a951cdb76b86878bf78c214c3304e650f21c1";
+      "https://heurist-images.s3.us-east-1.amazonaws.com/sdk-image-2f687ad6ad_test-flux-7_ea8cb329-d437-433d-af5a-d9c3361fbd2d.jpg?x-id=GetObject&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWOPEZTMXKJKQSPG5%2F20250108%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250108T122149Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=bea979ad5e1e8a47d36733946eb7359d5f8337d3819128e29ad6af4f585eeff1";
 
     // Download the image and create a File object
-    await uploadImageToPinata("googd", imageUrl);
+    await uploadImageToPinata("goodgd", imageUrl);
   } catch (error) {
     console.error("Error:", error);
   }
