@@ -57,12 +57,12 @@ export default function Layout({
   }, [authSdk]);
 
   useEffect(() => {
-    console.log(pathname.startsWith("/embed") || pathname.startsWith("/quiz"));
-    console.log(pathname);
-    if (pathname.startsWith("/embed") || pathname.startsWith("/quiz")) {
-      console.log("THIS IS EXECUTING");
-      disconnect();
-    }
+    // console.log(pathname.startsWith("/embed") || pathname.startsWith("/quiz"));
+    // console.log(pathname);
+    // if (pathname.startsWith("/embed") || pathname.startsWith("/quiz")) {
+    //   console.log("THIS IS EXECUTING");
+    //   disconnect();
+    // }
     if (
       address &&
       !pathname.startsWith("/embed") &&

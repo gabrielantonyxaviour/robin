@@ -78,8 +78,8 @@ export default function Quiz({ id }: { id: string }) {
         .then((data) => {
           if (data.error) router.push("/");
           else setQuizData(data);
-          console.log(pathname);
-          if (pathname.split("/")[1] == "embed") disconnect();
+          // console.log(pathname);
+          // if (pathname.split("/")[1] == "embed") disconnect();
         });
     }
   }, [id]);
