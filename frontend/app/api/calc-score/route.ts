@@ -9,10 +9,12 @@ export async function POST(request: Request) {
     const { quiz, responses } = await request.json();
 
     console.log(`${API_URL}/api/calc-score`);
-    console.log({
-      quiz,
-      responses,
-    });
+    console.log(
+      JSON.stringify({
+        quiz,
+        responses,
+      })
+    );
 
     const response = await fetch(`${API_URL}/api/calc-score`, {
       method: "POST",

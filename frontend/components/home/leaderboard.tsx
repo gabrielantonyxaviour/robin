@@ -168,7 +168,7 @@ export default function Leaderboard({ close }: { close: () => void }) {
                     {shortenAddress(item.wallet)}
                   </td>
                   <td className="py-4">{item.attempted}</td>
-                  <td className="py-4">{item.avgScore}%</td>
+                  <td className="py-4">{item.avgScore.toFixed(2)}%</td>
                   <td className="py-4 font-bold">
                     {formatEther(BigInt(item.rewards))} RX
                   </td>

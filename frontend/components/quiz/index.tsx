@@ -462,7 +462,7 @@ export default function Quiz({ id }: { id: string }) {
                                   account: address,
                                   address: ROBINX_CORE_ADDRESS,
                                   functionName: "submitResponse",
-                                  args: [id, responseMetadataUrl],
+                                  args: [id, responseMetadataUrl.url],
                                   abi: ROBINX_CORE_ABI,
                                 });
 
