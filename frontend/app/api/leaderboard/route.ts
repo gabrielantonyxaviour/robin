@@ -7,6 +7,8 @@ export async function GET() {
   try {
     const response = await fetch(`${API_URL}/api/leaderboard`);
     const data = await response.json();
+    console.log("LEADERBOARD DATA");
+    console.log(data);
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(

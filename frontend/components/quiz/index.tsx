@@ -456,7 +456,7 @@ export default function Quiz({ id }: { id: string }) {
                                 chain: educhainTestnet,
                                 transport: custom(window.ethereum!),
                               });
-                              console.log([id, responseMetadataUrl]);
+                              console.log([id, responseMetadataUrl.url]);
                               const { request } =
                                 await publicClient.simulateContract({
                                   account: address,
