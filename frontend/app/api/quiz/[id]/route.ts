@@ -1,7 +1,7 @@
 // app/api/quiz/[pollId]/route.ts
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
-import { ChainDoesNotSupportContract, formatEther } from "viem";
+import { formatEther } from "viem";
 
 const API_URL = JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "true")
   ? "http://localhost:" + process.env.NEXT_PUBLIC_LOCAL_AI_PORT
@@ -25,13 +25,9 @@ export async function GET(
 
     const response = await fetch(fetchedData.data);
     const data = await response.json();
-    console.log(fetchedData);
-    console.log({
-      topScoreTokenReward: fetchedData.top_score_token_reward,
-    });
     return NextResponse.json({
       ...data[0],
-      topScoreTokenReward: fetchedData.top_score_token_reward,
+      topScoreTokenReward: formatEther(fetchedData.top_score_token_reward),
     });
   } catch (error) {
     return NextResponse.json(

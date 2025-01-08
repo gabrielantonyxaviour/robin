@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useAccount, useConnect, useSwitchChain } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { educhainTestnet, educhainTestnetPublicClient } from "@/lib/utils";
 import { ROBINX_CORE_ABI, ROBINX_CORE_ADDRESS } from "@/lib/constants";
 import { createPublicClient, createWalletClient, custom, http } from "viem";
@@ -13,7 +13,7 @@ import { ToastAction } from "../ui/toast";
 import { useToast } from "@/hooks/use-toast";
 import { getSdk } from "@/lib/sdk";
 import { injected } from "wagmi/connectors";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEnvironmentStore } from "../context";
 
 type Conversation = {
@@ -54,6 +54,8 @@ export default function Quiz({ id }: { id: string }) {
   const { switchChainAsync } = useSwitchChain();
   const authSdk = getSdk();
   const { connectAsync } = useConnect();
+  const { disconnect } = useDisconnect();
+  const pathname = usePathname();
 
   const [quizData, setQuizData] = useState<Game | null>(null);
   const [currentState, setCurrentState] = useState(0);
@@ -76,6 +78,8 @@ export default function Quiz({ id }: { id: string }) {
         .then((data) => {
           if (data.error) router.push("/");
           else setQuizData(data);
+          console.log(pathname);
+          if (pathname.split("/")[1] == "embed") disconnect();
         });
     }
   }, [id]);
@@ -84,6 +88,7 @@ export default function Quiz({ id }: { id: string }) {
     if (completed.length > 0)
       setIsCompleted(completed.some((entry) => entry.questId == id));
   }, [completed]);
+
   return (
     <div className="flex flex-col h-full justify-center items-center w-full  px-6 text-xs lg:text-base">
       <div className="w-[400px] md:w-[500px] lg:w-[700px] xl:w-[900px] h-[500px] lg:h-[650px] absolute top-24 bg-black rounded-sm">

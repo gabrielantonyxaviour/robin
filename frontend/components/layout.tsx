@@ -30,6 +30,7 @@ export default function Layout({
   const { toast } = useToast();
   const { address, isConnected, chainId } = useAccount();
   const { connectAsync } = useConnect();
+  const { disconnectAsync } = useDisconnect();
   const { data: balance } = useBalance({
     address: address,
   });
@@ -49,13 +50,24 @@ export default function Layout({
     if (authSdk) {
       if (pathname.split("/")[1] == "embed" || pathname.split("/")[1] == "quiz")
         return;
+
       if (!authSdk.isAuthenticated()) router.push("/");
       else router.push("/home");
     }
   }, [authSdk]);
 
   useEffect(() => {
-    if (address) {
+    console.log(pathname.startsWith("/embed") || pathname.startsWith("/quiz"));
+    console.log(pathname);
+    if (pathname.startsWith("/embed") || pathname.startsWith("/quiz")) {
+      console.log("THIS IS EXECUTING");
+      disconnect();
+    }
+    if (
+      address &&
+      !pathname.startsWith("/embed") &&
+      !pathname.startsWith("/quiz")
+    ) {
       getBalance(config, {
         address: address,
         token: ROBINX_ADDRESS,
