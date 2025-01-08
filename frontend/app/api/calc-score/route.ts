@@ -1,4 +1,3 @@
-import { PinataSDK } from "pinata";
 import { NextResponse } from "next/server";
 
 const API_URL = JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "true")
@@ -6,13 +5,15 @@ const API_URL = JSON.parse(process.env.NEXT_PUBLIC_IS_LOCAL || "true")
   : process.env.NEXT_PUBLIC_ROBINX_AI_ENDPOINT;
 export async function POST(request: Request) {
   try {
-    const { quiz, responses } = await request.json();
+    const { quiz, responses, address, pollId } = await request.json();
 
     console.log(`${API_URL}/api/calc-score`);
     console.log(
       JSON.stringify({
         quiz,
         responses,
+        address,
+        pollId,
       })
     );
 
@@ -30,8 +31,8 @@ export async function POST(request: Request) {
 
     const data = await response.json();
     console.log("SCORE");
-    console.log(data.score);
-    return NextResponse.json({ score: data.score });
+    console.log(data);
+    return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
       { error: `Upload failed: ${error}` },

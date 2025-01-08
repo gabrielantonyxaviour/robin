@@ -496,6 +496,8 @@ export default function Quiz({ id }: { id: string }) {
                               const body = {
                                 quiz: quizData,
                                 responses: responses,
+                                address,
+                                pollId: id,
                               };
 
                               try {

@@ -19,10 +19,29 @@ const {
   getQuizzes,
   getTopScoreTokenReward,
 } = require("./subgraph/queries");
+const { createWalletClient, defineChain, createPublicClient } = require("viem");
+const { privateKeyToAccount } = require("viem/accounts");
 
 const openai = new OpenAI({
   apiKey: process.env["HEURIST_API_KEY"],
   baseURL: "https://llm-gateway.heurist.xyz",
+});
+
+const educhainTestnet = defineChain({
+  id: 656476,
+  name: "Educhain Testnet",
+  network: "Educhain Testnet",
+  nativeCurrency: { name: "Test EDU", symbol: "tEDU", decimals: 18 },
+  rpcUrls: {
+    default: { http: ["https://rpc.open-campus-codex.gelato.digital"] },
+  },
+  blockExplorers: {
+    default: {
+      name: "Educain Testnet Explorer",
+      url: "https://opencampus-codex.blockscout.com/",
+    },
+  },
+  testnet: true,
 });
 
 const THEMES = [
@@ -90,9 +109,43 @@ app.post("/api/image", async (req, res) => {
 
 app.post("/api/calc-score", async (req, res) => {
   console.log(req.body);
+  const { quiz, responses, address, pollId } = await request.json();
+
   try {
     console.log(calcScore);
-    const score = await calcScore(req.body);
+    const score = await calcScore({
+      quiz,
+      responses,
+    });
+    const AI_AGENT_PRIVATE_KEY = process.env.AI_AGENT_PRIVATE_KEY;
+
+    const account = privateKeyToAccount("0x" + AI_AGENT_PRIVATE_KEY);
+
+    const walletClient = createWalletClient({
+      account,
+      chain: educhainTestnet,
+      transport: http(),
+    });
+
+    const publicClient = createPublicClient({
+      chain: educhainTestnet,
+      transport: http(),
+    });
+
+    const { request } = await publicClient.simulateContract({
+      account,
+      address: ROBINX_CORE,
+      abi: ROBINX_CORE_ABI,
+      functionName: "mintRewards",
+      args: [pollId, address, score.score],
+    });
+    const tx = await walletClient.writeContract(request);
+
+    const transaction = await publicClient.getTransactionReceipt({
+      hash: tx,
+    });
+
+    console.log(transaction);
     res.json(score);
   } catch (error) {
     res.status(500).json({ error: error.message });
