@@ -117,35 +117,40 @@ app.post("/api/calc-score", async (req, res) => {
       responses,
     });
 
-    const AI_AGENT_PRIVATE_KEY = process.env.AI_AGENT_PRIVATE_KEY;
+    try {
+      const AI_AGENT_PRIVATE_KEY = process.env.AI_AGENT_PRIVATE_KEY;
+      const account = privateKeyToAccount("0x" + AI_AGENT_PRIVATE_KEY);
+      console.log(account.address);
+      const walletClient = createWalletClient({
+        account,
+        chain: educhainTestnet,
+        transport: http(),
+      });
 
-    const account = privateKeyToAccount("0x" + AI_AGENT_PRIVATE_KEY);
+      const publicClient = createPublicClient({
+        chain: educhainTestnet,
+        transport: http(),
+      });
+      console.log({ args: [pollId, address, score.score] });
+      const { request } = await publicClient.simulateContract({
+        account,
+        address: ROBINX_CORE,
+        abi: ROBINX_CORE_ABI,
+        functionName: "mintRewards",
+        args: [pollId, address, score.score],
+      });
 
-    const walletClient = createWalletClient({
-      account,
-      chain: educhainTestnet,
-      transport: http(),
-    });
+      const tx = await walletClient.writeContract(request);
+      const transaction = await publicClient.getTransactionReceipt({
+        hash: tx,
+      });
 
-    const publicClient = createPublicClient({
-      chain: educhainTestnet,
-      transport: http(),
-    });
+      console.log(transaction);
+    } catch (e) {
+      console.log("error in tx");
+      console.log(e);
+    }
 
-    const { request } = await publicClient.simulateContract({
-      account,
-      address: ROBINX_CORE,
-      abi: ROBINX_CORE_ABI,
-      functionName: "mintRewards",
-      args: [pollId, address, score.score],
-    });
-    const tx = await walletClient.writeContract(request);
-
-    const transaction = await publicClient.getTransactionReceipt({
-      hash: tx,
-    });
-
-    console.log(transaction);
     res.json(score);
   } catch (error) {
     res.status(500).json({ error: error.message });
