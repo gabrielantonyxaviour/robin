@@ -513,6 +513,10 @@ export default function Quiz({ id }: { id: string }) {
 
                                 const data = await response.json();
                                 console.log(data.score);
+                                if (data.score == undefined)
+                                  throw Error(
+                                    "Something wrong with score calc endpoint"
+                                  );
                                 setScore(data.score);
                                 setTxStatus("");
                               } catch (e) {
