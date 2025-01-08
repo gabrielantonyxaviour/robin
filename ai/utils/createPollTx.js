@@ -123,7 +123,7 @@ async function createPollTx(metadata_url) {
 
   return {
     txHash: tx,
-    pollId: eventLog.args.pollId.toString(16),
+    pollId: "0x" + eventLog.args.pollId.toString(16),
   };
 }
 

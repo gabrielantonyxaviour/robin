@@ -91,6 +91,7 @@ app.post("/api/image", async (req, res) => {
 app.post("/api/calc-score", async (req, res) => {
   console.log(req.body);
   try {
+    console.log(calcScore);
     const score = await calcScore(req.body);
     res.json(score);
   } catch (error) {

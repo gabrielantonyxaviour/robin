@@ -504,6 +504,7 @@ export default function Quiz({ id }: { id: string }) {
                               };
 
                               try {
+                                console.log("CALCULATING SCORE");
                                 const response = await fetch(
                                   "/api/calc-score",
                                   {
