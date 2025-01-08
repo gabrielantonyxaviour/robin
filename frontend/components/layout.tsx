@@ -239,7 +239,7 @@ export default function Layout({
                 // });
               }}
             >
-              <p> {"Connect Metamask"}</p>
+              <p> {"Connect Wallet"}</p>
             </Button>
           </div>
         ) : (
