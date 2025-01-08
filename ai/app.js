@@ -165,7 +165,7 @@ app.post("/api/calc-score", async (req, res) => {
   const { quiz, responses, address, pollId } = req.body;
 
   try {
-    const score = await calcScore({
+    const { score } = await calcScore({
       quiz,
       responses,
     });
@@ -184,13 +184,13 @@ app.post("/api/calc-score", async (req, res) => {
         chain: educhainTestnet,
         transport: http(),
       });
-      console.log({ args: [pollId, address, score.score] });
+      console.log({ args: [pollId, address, score] });
       const { request } = await publicClient.simulateContract({
         account,
         address: ROBINX_CORE,
         abi: ROBINX_CORE_ABI,
         functionName: "mintRewards",
-        args: [pollId, address, score.score],
+        args: [pollId, address, score],
       });
 
       const tx = await walletClient.writeContract(request);
