@@ -25,6 +25,8 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         quiz,
         responses,
+        address,
+        pollId,
       }),
       cache: "no-store",
     });

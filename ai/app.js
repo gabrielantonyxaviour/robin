@@ -112,11 +112,11 @@ app.post("/api/calc-score", async (req, res) => {
   const { quiz, responses, address, pollId } = req.body;
 
   try {
-    console.log(calcScore);
     const score = await calcScore({
       quiz,
       responses,
     });
+
     const AI_AGENT_PRIVATE_KEY = process.env.AI_AGENT_PRIVATE_KEY;
 
     const account = privateKeyToAccount("0x" + AI_AGENT_PRIVATE_KEY);
