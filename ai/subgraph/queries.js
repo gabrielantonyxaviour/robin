@@ -72,7 +72,7 @@ const GET_QUIZ_LEADERBORD = `
 
 const GET_LEADERBOARD = `
   query GetLeaderboard {
-    users {
+    users(orderBy:totalRewards, orderDirection:desc) {
       id
       totalResponses
       totalRewards

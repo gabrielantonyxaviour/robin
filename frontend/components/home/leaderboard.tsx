@@ -149,12 +149,12 @@ export default function Leaderboard({ close }: { close: () => void }) {
               </tr>
             </thead>
             <tbody>
-              {leaderboardData.map((item) => (
+              {leaderboardData.map((item, idx) => (
                 <tr
                   key={item.id}
                   className="border-b border-black/20 hover:bg-black/5"
                 >
-                  <td className="py-4 pl-3">{item.id}</td>
+                  <td className="py-4 pl-3">{idx + 1}</td>
                   <td
                     className="py-4 font-mono cursor-pointer"
                     onClick={() => {
