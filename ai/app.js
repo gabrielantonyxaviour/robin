@@ -279,7 +279,7 @@ app.post("/api/generate-game", async (req, res) => {
       pollId,
       quizzes_url,
       "https://x.com/EduRobinX/status/" + tweetId,
-      reward
+      reward.toString()
     );
 
     res.json({

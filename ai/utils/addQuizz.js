@@ -10,6 +10,7 @@ async function addQuizz(pollId, quizzes_url, tweet, topScoreTokenReward) {
     data: quizzes_url,
     tweet_url: tweet,
     top_score_token_reward: topScoreTokenReward,
+    cast_url: null,
   });
   const { data: insertData, error } = await supabase
     .from("quiz")
@@ -18,6 +19,7 @@ async function addQuizz(pollId, quizzes_url, tweet, topScoreTokenReward) {
       data: quizzes_url,
       tweet_url: tweet,
       top_score_token_reward: topScoreTokenReward,
+      cast_url: null,
     })
     .select();
 
