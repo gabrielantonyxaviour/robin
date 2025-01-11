@@ -217,7 +217,7 @@ app.post("/api/generate-game", async (req, res) => {
     const currentDate = new Date().toISOString();
 
     const games = [];
-    console.log("Starting Game Gen");
+    console.log("Starting Game Generation");
     for (let i = 0; i < 1; i++) {
       const response = await openai.chat.completions.create({
         model: "mistralai/mixtral-8x7b-instruct",
