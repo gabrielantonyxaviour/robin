@@ -27,8 +27,8 @@ function getSystemPrompt(index) {
     Scene requirements:
     - Vivid anime scene description with full environment and character positioning (MUST HAVE no close portraits)
     - Introduct unique dynamic character interactions (Atleast 2, including but not limited to Nico Robin) 
-    - Must have 3 scenes total
-    - Must have 2 converstations per scene and 1 question per scene
+    - MUST HAVE 3 scenes total
+    - MUST HAVE 2 converstations per scene and 1 question per scene
     - 3 options for multiple choice questions
     - Image prompt must have anime and within 120 characters
     - Speaker name should be one word
@@ -64,11 +64,12 @@ async function gameGen(topic, currentDate) {
   try {
     const games = [];
     console.log("Starting Game Gen");
+    const randomNumber = Math.floor(Math.random() * 10);
     for (let i = 0; i < 1; i++) {
       const response = await openai.chat.completions.create({
         model: "mistralai/mixtral-8x7b-instruct",
         messages: [
-          { role: "system", content: getSystemPrompt(i) },
+          { role: "system", content: getSystemPrompt(randomNumber) },
           {
             role: "user",
             content: `Generate a complete educational game about: ${topic}`,

@@ -73,6 +73,8 @@ export default function Quiz({ id }: { id: string }) {
       fetch(`/api/quiz/${id}`)
         .then((response) => response.json())
         .then((data) => {
+          console.log("Quiz Data");
+          console.log(data);
           if (data.error) router.push("/");
           else setQuizData(data);
         });
@@ -83,6 +85,16 @@ export default function Quiz({ id }: { id: string }) {
     if (completed.length > 0)
       setIsCompleted(completed.some((entry) => entry.questId == id));
   }, [completed]);
+
+  useEffect(() => {
+    if (quizData) {
+      console.log("STORED QUIZ DATA");
+      console.log(currentScene);
+      console.log(quizData);
+    } else {
+      console.log("QUIZ DATA IS EMPTY");
+    }
+  }, [quizData]);
 
   return (
     <div className="flex flex-col h-full justify-center items-center w-full  px-6 text-xs lg:text-base">

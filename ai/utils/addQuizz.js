@@ -6,6 +6,7 @@ async function addQuizz(pollId, quizzes_url, tweet, topScoreTokenReward) {
     process.env.SUPABASE_PUBLIC_ANON_KEY
   );
   console.log({
+    id: parseInt(pollId),
     hex_id: pollId,
     data: quizzes_url,
     tweet_url: tweet,
@@ -15,6 +16,7 @@ async function addQuizz(pollId, quizzes_url, tweet, topScoreTokenReward) {
   const { data: insertData, error } = await supabase
     .from("quiz")
     .insert({
+      id: parseInt(pollId),
       hex_id: pollId,
       data: quizzes_url,
       tweet_url: tweet,
@@ -23,8 +25,6 @@ async function addQuizz(pollId, quizzes_url, tweet, topScoreTokenReward) {
     })
     .select();
 
-  console.log("DATA");
-  console.log(insertData);
   console.log("ERROR");
   console.log(error);
 }
