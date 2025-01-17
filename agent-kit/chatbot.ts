@@ -1,14 +1,16 @@
-import { CdpAgentkit } from "@coinbase/cdp-agentkit-core";
+import { CdpAgentkit, TwitterAgentkit } from "@coinbase/cdp-agentkit-core";
 import { CdpToolkit } from "@coinbase/cdp-langchain";
 import { HumanMessage } from "@langchain/core/messages";
 import { MemorySaver } from "@langchain/langgraph";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { ChatOpenAI } from "@langchain/openai";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as readline from "readline";
+import { TwitterToolkit } from "@coinbase/twitter-langchain";
+import {  Wallet } from "@coinbase/coinbase-sdk";
 
-dotenv.config();
+process.env=JSON.parse(fs.readFileSync('secrets.json', "utf8"))
+
 
 /**
  * Validates that required environment variables are set
@@ -24,6 +26,11 @@ function validateEnvironment(): void {
     "OPENAI_API_KEY",
     "CDP_API_KEY_NAME",
     "CDP_API_KEY_PRIVATE_KEY",
+    "TWITTER_BEARER_TOKEN",
+    "TWITTER_API_KEY",
+    "TWITTER_API_SECRET",
+    "TWITTER_ACCESS_TOKEN",
+    "TWITTER_ACCESS_TOKEN_SECRET",
   ];
   requiredVars.forEach((varName) => {
     if (!process.env[varName]) {
@@ -52,7 +59,7 @@ function validateEnvironment(): void {
 validateEnvironment();
 
 // Configure a file to persist the agent's CDP MPC Wallet Data
-const WALLET_DATA_FILE = "wallet_data.txt";
+const WALLET_DATA_FILE = "wallet_data.json";
 
 /**
  * Initialize the agent with CDP Agentkit
@@ -63,7 +70,7 @@ async function initializeAgent() {
   try {
     // Initialize LLM with xAI configuration
     const llm = new ChatOpenAI({
-      model: "grok-beta",
+      model: "gpt-4o-mini",
       apiKey: process.env.OPENAI_API_KEY,
     });
 
@@ -75,22 +82,32 @@ async function initializeAgent() {
         walletDataStr = fs.readFileSync(WALLET_DATA_FILE, "utf8");
       } catch (error) {
         console.error("Error reading wallet data:", error);
-        // Continue without wallet data
       }
     }
 
     // Configure CDP Agentkit
     const config = {
-      cdpWalletData: walletDataStr || undefined,
+      cdpWalletData: walletDataStr ||undefined,
       networkId: process.env.NETWORK_ID || "base-sepolia",
     };
 
-    // Initialize CDP agentkit
-    const agentkit = await CdpAgentkit.configureWithWallet(config);
 
+    // Initialize CDP agentkit
+    const agentkit =await CdpAgentkit.configureWithWallet(config)
     // Initialize CDP Agentkit Toolkit and get tools
     const cdpToolkit = new CdpToolkit(agentkit);
     const tools = cdpToolkit.getTools();
+
+    const twitterAgentKit = new TwitterAgentkit({
+      apiKey: process.env.TWITTER_API_KEY || "",
+      apiSecret: process.env.TWITTER_API_SECRET || "",
+      accessToken: process.env.TWITTER_ACCESS_TOKEN || "",
+      accessTokenSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET || "",
+    });
+
+    const twitterToolkit = new TwitterToolkit(twitterAgentKit);
+
+    tools.push(...twitterToolkit.getTools());
 
     // Store buffered conversation history in memory
     const memory = new MemorySaver();
